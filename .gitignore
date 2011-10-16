@@ -8,3 +8,9 @@
 /mud/server/.project
 /mud/server/target
 /mud/server/.classpath
+/mud/mud.iws
+/mud/mud.iml
+/mud/mud.ipr
+/mud/client/client.iml
+/mud/common/common.iml
+/mud/server/server.iml
