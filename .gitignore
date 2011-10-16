@@ -1,0 +1,10 @@
+
+/mud/client/target
+/mud/client/.classpath
+/mud/client/.project
+/mud/common/.project
+/mud/common/target
+/mud/common/.classpath
+/mud/server/.project
+/mud/server/target
+/mud/server/.classpath
