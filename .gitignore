@@ -14,3 +14,6 @@
 /mud/client/client.iml
 /mud/common/common.iml
 /mud/server/server.iml
+/mud/server/.settings
+/mud/client/.settings
+/mud/common/.settings
