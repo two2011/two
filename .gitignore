@@ -14,3 +14,5 @@
 /mud/client/client.iml
 /mud/common/common.iml
 /mud/server/server.iml
+/mud/client/sample.log
+/mud/server/sample.log
