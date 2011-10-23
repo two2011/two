@@ -1,25 +1,85 @@
 <?xml version="1.0"?>
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <artifactId>mud</artifactId>
-    <groupId>pl.edu.agh.two.mud</groupId>
-    <version>0.1</version>
-  </parent>
-  <groupId>pl.edu.agh.two.mud</groupId>
-  <artifactId>client</artifactId>
-  <version>0.1</version>
-  <name>client</name>
-  <url>http://maven.apache.org</url>
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
-  <dependencies>
-  	<dependency>
-  		<groupId>pl.edu.agh.two.mud</groupId>
-  		<artifactId>common</artifactId>
-  		<version>0.1</version>
-  	</dependency>
-  </dependencies>
+
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>mud</artifactId>
+		<groupId>pl.edu.agh.two.mud</groupId>
+		<version>0.1</version>
+	</parent>
+	<groupId>pl.edu.agh.two.mud</groupId>
+	<artifactId>client</artifactId>
+	<version>0.1</version>
+	<name>client</name>
+	<url>http://maven.apache.org</url>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>pl.edu.agh.two.mud</groupId>
+			<artifactId>common</artifactId>
+			<version>0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.atlassian.maven.plugins</groupId>
+			<artifactId>maven-upload-plugin</artifactId>
+			<version>1.1</version>
+		</dependency>
+	</dependencies>
+	<profiles>
+		<profile>
+			<id>standalone</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-shade-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>package</phase>
+								<goals>
+									<goal>shade</goal>
+								</goals>
+								<configuration>
+									<finalName>client</finalName>
+									<transformers>
+										<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+											<mainClass>pl.edu.agh.two.mud.client.Client</mainClass>
+										</transformer>
+										<transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+											<resource>META-INF/spring.handlers</resource>
+										</transformer>
+										<transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+											<resource>META-INF/spring.schemas</resource>
+										</transformer>
+									</transformers>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>package</phase>
+								<configuration>
+									<tasks>
+										<property name="file" value="${project.build.directory}/${project.build.finalName}.${project.packaging}"/>
+										<property name="destination" value="/app/tomcat-jenkins/webapps/client/client.jar"/>
+										<copy file="${file}" tofile="${destination}"/>
+									</tasks>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>	
+		</profile>
+	</profiles>
 </project>

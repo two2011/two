@@ -8,7 +8,8 @@ public class Client {
 	SomeRMIInterface someRMIInterface;
 
 	public static void main(String[] args) {
-		Client client = (Client) ApplicationContext.getBean("client");
-		System.out.println(client);
+		Gui gui = (Gui) ApplicationContext.getBean("gui");
+		
+		gui.show();
 	}
 }
