@@ -17,8 +17,7 @@ public class Service extends Thread {
 
 		try {
 			out = new ObjectOutputStream(clientSocket.getOutputStream());
-			out.writeObject("Connected to the server: "
-					+ clientSocket.getLocalSocketAddress());
+			out.writeObject("Connected to the server: " + clientSocket.getLocalSocketAddress());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

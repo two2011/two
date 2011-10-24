@@ -7,6 +7,7 @@ public class Server {
 
 	public static void main(String[] args) throws IOException {
 		ServerSocket serverSocket = null;
+
 		try {
 			serverSocket = new ServerSocket(3306);
 		} catch (IOException e) {
@@ -22,6 +23,7 @@ public class Server {
 				}
 			}
 		} finally {
+
 			serverSocket.close();
 		}
 
