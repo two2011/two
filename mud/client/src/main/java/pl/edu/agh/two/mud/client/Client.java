@@ -23,7 +23,7 @@ public class Client {
 			gui.setLabel(connection.read().toString());
 		} catch (Exception e) {
 			logger.error("Connection with \"" + host + ":" + port + "\" Error: " + e.getMessage());
-			gui.setLabel(e.toString());
+			gui.setLabel("Connection with \"" + host + ":" + port + "\" Error: " + e.getMessage());
 		}
 
 	}
