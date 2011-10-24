@@ -8,7 +8,8 @@ import pl.edu.agh.two.mud.client.configuration.*;
 
 public class Client {
 
-	private static final String DEFAULT_IP = "127.0.0.1";
+	private static final String DEFAULT_HOST = "149.156.205.250";
+	private static final int DEFULT_PORT = 13933;
 
 	private Connection connection;
 
@@ -39,11 +40,22 @@ public class Client {
 	public static void main(String[] args) throws IOException, ClassNotFoundException {
 		Client client = (Client) ApplicationContext.getBean("client");
 		String host = getHostFromArgsOrDefault(args);
-		client.start(host, 13933);
+		int port = getPortFromArgsOrDefault(args);
+		client.start(host, port);
+	}
+
+	private static int getPortFromArgsOrDefault(String[] args) {
+		int port;
+		try {
+			port = (args.length != 2 ? DEFULT_PORT : Integer.parseInt(args[1]));
+		} catch (NumberFormatException ex) {
+			port = DEFULT_PORT;
+		}
+		return port;
 	}
 
 	private static String getHostFromArgsOrDefault(String[] args) {
-		return args.length == 0 ? DEFAULT_IP : args[0];
+		return args.length != 2 ? DEFAULT_HOST : args[0];
 	}
 
 }
