@@ -25,7 +25,7 @@ public class Service extends Thread {
 	public void run() {
 
 		try {
-			out.writeObject("Connected to the server: " + clientSocket.getLocalSocketAddress());
+			out.writeObject("Connected to the server: " + clientSocket.getRemoteSocketAddress());
 			in.readObject();
 		} catch (Exception e) {
 			logger.error(clientAddress + " - " + e.getMessage());
