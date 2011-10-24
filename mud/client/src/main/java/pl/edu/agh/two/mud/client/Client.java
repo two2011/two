@@ -39,7 +39,7 @@ public class Client {
 	public static void main(String[] args) throws IOException, ClassNotFoundException {
 		Client client = (Client) ApplicationContext.getBean("client");
 		String host = getHostFromArgsOrDefault(args);
-		client.start(host, 3306);
+		client.start(host, 13933);
 	}
 
 	private static String getHostFromArgsOrDefault(String[] args) {
