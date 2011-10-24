@@ -8,6 +8,7 @@ import javax.swing.border.*;
 public class Gui {
 
 	private JFrame frmAghMud;
+	private JLabel label;
 
 	public void show() {
 		EventQueue.invokeLater(new Runnable() {
@@ -48,9 +49,13 @@ public class Gui {
 		panel.setBackground(Color.WHITE);
 		panel.setLayout(new BorderLayout(0, 0));
 
-		JLabel lblAghMud = new JLabel("Stay tuned...");
-		lblAghMud.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		panel.add(lblAghMud, BorderLayout.NORTH);
+		label = new JLabel("Stay tuned...");
+		label.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		panel.add(label, BorderLayout.NORTH);
+	}
+
+	public void setLabel(String text) {
+		label.setText(text);
 	}
 
 }

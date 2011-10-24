@@ -1,15 +1,19 @@
 package pl.edu.agh.two.mud.client;
 
+import java.io.*;
+
 import pl.edu.agh.two.mud.client.configuration.*;
-import pl.edu.agh.two.mud.common.*;
 
 public class Client {
 
-	SomeRMIInterface someRMIInterface;
-
-	public static void main(String[] args) {
-		Gui gui = (Gui) ApplicationContext.getBean("gui");
-		
+	public static void main(String[] args) throws IOException,
+			ClassNotFoundException {
+		Connection connection = (Connection) ApplicationContext
+				.getBean("connection");
+		Gui gui = new Gui();
 		gui.show();
+		connection.startConnection(args[0], 3306);
+		gui.setLabel(connection.readObject().toString());
 	}
+
 }
