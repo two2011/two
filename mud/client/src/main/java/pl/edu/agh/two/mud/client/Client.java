@@ -2,6 +2,8 @@ package pl.edu.agh.two.mud.client;
 
 import java.io.*;
 
+import org.apache.log4j.*;
+
 import pl.edu.agh.two.mud.client.configuration.*;
 
 public class Client {
@@ -12,12 +14,15 @@ public class Client {
 
 	private Gui gui;
 
+	private Logger logger = Logger.getLogger(Client.class);
+
 	public void start(String host, int port) {
 		try {
 			gui.show();
 			connection.connect(host, port);
 			gui.setLabel(connection.read().toString());
 		} catch (Exception e) {
+			logger.error("Connection with \"" + host + ":" + port + "\" Error: " + e.getMessage());
 			gui.setLabel(e.toString());
 		}
 
