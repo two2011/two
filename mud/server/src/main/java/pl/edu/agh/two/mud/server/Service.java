@@ -8,7 +8,7 @@ import org.apache.log4j.*;
 public class Service extends Thread {
 
 	private Socket clientSocket;
-	private InetAddress clientAddress;
+	private SocketAddress clientAddress;
 	private Logger logger = Logger.getLogger(Service.class);
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
@@ -17,15 +17,15 @@ public class Service extends Thread {
 		clientSocket = socket;
 		out = new ObjectOutputStream(socket.getOutputStream());
 		in = new ObjectInputStream(socket.getInputStream());
-		clientAddress = clientSocket.getLocalAddress();
-		logger.info("New client connected: " + socket.getLocalAddress());
+		clientAddress = clientSocket.getRemoteSocketAddress();
+		logger.info("New client connected: " + clientAddress);
 	}
 
 	@Override
 	public void run() {
 
 		try {
-			out.writeObject("Connected to the server: " + clientSocket.getRemoteSocketAddress());
+			out.writeObject("Connected to the server: " + clientSocket.getLocalSocketAddress());
 			in.readObject();
 		} catch (Exception e) {
 			logger.error(clientAddress + " - " + e.getMessage());
