@@ -25,7 +25,7 @@ public class Server {
 				try {
 					new Service(serverSocket.accept()).start();
 				} catch (IOException e) {
-					logger.error("Server socket error:" + e.getStackTrace());
+					logger.error("Socket error:" + e.getMessage());
 				}
 			}
 		} finally {
