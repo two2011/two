@@ -10,8 +10,8 @@ public class Gui {
 	private JFrame frmAghMud;
 	private JLabel label;
 
-	public void show() {
-		EventQueue.invokeLater(new Runnable() {
+	public void show() throws Exception {
+		EventQueue.invokeAndWait(new Runnable() {
 			public void run() {
 				try {
 					frmAghMud.setVisible(true);
@@ -39,8 +39,7 @@ public class Gui {
 		frmAghMud.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new CompoundBorder(new EmptyBorder(4, 4, 4, 4),
-				new LineBorder(new Color(192, 192, 192), 1, true)));
+		panel_1.setBorder(new CompoundBorder(new EmptyBorder(4, 4, 4, 4), new LineBorder(new Color(192, 192, 192), 1, true)));
 		frmAghMud.getContentPane().add(panel_1, BorderLayout.CENTER);
 		panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.X_AXIS));
 
