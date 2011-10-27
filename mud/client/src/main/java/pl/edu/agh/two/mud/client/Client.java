@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 
 import pl.edu.agh.two.mud.client.configuration.ApplicationContext;
 import pl.edu.agh.two.mud.client.ui.MainWindow;
+import pl.edu.agh.two.mud.client.connection.impl.Connection;
 
 public class Client {
 

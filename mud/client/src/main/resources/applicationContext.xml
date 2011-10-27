@@ -10,6 +10,6 @@
 	<bean id="client" class="pl.edu.agh.two.mud.client.Client" scope="singleton">
 		<property name="connection" ref="connection" />
 	</bean>
-	<bean id="connection" class="pl.edu.agh.two.mud.client.Connection" scope="singleton" />
+	<bean id="connection" class="pl.edu.agh.two.mud.client.connection.impl.ServerConnection" scope="singleton" />
 
 </beans>
