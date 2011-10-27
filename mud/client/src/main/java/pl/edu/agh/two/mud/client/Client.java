@@ -1,58 +1,61 @@
 package pl.edu.agh.two.mud.client;
 
-import java.awt.EventQueue;
+import java.io.IOException;
 
-import javax.swing.JFrame;
+import org.apache.log4j.Logger;
 
-import net.miginfocom.swing.MigLayout;
-import pl.edu.agh.two.mud.client.ui.Console;
-import pl.edu.agh.two.mud.client.ui.HeroPanel;
+import pl.edu.agh.two.mud.client.configuration.ApplicationContext;
+import pl.edu.agh.two.mud.client.ui.MainWindow;
 
 public class Client {
 
-	private JFrame frame;
+	private static final String DEFAULT_HOST = "149.156.205.250";
+	private static final int DEFULT_PORT = 13933;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Client window = new Client();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	private Connection connection;
+
+	private MainWindow mainWindow = new MainWindow();
+
+	private Logger logger = Logger.getLogger(Client.class);
+
+	public void start(String host, int port) {
+		try {
+			mainWindow.open();
+			// connection.connect(host, port);
+			// gui.setLabel(connection.read().toString());
+		} catch (Exception e) {
+			logger.error("Connection with \"" + host + ":" + port
+					+ "\" Error: " + e.getMessage());
+			// gui.setLabel("Connection with \"" + host + ":" + port +
+			// "\" Error: " + e.getMessage());
+		}
+
 	}
 
-	/**
-	 * Create the application.
-	 */
-	public Client() {
-		initialize();
+	public void setConnection(Connection connection) {
+		this.connection = connection;
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 858, 381);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(
-				new MigLayout("", "[grow][400]", "[0][grow]"));
+	public static void main(String[] args) throws IOException,
+			ClassNotFoundException {
+		Client client = (Client) ApplicationContext.getBean("client");
+		String host = getHostFromArgsOrDefault(args);
+		int port = getPortFromArgsOrDefault(args);
+		client.start(host, port);
+	}
 
-		Console mainConsole = new Console();
-		frame.getContentPane().add(mainConsole, "cell 0 0 1 2,grow");
+	private static int getPortFromArgsOrDefault(String[] args) {
+		int port;
+		try {
+			port = (args.length != 2 ? DEFULT_PORT : Integer.parseInt(args[1]));
+		} catch (NumberFormatException ex) {
+			port = DEFULT_PORT;
+		}
+		return port;
+	}
 
-		HeroPanel heroConsole = new HeroPanel();
-		frame.getContentPane().add(heroConsole, "cell 1 0,grow");
-
-		Console chatConsole = new Console();
-		frame.getContentPane().add(chatConsole, "cell 1 1,grow");
+	private static String getHostFromArgsOrDefault(String[] args) {
+		return args.length != 2 ? DEFAULT_HOST : args[0];
 	}
 
 }
