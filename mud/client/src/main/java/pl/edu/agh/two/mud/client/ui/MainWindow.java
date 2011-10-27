@@ -45,8 +45,8 @@ public class MainWindow {
 		Console mainConsole = new Console();
 		frame.getContentPane().add(mainConsole, "cell 0 0 1 2,grow");
 
-		HeroPanel heroConsole = new HeroPanel();
-		frame.getContentPane().add(heroConsole, "cell 1 0,grow");
+		PlayerPanel playerPanel = new PlayerPanel();
+		frame.getContentPane().add(playerPanel, "cell 1 0,grow");
 
 		Console chatConsole = new Console();
 		frame.getContentPane().add(chatConsole, "cell 1 1,grow");
