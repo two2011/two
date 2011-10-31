@@ -9,14 +9,10 @@
                                http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 	<context:property-placeholder location="classpath*:*.properties" />
 
-
-	<bean id="gui" class="pl.edu.agh.two.mud.client.Gui" scope="singleton" />
 	<bean id="client" class="pl.edu.agh.two.mud.client.Client" scope="singleton">
-		<property name="gui" ref="gui" />
 		<property name="connection" ref="connection" />
 	</bean>
-	<bean id="connection" class="pl.edu.agh.two.mud.client.Connection"
-		scope="singleton" />
+	<bean id="connection" class="pl.edu.agh.two.mud.client.connection.impl.ServerConnection" scope="singleton" />
 
 	
 </beans>

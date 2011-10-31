@@ -1,10 +1,12 @@
 package pl.edu.agh.two.mud.client;
 
-import java.io.*;
+import java.io.IOException;
 
-import org.apache.log4j.*;
+import org.apache.log4j.Logger;
 
-import pl.edu.agh.two.mud.client.configuration.*;
+import pl.edu.agh.two.mud.client.configuration.ApplicationContext;
+import pl.edu.agh.two.mud.client.ui.MainWindow;
+import pl.edu.agh.two.mud.client.connection.impl.Connection;
 
 public class Client {
 
@@ -13,31 +15,30 @@ public class Client {
 
 	private Connection connection;
 
-	private Gui gui;
+	private MainWindow mainWindow = new MainWindow();
 
 	private Logger logger = Logger.getLogger(Client.class);
 
 	public void start(String host, int port) {
 		try {
-			gui.show();
-			connection.connect(host, port);
-			gui.setLabel(connection.read().toString());
+			mainWindow.open();
+			// connection.connect(host, port);
+			// gui.setLabel(connection.read().toString());
 		} catch (Exception e) {
-			logger.error("Connection with \"" + host + ":" + port + "\" Error: " + e.getMessage());
-			gui.setLabel("Connection with \"" + host + ":" + port + "\" Error: " + e.getMessage());
+			logger.error("Connection with \"" + host + ":" + port
+					+ "\" Error: " + e.getMessage());
+			// gui.setLabel("Connection with \"" + host + ":" + port +
+			// "\" Error: " + e.getMessage());
 		}
 
-	}
-
-	public void setGui(Gui gui) {
-		this.gui = gui;
 	}
 
 	public void setConnection(Connection connection) {
 		this.connection = connection;
 	}
 
-	public static void main(String[] args) throws IOException, ClassNotFoundException {
+	public static void main(String[] args) throws IOException,
+			ClassNotFoundException {
 		Client client = (Client) ApplicationContext.getBean("client");
 		String host = getHostFromArgsOrDefault(args);
 		int port = getPortFromArgsOrDefault(args);
