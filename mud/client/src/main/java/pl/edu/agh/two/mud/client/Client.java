@@ -5,8 +5,8 @@ import java.io.IOException;
 import org.apache.log4j.Logger;
 
 import pl.edu.agh.two.mud.client.configuration.ApplicationContext;
-import pl.edu.agh.two.mud.client.ui.MainWindow;
 import pl.edu.agh.two.mud.client.connection.impl.Connection;
+import pl.edu.agh.two.mud.client.ui.MainWindow;
 
 public class Client {
 
@@ -15,9 +15,17 @@ public class Client {
 
 	private Connection connection;
 
-	private MainWindow mainWindow = new MainWindow();
+	private MainWindow mainWindow;
 
 	private Logger logger = Logger.getLogger(Client.class);
+
+	public Client() {
+		mainWindow = new MainWindow();
+	}
+
+	public Client(MainWindow mainWindow) {
+		this.mainWindow = mainWindow;
+	}
 
 	public void start(String host, int port) {
 		try {

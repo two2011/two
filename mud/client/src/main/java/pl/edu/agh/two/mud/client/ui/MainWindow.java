@@ -10,6 +10,8 @@ public class MainWindow {
 
 	private JFrame frame;
 
+	private Console mainConsole;
+
 	/**
 	 * Opens application window.
 	 */
@@ -42,7 +44,7 @@ public class MainWindow {
 		frame.getContentPane().setLayout(
 				new MigLayout("", "[grow][400]", "[0][grow]"));
 
-		Console mainConsole = new Console();
+		mainConsole = new Console();
 		frame.getContentPane().add(mainConsole, "cell 0 0 1 2,grow");
 
 		PlayerPanel playerPanel = new PlayerPanel();
@@ -50,6 +52,10 @@ public class MainWindow {
 
 		Console chatConsole = new Console();
 		frame.getContentPane().add(chatConsole, "cell 1 1,grow");
+	}
+
+	public Console getMainConsole() {
+		return mainConsole;
 	}
 
 }

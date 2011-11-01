@@ -1,6 +1,6 @@
 package pl.edu.agh.two.mud.client;
 
-import org.junit.*;
+import org.junit.Test;
 
 public class ClientTest {
 
