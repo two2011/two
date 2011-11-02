@@ -15,7 +15,7 @@ public class Board {
     private Field[][] fields;
 
     private Map<IPlayer, Field> playersOnFields = new HashMap<IPlayer, Field>();
-    private final Field STARTING_FIELD = fields[0][1];
+    private Field startingField;
 
     public String getName() {
         return name;
@@ -49,6 +49,14 @@ public class Board {
         this.fields = fields;
     }
 
+    public Field getStartingField() {
+        return startingField;
+    }
+
+    public void setStartingField(Field startingField) {
+        this.startingField = startingField;
+    }
+
     public List<Direction> getPossibleDirections(Field field) {
         List<Direction> result = new ArrayList<Direction>();
         int x = field.getX();
@@ -56,13 +64,13 @@ public class Board {
         if (y > 0 && fields[x][y - 1] != null) {
             result.add(Direction.UP);
         }
-        if (y < size && fields[x][y + 1] != null) {
+        if (y < size - 1 && fields[x][y + 1] != null) {
             result.add(Direction.DOWN);
         }
         if (x > 0 && fields[x - 1][y] != null) {
             result.add(Direction.LEFT);
         }
-        if (x < size && fields[x + 1][y] != null) {
+        if (x < size - 1 && fields[x + 1][y] != null) {
             result.add(Direction.RIGHT);
         }
 
@@ -99,7 +107,7 @@ public class Board {
 //    }
 
     public boolean addPlayer(IPlayer player) {
-        playersOnFields.put(player, STARTING_FIELD);
+        playersOnFields.put(player, startingField);
         return playersOnFields.containsKey(player);
     }
 

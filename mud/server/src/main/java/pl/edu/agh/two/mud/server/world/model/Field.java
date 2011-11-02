@@ -16,6 +16,13 @@ public class Field {
 
     List<IPlayer> players = new ArrayList<IPlayer>();
 
+    public Field(int x, int y, String name, String description) {
+        this.x = x;
+        this.y = y;
+        this.name = name;
+        this.description = description;
+    }
+
 
     public String getName() {
         return name;
