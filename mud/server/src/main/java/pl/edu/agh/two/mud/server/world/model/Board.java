@@ -1,6 +1,7 @@
 package pl.edu.agh.two.mud.server.world.model;
 
-import pl.edu.agh.two.mud.common.Player;
+import pl.edu.agh.two.mud.common.IPlayer;
+import pl.edu.agh.two.mud.server.world.exception.NoPlayerWithSuchNameException;
 
 import java.util.*;
 
@@ -13,7 +14,7 @@ public class Board {
 
     private Field[][] fields;
 
-    private Map<Player, Field> playersOnFields = new HashMap<Player, Field>();
+    private Map<IPlayer, Field> playersOnFields = new HashMap<IPlayer, Field>();
     private final Field STARTING_FIELD = fields[0][1];
 
     public String getName() {
@@ -30,6 +31,14 @@ public class Board {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
     }
 
     public Field[][] getFields() {
@@ -60,27 +69,55 @@ public class Board {
         return result;
     }
 
-    public boolean addPlayer(Player player) {
+    // todo move to CommandExecutor
+//    public Field changeField(Command command) {
+//        Player player = command.getPlayer;
+//        Direction direction = command.direction;
+//        Field from = player.getField();
+//        int fromXPosition = from.getX();
+//        int fromYPosition = from.getY();
+//
+//        Field to = null;
+//        switch (direction) {
+//            case UP:
+//                to = board.getFields()[fromXPosition][fromYPosition - 1];
+//                break;
+//            case DOWN:
+//                to = board.getFields()[fromXPosition][fromYPosition + 1];
+//                break;
+//            case LEFT:
+//                to = board.getFields()[fromXPosition - 1][fromYPosition];
+//                break;
+//            case RIGHT:
+//                to = board.getFields()[fromXPosition + 1][fromYPosition];
+//                break;
+//        }
+//        from.removePlayer(player);
+//        to.addPlayer(player);
+//        player.setField(to);
+//        return to;
+//    }
+
+    public boolean addPlayer(IPlayer player) {
         playersOnFields.put(player, STARTING_FIELD);
         return playersOnFields.containsKey(player);
     }
 
-    public boolean deletePlayer(Player player) {
+    public boolean removePlayer(IPlayer player) {
         playersOnFields.remove(player);
         return playersOnFields.containsKey(player);
     }
 
-    public Set<Player> getPlayers() {
+    public Set<IPlayer> getPlayers() {
         return playersOnFields.keySet();
     }
 
-    public Player getPlayerByName(String playerName) {
-        for (Player player : playersOnFields.keySet()) {
+    public IPlayer getPlayerByName(String playerName) throws NoPlayerWithSuchNameException {
+        for (IPlayer player : playersOnFields.keySet()) {
             if (player.getName().equals(playerName))
                 return player;
         }
-        // todo throw something
-        return null;
+        throw new NoPlayerWithSuchNameException(playerName);
     }
 
 }
