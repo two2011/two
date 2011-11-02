@@ -10,7 +10,33 @@ import javax.swing.border.LineBorder;
 import net.miginfocom.swing.MigLayout;
 import pl.edu.agh.two.mud.common.IPlayer;
 
-public class HeroPanel extends JPanel {
+public class PlayerPanel extends JPanel {
+
+	private static final String AGILITY_LABEL_TEXT = "Zwinnosc";
+
+	private static final String EQUIPMENT_WEAPON_LABEL_TEXT = "Bron";
+
+	private static final String EQUIPMENT_FEET_LABEL_TEXT = "Ubranie - nogi";
+
+	private static final String EQUIPMENT_HEAD_LABEL_TEXT = "Ubranie - glowa";
+
+	private static final String EQUIPMENT_BODY_LABEL_TEXT = "Ubranie - tulow";
+
+	private static final String EXPERIENCE_LABEL_TEXT = "Doswiadczenie";
+
+	private static final String NONE = "brak";
+
+	private static final String POWER_LABEL_TEXT = "Moc";
+
+	private static final String STRENGTH_LABEL_TEXT = "Sila";
+
+	private static final String LEVEL_LABEL_TEXT = "Poziom";
+
+	private static final String NAME_LABEL_TEXT = "Imie postaci";
+
+	private static final String GOLD_LABEL_TEXT = "Zloto";
+
+	private static final String DEFAULT_PARAM_VALUE = "0";
 
 	private static final long serialVersionUID = -8842308968094233877L;
 
@@ -43,7 +69,7 @@ public class HeroPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public HeroPanel() {
+	public PlayerPanel() {
 		setBorder(new LineBorder(Color.WHITE));
 		setForeground(Color.WHITE);
 		setBackground(Color.BLACK);
@@ -57,19 +83,19 @@ public class HeroPanel extends JPanel {
 	}
 
 	private void createGeneralInfo() {
-		JLabel playerNameLabel = new JLabel("Imie postaci");
+		JLabel playerNameLabel = new JLabel(NAME_LABEL_TEXT);
 		playerNameLabel.setForeground(LABEL_TEXT_COLOR);
 		add(playerNameLabel, "cell 0 0,alignx left,aligny center");
 
-		name = new JLabel("nameValue");
+		name = new JLabel("");
 		name.setForeground(VALUE_TEXT_COLOR);
 		add(name, "cell 1 0,alignx left,aligny center");
 
-		JLabel levelLabel = new JLabel("Poziom");
+		JLabel levelLabel = new JLabel(LEVEL_LABEL_TEXT);
 		levelLabel.setForeground(LABEL_TEXT_COLOR);
 		add(levelLabel, "cell 2 0");
 
-		level = new JLabel("0");
+		level = new JLabel(DEFAULT_PARAM_VALUE);
 		level.setForeground(VALUE_TEXT_COLOR);
 		add(level, "cell 3 0");
 	}
@@ -82,27 +108,27 @@ public class HeroPanel extends JPanel {
 		add(statisticsPanel, "cell 0 1 2 1,grow");
 		statisticsPanel.setLayout(new GridLayout(0, 2, 4, 4));
 
-		JLabel strengthLabel = new JLabel("Sila");
+		JLabel strengthLabel = new JLabel(STRENGTH_LABEL_TEXT);
 		strengthLabel.setForeground(LABEL_TEXT_COLOR);
 		statisticsPanel.add(strengthLabel);
 
-		strength = new JLabel("0");
+		strength = new JLabel(DEFAULT_PARAM_VALUE);
 		strength.setForeground(VALUE_TEXT_COLOR);
 		statisticsPanel.add(strength);
 
-		JLabel powerLabel = new JLabel("Moc");
+		JLabel powerLabel = new JLabel(POWER_LABEL_TEXT);
 		powerLabel.setForeground(LABEL_TEXT_COLOR);
 		statisticsPanel.add(powerLabel);
 
-		power = new JLabel("0");
+		power = new JLabel(DEFAULT_PARAM_VALUE);
 		power.setForeground(VALUE_TEXT_COLOR);
 		statisticsPanel.add(power);
 
-		JLabel agilityLabel = new JLabel("Zwinnosc");
+		JLabel agilityLabel = new JLabel(AGILITY_LABEL_TEXT);
 		agilityLabel.setForeground(LABEL_TEXT_COLOR);
 		statisticsPanel.add(agilityLabel);
 
-		agility = new JLabel("0");
+		agility = new JLabel(DEFAULT_PARAM_VALUE);
 		agility.setForeground(VALUE_TEXT_COLOR);
 		statisticsPanel.add(agility);
 	}
@@ -115,35 +141,35 @@ public class HeroPanel extends JPanel {
 		add(equipmentPanel, "cell 2 1 2 1,grow");
 		equipmentPanel.setLayout(new GridLayout(0, 2, 0, 0));
 
-		JLabel weaponLabel = new JLabel("Bron");
+		JLabel weaponLabel = new JLabel(EQUIPMENT_WEAPON_LABEL_TEXT);
 		weaponLabel.setForeground(LABEL_TEXT_COLOR);
 		equipmentPanel.add(weaponLabel);
 
-		weapon = new JLabel("brak");
+		weapon = new JLabel(NONE);
 		weapon.setForeground(VALUE_TEXT_COLOR);
 		equipmentPanel.add(weapon);
 
-		JLabel headLabel = new JLabel("Ubranie - glowa");
+		JLabel headLabel = new JLabel(EQUIPMENT_HEAD_LABEL_TEXT);
 		headLabel.setForeground(LABEL_TEXT_COLOR);
 		equipmentPanel.add(headLabel);
 
-		head = new JLabel("brak");
+		head = new JLabel(NONE);
 		head.setForeground(VALUE_TEXT_COLOR);
 		equipmentPanel.add(head);
 
-		JLabel bodyLabel = new JLabel("Ubranie - tulow");
+		JLabel bodyLabel = new JLabel(EQUIPMENT_BODY_LABEL_TEXT);
 		bodyLabel.setForeground(LABEL_TEXT_COLOR);
 		equipmentPanel.add(bodyLabel);
 
-		body = new JLabel("brak");
+		body = new JLabel(NONE);
 		body.setForeground(VALUE_TEXT_COLOR);
 		equipmentPanel.add(body);
 
-		JLabel feetLabel = new JLabel("Ubranie - nogi");
+		JLabel feetLabel = new JLabel(EQUIPMENT_FEET_LABEL_TEXT);
 		feetLabel.setForeground(LABEL_TEXT_COLOR);
 		equipmentPanel.add(feetLabel);
 
-		feet = new JLabel("brak");
+		feet = new JLabel(NONE);
 		feet.setForeground(VALUE_TEXT_COLOR);
 		equipmentPanel.add(feet);
 	}
@@ -156,19 +182,19 @@ public class HeroPanel extends JPanel {
 		add(othersPanel, "cell 0 2 4 1,grow");
 		othersPanel.setLayout(new GridLayout(0, 4, 0, 0));
 
-		JLabel expirienceLabel = new JLabel("Doswiadczenie");
+		JLabel expirienceLabel = new JLabel(EXPERIENCE_LABEL_TEXT);
 		othersPanel.add(expirienceLabel);
 		expirienceLabel.setForeground(LABEL_TEXT_COLOR);
 
-		experience = new JLabel("0");
+		experience = new JLabel(DEFAULT_PARAM_VALUE);
 		othersPanel.add(experience);
 		experience.setForeground(VALUE_TEXT_COLOR);
 
-		JLabel goldLabel = new JLabel("Zloto");
+		JLabel goldLabel = new JLabel(GOLD_LABEL_TEXT);
 		othersPanel.add(goldLabel);
 		goldLabel.setForeground(LABEL_TEXT_COLOR);
 
-		gold = new JLabel("0");
+		gold = new JLabel(DEFAULT_PARAM_VALUE);
 		othersPanel.add(gold);
 		gold.setForeground(VALUE_TEXT_COLOR);
 	}

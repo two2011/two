@@ -1,15 +1,57 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
                                http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
                                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
-                               http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+                               http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+                               http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 	<context:property-placeholder location="classpath*:*.properties" />
 
+	<bean id="mainWindow" class="pl.edu.agh.two.mud.client.ui.MainWindow" />
+
 	<bean id="client" class="pl.edu.agh.two.mud.client.Client" scope="singleton">
+		<constructor-arg ref="mainWindow" />
 		<property name="connection" ref="connection" />
 	</bean>
-	<bean id="connection" class="pl.edu.agh.two.mud.client.Connection" scope="singleton" />
+
+	<bean id="connection"
+		class="pl.edu.agh.two.mud.client.connection.impl.ServerConnection"
+		scope="singleton" />
+
+	<bean id="commandRegistry"
+		class="pl.edu.agh.two.mud.client.command.registry.CommandDefinitionRegistry" />
+
+	<bean id="commandParser" class="pl.edu.agh.two.mud.client.command.CommandParser">
+		<constructor-arg ref="commandRegistry" />
+	</bean>
+
+	<bean id="consoleController" class="pl.edu.agh.two.mud.client.command.ConsoleController">
+		<constructor-arg ref="mainWindow" />
+		<constructor-arg ref="commandParser" />
+		<constructor-arg ref="commandRegistry" />
+	</bean>
+
+	<!-- BEGIN: Commands -->
+	<bean class="pl.edu.agh.two.mud.common.command.definition.CommandDefinition">
+		<constructor-arg>
+			<util:constant
+				static-field="pl.edu.agh.two.mud.client.command.ClientCommands.COMMAND_COMMANDS_ID" />
+		</constructor-arg>
+		<constructor-arg>
+			<util:constant
+				static-field="pl.edu.agh.two.mud.client.command.ClientCommands.COMMAND_COMMANDS_NAME" />
+		</constructor-arg>
+		<constructor-arg value="Wyswietla dostepne komendy" />
+		<constructor-arg index="3">
+			<list
+				value-type="pl.edu.agh.two.mud.common.command.definition.ICommandParameterDefinition" />
+		</constructor-arg>
+		<constructor-arg value="false" />
+	</bean>
+	<!-- BEGIN: End -->
+
 
 </beans>

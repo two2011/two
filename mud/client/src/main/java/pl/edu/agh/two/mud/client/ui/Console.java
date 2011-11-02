@@ -24,7 +24,7 @@ public class Console extends JPanel {
 
 	/**
 	 * Listener for command invocation.
-	 *
+	 * 
 	 * @author kret
 	 */
 	public interface ICommandLineListener {
@@ -51,8 +51,9 @@ public class Console extends JPanel {
 
 		public void keyPressed(KeyEvent e) {
 			if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+				String command = commandLine.getText();
 				for (ICommandLineListener listener : listeners) {
-					listener.commandInvoked(commandLine.getText());
+					listener.commandInvoked(command);
 				}
 			}
 		};
@@ -63,7 +64,7 @@ public class Console extends JPanel {
 
 		@Override
 		public void commandInvoked(String command) {
-			appendTextToConsole(command);
+			appendTextToConsole(String.format("> %s", command));
 			commandLine.setText("");
 		}
 
@@ -124,7 +125,7 @@ public class Console extends JPanel {
 
 	/**
 	 * This method allows to append text to console output.
-	 *
+	 * 
 	 * @param text
 	 *            text to append
 	 */
