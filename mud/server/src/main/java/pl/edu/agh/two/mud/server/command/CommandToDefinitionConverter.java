@@ -16,6 +16,7 @@ import pl.edu.agh.two.mud.common.command.definition.ICommandDefinition;
 import pl.edu.agh.two.mud.common.command.definition.ICommandParameterDefinition;
 import pl.edu.agh.two.mud.server.command.annotation.Alias;
 import pl.edu.agh.two.mud.server.command.annotation.OrderedParam;
+import pl.edu.agh.two.mud.server.command.type.Text;
 
 // TODO [ksobon] Write tests !
 public class CommandToDefinitionConverter {
@@ -62,14 +63,13 @@ public class CommandToDefinitionConverter {
 			parameters.add(new CommandParameterDefinition(field.getName(),
 					getRegExp(type)));
 
-			// TODO [ksobon] Introduce Text class
-			if (OrderedParam.class.equals(type)) {
-				if (textField) {
-					throw new IllegalArgumentException(
-							"Command can containly one one parameter of Text type");
-				} else {
-					textField = true;
-				}
+			if (textField) {
+				throw new IllegalArgumentException(
+						"Parameter of Text type must be the last parameter of command !");
+			}
+
+			if (Text.class.equals(type)) {
+				textField = true;
 			}
 		}
 
@@ -80,7 +80,7 @@ public class CommandToDefinitionConverter {
 	private String getRegExp(Class<?> type) {
 		String result = null;
 
-		if (String.class.equals(type)) {
+		if (String.class.equals(type) || Text.class.equals(type)) {
 			result = "^.*$";
 		} else if (Integer.class.equals(type)) {
 			result = "^[0-9]*$";
