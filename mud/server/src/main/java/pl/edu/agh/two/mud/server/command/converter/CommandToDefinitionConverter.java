@@ -1,4 +1,4 @@
-package pl.edu.agh.two.mud.server.command;
+package pl.edu.agh.two.mud.server.command.converter;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -14,6 +14,7 @@ import pl.edu.agh.two.mud.common.command.definition.CommandDefinition;
 import pl.edu.agh.two.mud.common.command.definition.CommandParameterDefinition;
 import pl.edu.agh.two.mud.common.command.definition.ICommandDefinition;
 import pl.edu.agh.two.mud.common.command.definition.ICommandParameterDefinition;
+import pl.edu.agh.two.mud.server.command.*;
 import pl.edu.agh.two.mud.server.command.annotation.Alias;
 import pl.edu.agh.two.mud.server.command.annotation.OrderedParam;
 import pl.edu.agh.two.mud.server.command.type.Text;
