@@ -9,10 +9,10 @@
   <context:annotation-config />
   <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
   <bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor" />
-  
-  
+
+
   <bean id="server" class="pl.edu.agh.two.mud.server.Server" scope="singleton"/>
   <bean id="testCommand" class="pl.edu.agh.two.mud.server.command.TestCommand" scope="prototype"/>
   <bean id="registry" class="pl.edu.agh.two.mud.server.command.registry.ContextCommandRegistry" init-method="buildRegistry"/>
-
+  <bean id="mailer" class="pl.edu.agh.two.mud.server.mail.Mailer" scope="singleton"/>
 </beans>
