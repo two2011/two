@@ -21,6 +21,11 @@
   		<artifactId>common</artifactId>
   		<version>0.1</version>
   	</dependency>
+  	<dependency>
+    	<groupId>javax.mail</groupId>
+    	<artifactId>mail</artifactId>
+    	<version>1.4</version>
+	</dependency>
   </dependencies>
   <profiles>
 		<profile>
@@ -71,7 +76,7 @@
 						</executions>
 					</plugin>
 				</plugins>
-			</build>	
+			</build>
 		</profile>
 	</profiles>
 </project>

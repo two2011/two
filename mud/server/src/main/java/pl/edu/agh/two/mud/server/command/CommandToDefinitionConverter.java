@@ -37,7 +37,7 @@ public class CommandToDefinitionConverter {
 		Collection<String> names = Arrays.asList(alias.value());
 
 		Map<OrderedParam, Field> paramAnnotationMap = new LinkedHashMap<OrderedParam, Field>();
-		for (Field field : clazz.getFields()) {
+		for (Field field : clazz.getDeclaredFields()) {
 			OrderedParam orderedParam = field.getAnnotation(OrderedParam.class);
 			if (orderedParam != null) {
 				paramAnnotationMap.put(orderedParam, field);
@@ -82,7 +82,7 @@ public class CommandToDefinitionConverter {
 
 		if (String.class.equals(type) || Text.class.equals(type)) {
 			result = "^.*$";
-		} else if (Integer.class.equals(type)) {
+		} else if (Integer.class.equals(type) || int.class.equals(type)) {
 			result = "^[0-9]*$";
 		} else {
 			throw new IllegalStateException();
