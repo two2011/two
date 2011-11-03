@@ -27,20 +27,20 @@ public class ReflexiveCommandFactoryTest {
 	private ReflexiveCommandFactory reflexiveCommandFactory = new ReflexiveCommandFactory();
 
 	@Test
-	public void shouldCreateCommand() throws Exception {
+	public void shouldCreateCommandAndInjectFieldValues() throws Exception {
 		// GIVEN
 		IParsedCommand parsedCommand = mock(IParsedCommand.class);
 		String commandId = "ZUZIA";
 		when(parsedCommand.getCommandId()).thenReturn(commandId);
 
-		Map<String, String> parameters = new HashMap<String, String>();
-		parameters.put("stringParam", "string");
-		parameters.put("intParam", "54");
-		parameters.put("IntegerParam", "65");
-		parameters.put("textParam", "text");
-		parameters.put("doubleParam", "15.6");
-		parameters.put("DoubleParam", "17.3");
-		when(parsedCommand.getValuesMap()).thenReturn(parameters);
+		Map<String, String> parametersValuesByFieldNames = new HashMap<String, String>();
+		parametersValuesByFieldNames.put("stringParam", "string");
+		parametersValuesByFieldNames.put("intParam", "54");
+		parametersValuesByFieldNames.put("IntegerParam", "65");
+		parametersValuesByFieldNames.put("textParam", "text");
+		parametersValuesByFieldNames.put("doubleParam", "15.6");
+		parametersValuesByFieldNames.put("DoubleParam", "17.3");
+		when(parsedCommand.getValuesMap()).thenReturn(parametersValuesByFieldNames);
 		doReturn(Command.class).when(commandClassRegistry).getCommandClass(commandId);
 		when(applicationContext.getBean(Command.class)).thenReturn(new TestCommand());
 
