@@ -12,5 +12,7 @@
   
   
   <bean id="server" class="pl.edu.agh.two.mud.server.Server" scope="singleton"/>
+  <bean id="testCommand" class="pl.edu.agh.two.mud.server.command.TestCommand" scope="prototype"/>
+  <bean id="registry" class="pl.edu.agh.two.mud.server.command.registry.ContextCommandRegistry" init-method="buildRegistry"/>
 
 </beans>
