@@ -42,14 +42,14 @@ public class ReflexiveCommandFactoryTest {
 		parametersValuesByFieldNames.put("DoubleParam", "17.3");
 		when(parsedCommand.getValuesMap()).thenReturn(parametersValuesByFieldNames);
 		doReturn(Command.class).when(commandClassRegistry).getCommandClass(commandId);
-		when(applicationContext.getBean(Command.class)).thenReturn(new TestCommand());
+		when(applicationContext.getBean(Command.class)).thenReturn(new SampleCommand());
 
 		// WHEN
 		Command command = reflexiveCommandFactory.create(parsedCommand);
 
 		// THEN
-		assertThat(command).isInstanceOf(TestCommand.class);
-		TestCommand testCommand = (TestCommand) command;
+		assertThat(command).isInstanceOf(SampleCommand.class);
+		SampleCommand testCommand = (SampleCommand) command;
 		assertThat(testCommand.getStringParam()).isEqualTo("string");
 		assertThat(testCommand.getIntParam()).isEqualTo(54);
 		assertThat(testCommand.getTextParam().getText()).isEqualTo("text");
