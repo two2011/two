@@ -7,30 +7,29 @@ import pl.edu.agh.two.mud.server.command.type.*;
 public class TestCommand extends Command {
 
     @OrderedParam(1)
-    private String testowy;
+    private String stringParam;
 
     @OrderedParam(2)
-    private int misiek;
+    private int intParam;
 
     @OrderedParam(3)
-    private Text zuzia;
+    private Text textParam;
 
     @Override
     public String getDescription() {
-        // TODO Auto-generated method stub
         return null;
     }
 
-    public String getTestowy() {
-        return testowy;
+    public String getStringParam() {
+        return stringParam;
     }
 
-    public int getMisiek() {
-        return misiek;
+    public int getIntParam() {
+        return intParam;
     }
 
-    public Text getZuzia() {
-        return zuzia;
+    public Text getTextParam() {
+        return textParam;
     }
 
 }
