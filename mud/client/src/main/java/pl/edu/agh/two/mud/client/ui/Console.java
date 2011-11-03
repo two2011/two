@@ -24,7 +24,7 @@ public class Console extends JPanel {
 
 	/**
 	 * Listener for command invocation.
-	 * 
+	 *
 	 * @author kret
 	 */
 	public interface ICommandLineListener {
@@ -125,7 +125,7 @@ public class Console extends JPanel {
 
 	/**
 	 * This method allows to append text to console output.
-	 * 
+	 *
 	 * @param text
 	 *            text to append
 	 */
