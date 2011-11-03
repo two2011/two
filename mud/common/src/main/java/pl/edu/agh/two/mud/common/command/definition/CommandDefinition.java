@@ -47,7 +47,7 @@ public class CommandDefinition implements ICommandDefinition {
 	}
 
 	@Override
-	public Object getId() {
+	public String getId() {
 		return id;
 	}
 

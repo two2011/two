@@ -5,7 +5,7 @@ import java.util.Map;
 
 public interface IParsedCommand extends Serializable {
 
-	Object getCommandId();
+	String getCommandId();
 
 	Map<String, String> getValuesMap();
 

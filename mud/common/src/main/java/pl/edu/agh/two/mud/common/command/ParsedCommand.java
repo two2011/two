@@ -1,7 +1,6 @@
 package pl.edu.agh.two.mud.common.command;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author ksobon
@@ -10,10 +9,10 @@ import java.util.Map;
 public class ParsedCommand implements IParsedCommand {
 
 	private static final long serialVersionUID = -6130204709476482648L;
-	private Object id;
+	private String id;
 	private Map<String, String> values = new HashMap<String, String>();
 
-	public ParsedCommand(Object id, Map<String, String> values) {
+	public ParsedCommand(String id, Map<String, String> values) {
 		if (id == null) {
 			throw new IllegalArgumentException();
 		}
@@ -25,7 +24,7 @@ public class ParsedCommand implements IParsedCommand {
 	}
 
 	@Override
-	public Object getCommandId() {
+	public String getCommandId() {
 		return id;
 	}
 

@@ -6,7 +6,7 @@ import java.util.Map;
 
 public interface ICommandDefinition {
 
-	Object getId();
+	String getId();
 
 	Collection<String> getNames();
 
