@@ -36,7 +36,10 @@ public class ReflexiveCommandFactoryTest {
 		Map<String, String> parameters = new HashMap<String, String>();
 		parameters.put("stringParam", "string");
 		parameters.put("intParam", "54");
+		parameters.put("IntegerParam", "65");
 		parameters.put("textParam", "text");
+		parameters.put("doubleParam", "15.6");
+		parameters.put("DoubleParam", "17.3");
 		when(parsedCommand.getValuesMap()).thenReturn(parameters);
 		doReturn(Command.class).when(commandClassRegistry).getCommandClass(commandId);
 		when(applicationContext.getBean(Command.class)).thenReturn(new TestCommand());
@@ -50,6 +53,9 @@ public class ReflexiveCommandFactoryTest {
 		assertThat(testCommand.getStringParam()).isEqualTo("string");
 		assertThat(testCommand.getIntParam()).isEqualTo(54);
 		assertThat(testCommand.getTextParam().getText()).isEqualTo("text");
+		assertThat(testCommand.getIntegerParam()).isEqualTo(65);
+		assertThat(testCommand.getdoubleParam()).isEqualTo(15.6);
+		assertThat(testCommand.getDoubleParam()).isEqualTo(17.3);
 
 	}
 
