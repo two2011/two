@@ -6,7 +6,7 @@ import pl.edu.agh.two.mud.common.command.definition.ICommandDefinition;
 
 public interface ICommandDefinitionRegistry {
 
-	ICommandDefinition getCommandDefinitionById(Object id);
+	ICommandDefinition getCommandDefinitionById(String id);
 
 	ICommandDefinition getCommandDefinitionByName(String name);
 

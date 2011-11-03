@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -126,7 +127,8 @@ public class CommandParserTest {
 		// Test: defined, unavailable
 		String[] commands = new String[] { "command1", "c1",
 				"command1 p1 p2 p3", "c1 a b c d e" };
-		commandParser.setAvailableCommands(Collections.emptySet());
+		Set<String> available = Collections.emptySet();
+		commandParser.setAvailableCommands(available);
 		for (String command : commands) {
 			try {
 				commandParser.parse(command);

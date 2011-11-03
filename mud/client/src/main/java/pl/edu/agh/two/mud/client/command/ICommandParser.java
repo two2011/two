@@ -9,7 +9,7 @@ import pl.edu.agh.two.mud.common.command.IParsedCommand;
 
 public interface ICommandParser {
 
-	void setAvailableCommands(Set<Object> ids);
+	void setAvailableCommands(Set<String> ids);
 
 	IParsedCommand parse(String command) throws UnknownCommandException,
 			UnavailableCommandException, InvalidCommandParametersException;

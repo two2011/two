@@ -22,7 +22,7 @@ public class CommandParser implements ICommandParser {
 
 	private ICommandDefinitionRegistry commandDefinitionRegistry;
 
-	private Set<Object> availableCommands = new HashSet<Object>();
+	private Set<String> availableCommands = new HashSet<String>();
 
 	public CommandParser(ICommandDefinitionRegistry commandDefinitionRegistry) {
 		this.commandDefinitionRegistry = commandDefinitionRegistry;
@@ -34,7 +34,7 @@ public class CommandParser implements ICommandParser {
 	}
 
 	@Override
-	public void setAvailableCommands(Set<Object> ids) {
+	public void setAvailableCommands(Set<String> ids) {
 		availableCommands = ids;
 	}
 

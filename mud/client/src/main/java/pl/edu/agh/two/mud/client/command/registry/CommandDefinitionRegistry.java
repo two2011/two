@@ -18,7 +18,7 @@ import pl.edu.agh.two.mud.common.command.definition.ICommandDefinition;
 public class CommandDefinitionRegistry implements ICommandDefinitionRegistry,
 		ApplicationContextAware {
 
-	private Map<Object, ICommandDefinition> mapById = new HashMap<Object, ICommandDefinition>();
+	private Map<String, ICommandDefinition> mapById = new HashMap<String, ICommandDefinition>();
 	private Map<String, ICommandDefinition> mapByName = new HashMap<String, ICommandDefinition>();
 
 	@Override
@@ -39,7 +39,7 @@ public class CommandDefinitionRegistry implements ICommandDefinitionRegistry,
 	}
 
 	@Override
-	public ICommandDefinition getCommandDefinitionById(Object id) {
+	public ICommandDefinition getCommandDefinitionById(String id) {
 		return mapById.get(id);
 	}
 
