@@ -5,6 +5,8 @@ import pl.edu.agh.two.mud.common.command.annotation.*;
 import pl.edu.agh.two.mud.common.command.type.*;
 
 // Pamietacje o wrzuceniu waszych komend do applicationContext.xml jako beany, to jest przyklad i nie wrzucalem do springa.
+
+@Alias({"example", "ex"})
 public class ExampleCommand extends Command {
 
 	@OrderedParam(1)
