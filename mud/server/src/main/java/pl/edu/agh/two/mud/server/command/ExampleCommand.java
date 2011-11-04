@@ -4,7 +4,7 @@ import pl.edu.agh.two.mud.common.command.*;
 import pl.edu.agh.two.mud.common.command.annotation.*;
 import pl.edu.agh.two.mud.common.command.type.*;
 
-// REMEMBER TO DEFINE YOUR COMMANDS AS SPRING BEANs, THIS IS AN EXAMPLE HOW TO USE COMMANDS SO IT IS NOT DEFINED IN SPRING
+// Pamietacje o wrzuceniu waszych komend do applicationContext.xml jako beany, to jest przyklad i nie wrzucalem do springa.
 public class ExampleCommand extends Command {
 
 	@OrderedParam(1)
