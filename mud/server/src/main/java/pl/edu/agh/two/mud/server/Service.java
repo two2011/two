@@ -6,9 +6,7 @@ import java.net.*;
 import org.apache.log4j.*;
 
 import pl.edu.agh.two.mud.common.command.*;
-import pl.edu.agh.two.mud.server.command.converter.*;
-import pl.edu.agh.two.mud.server.command.dispatcher.Dispatcher;
-import pl.edu.agh.two.mud.server.command.provider.*;
+import pl.edu.agh.two.mud.common.command.dispatcher.Dispatcher;
 
 public class Service extends Thread {
 

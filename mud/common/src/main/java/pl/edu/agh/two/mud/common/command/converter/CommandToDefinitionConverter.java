@@ -1,23 +1,12 @@
-package pl.edu.agh.two.mud.server.command.converter;
+package pl.edu.agh.two.mud.common.command.converter;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.lang.reflect.*;
+import java.util.*;
 
-import pl.edu.agh.two.mud.common.command.definition.CommandDefinition;
-import pl.edu.agh.two.mud.common.command.definition.CommandParameterDefinition;
-import pl.edu.agh.two.mud.common.command.definition.ICommandDefinition;
-import pl.edu.agh.two.mud.common.command.definition.ICommandParameterDefinition;
-import pl.edu.agh.two.mud.server.command.*;
-import pl.edu.agh.two.mud.server.command.annotation.Alias;
-import pl.edu.agh.two.mud.server.command.annotation.OrderedParam;
-import pl.edu.agh.two.mud.server.command.type.Text;
+import pl.edu.agh.two.mud.common.command.*;
+import pl.edu.agh.two.mud.common.command.annotation.*;
+import pl.edu.agh.two.mud.common.command.definition.*;
+import pl.edu.agh.two.mud.common.command.type.*;
 
 // TODO [ksobon] Write tests !
 public class CommandToDefinitionConverter {

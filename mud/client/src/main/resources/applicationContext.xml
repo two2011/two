@@ -28,6 +28,17 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 		<constructor-arg ref="commandParser" />
 		<constructor-arg ref="commandRegistry" />
 	</bean>
+	
+	
+	<bean id="commandProvider" class="pl.edu.agh.two.mud.common.command.provider.SpringCommandProvider" init-method="buildProvider" />
+	<bean id="commandExecutorProvider" class="pl.edu.agh.two.mud.common.command.provider.SpringCommandExecutorProvider" init-method="buildProvider" />
+	<bean id="commandFactory" class="pl.edu.agh.two.mud.common.command.factory.ReflexiveCommandFactory">
+		<property name="commandProvider" ref="commandProvider" />
+	</bean>
+	<bean id="dispatcher" class="pl.edu.agh.two.mud.common.command.dispatcher.SynchronizedDispatcher">
+		<property name="commandExecutorProvider" ref="commandExecutorProvider" />
+		<property name="commandFactory" ref="commandFactory" />
+	</bean>
 
 	<!-- BEGIN: Commands -->
 	<bean class="pl.edu.agh.two.mud.common.command.definition.CommandDefinition">
