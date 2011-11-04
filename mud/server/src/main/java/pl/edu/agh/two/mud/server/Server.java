@@ -5,10 +5,14 @@ import java.net.*;
 
 import org.apache.log4j.*;
 
+import pl.edu.agh.two.mud.server.configuration.*;
+
 public class Server {
 	private static Logger logger = Logger.getLogger(Server.class);
 
 	public static void main(String[] args) throws IOException {
+		ApplicationContext.initialize();
+
 		ServerSocket serverSocket = null;
 		int port = 3306;
 
@@ -23,7 +27,9 @@ public class Server {
 
 			while (true) {
 				try {
-					new Service(serverSocket.accept()).start();
+					Service service = (Service) ApplicationContext.getBean("service");
+					service.bindSocket(serverSocket.accept());
+					service.start();
 				} catch (IOException e) {
 					logger.error("Socket error:" + e.getMessage());
 				}

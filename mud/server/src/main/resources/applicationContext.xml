@@ -5,16 +5,25 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
 ">
-
 	<context:property-placeholder location="classpath*:*.properties" />
 	<context:annotation-config />
 	<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
 	<bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor" />
 
+	<bean id="commandProvider" class="pl.edu.agh.two.mud.server.command.provider.SpringCommandProvider" init-method="buildProvider" />
+	<bean id="commandExecutorProvider" class="pl.edu.agh.two.mud.server.command.provider.SpringCommandExecutorProvider" init-method="buildProvider" />
+	<bean id="commandFactory" class="pl.edu.agh.two.mud.server.command.factory.ReflexiveCommandFactory">
+		<property name="commandProvider" ref="commandProvider" />
+	</bean>
+	<bean id="dispatcher" class="pl.edu.agh.two.mud.server.command.dispatcher.SynchronizedDispatcher">
+		<property name="commandExecutorProvider" ref="commandExecutorProvider" />
+		<property name="commandFactory" ref="commandFactory" />
+	</bean>
 
-	<bean id="server" class="pl.edu.agh.two.mud.server.Server" scope="singleton" />
-	<bean id="testCommand" class="pl.edu.agh.two.mud.server.command.TestCommand" scope="prototype" />
-	<bean id="registry" class="pl.edu.agh.two.mud.server.command.registry.ContextCommandRegistry" init-method="buildRegistry" />
-	<bean id="mailer" class="pl.edu.agh.two.mud.server.mail.Mailer" scope="singleton" />
-	<bean id="serviceRegistry" class="pl.edu.agh.two.mud.server.ServiceRegistry" scope="singleton" />
+	<bean id="server" class="pl.edu.agh.two.mud.server.Server" />
+	<bean id="service" class="pl.edu.agh.two.mud.server.Service" scope="prototype">
+		<property name="dispatcher" ref="dispatcher" />
+	</bean>
+	<bean id="mailer" class="pl.edu.agh.two.mud.server.mail.Mailer" />
+	<bean id="serviceRegistry" class="pl.edu.agh.two.mud.server.ServiceRegistry" />
 </beans>

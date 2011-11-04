@@ -4,31 +4,22 @@ import java.lang.reflect.*;
 import java.util.*;
 
 import org.apache.log4j.*;
-import org.springframework.beans.*;
-import org.springframework.context.*;
 
 import pl.edu.agh.two.mud.common.command.*;
 import pl.edu.agh.two.mud.server.command.*;
 import pl.edu.agh.two.mud.server.command.annotation.*;
-import pl.edu.agh.two.mud.server.command.registry.*;
+import pl.edu.agh.two.mud.server.command.provider.*;
 import pl.edu.agh.two.mud.server.command.type.*;
 
-public class ReflexiveCommandFactory implements CommandFactory, ApplicationContextAware {
+public class ReflexiveCommandFactory implements CommandFactory {
 
-	private CommandClassRegistry commandClassRegistry;
-	private ApplicationContext applicationContext;
+	private CommandProvider commandProvider;
 	private Logger logger = Logger.getLogger(getClass());
 
 	@Override
 	public Command create(IParsedCommand parsedCommand) {
-		Command command = createCommandInstance(parsedCommand.getCommandId());
+		Command command = commandProvider.getCommandById(parsedCommand.getCommandId());
 		injectCommandParameters(command, parsedCommand.getValuesMap());
-		return command;
-	}
-
-	private Command createCommandInstance(String commandId) {
-		Class<? extends Command> commandClass = commandClassRegistry.getCommandClass(commandId);
-		Command command = applicationContext.getBean(commandClass);
 		return command;
 	}
 
@@ -90,13 +81,8 @@ public class ReflexiveCommandFactory implements CommandFactory, ApplicationConte
 		return commandParametersFields;
 	}
 
-	public void setCommandClassRegistry(CommandClassRegistry commandClassRegistry) {
-		this.commandClassRegistry = commandClassRegistry;
+	public void setCommandProvider(CommandProvider commandProvider) {
+		this.commandProvider = commandProvider;
 	}
-
-	@Override
-	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-		this.applicationContext = applicationContext;
-	}
-
+	
 }

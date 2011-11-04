@@ -5,6 +5,11 @@ import java.net.*;
 
 import org.apache.log4j.*;
 
+import pl.edu.agh.two.mud.common.command.*;
+import pl.edu.agh.two.mud.server.command.converter.*;
+import pl.edu.agh.two.mud.server.command.dispatcher.Dispatcher;
+import pl.edu.agh.two.mud.server.command.provider.*;
+
 public class Service extends Thread {
 
 	private Socket clientSocket;
@@ -12,8 +17,11 @@ public class Service extends Thread {
 	private Logger logger = Logger.getLogger(Service.class);
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
+	private Dispatcher dispatcher;
 
-	public Service(Socket socket) throws IOException {
+
+	
+	public void bindSocket(Socket socket) throws IOException {
 		clientSocket = socket;
 		out = new ObjectOutputStream(socket.getOutputStream());
 		in = new ObjectInputStream(socket.getInputStream());
@@ -25,8 +33,12 @@ public class Service extends Thread {
 	public void run() {
 
 		try {
-			out.writeObject("Connected to the server: " + clientSocket.getLocalSocketAddress());
-			in.readObject();
+			// TODO: First send to client CommandDefinitions,
+			// you can use getAvailableCommands method from CommandProvider
+			while (true) {
+				Object userCommand = in.readObject();
+				dispatcher.dispatch((IParsedCommand) userCommand);
+			}
 		} catch (Exception e) {
 			logger.error(clientAddress + " - " + e.getMessage());
 		}
@@ -37,6 +49,10 @@ public class Service extends Thread {
 		} catch (IOException e) {
 			logger.error(clientAddress + " - closing client socket error: " + e.getMessage());
 		}
-
 	}
+
+	public void setDispatcher(Dispatcher dispatcher) {
+		this.dispatcher = dispatcher;
+	}
+
 }

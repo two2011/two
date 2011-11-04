@@ -13,13 +13,13 @@ import org.springframework.context.*;
 
 import pl.edu.agh.two.mud.common.command.*;
 import pl.edu.agh.two.mud.server.command.*;
-import pl.edu.agh.two.mud.server.command.registry.*;
+import pl.edu.agh.two.mud.server.command.provider.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ReflexiveCommandFactoryTest {
 
 	@Mock
-	private CommandClassRegistry commandClassRegistry;
+	private CommandProvider commandClassRegistry;
 	@Mock
 	private ApplicationContext applicationContext;
 
@@ -41,7 +41,7 @@ public class ReflexiveCommandFactoryTest {
 		parametersValuesByFieldNames.put("doubleParam", "15.6");
 		parametersValuesByFieldNames.put("DoubleParam", "17.3");
 		when(parsedCommand.getValuesMap()).thenReturn(parametersValuesByFieldNames);
-		doReturn(Command.class).when(commandClassRegistry).getCommandClass(commandId);
+		doReturn(Command.class).when(commandClassRegistry).getCommandById(commandId);
 		when(applicationContext.getBean(Command.class)).thenReturn(new SampleCommand());
 
 		// WHEN

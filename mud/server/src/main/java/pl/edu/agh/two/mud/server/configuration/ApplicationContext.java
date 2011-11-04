@@ -4,8 +4,7 @@ import org.springframework.context.support.*;
 
 public class ApplicationContext {
 
-	private static ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext(
-			"applicationContext.xml");
+	private static ClassPathXmlApplicationContext applicationContext;
 
 	public static Object getBean(String bean) {
 		return applicationContext.getBean(bean);
@@ -13,6 +12,10 @@ public class ApplicationContext {
 
 	public static ClassPathXmlApplicationContext getApplicationContext() {
 		return applicationContext;
+	}
+
+	public static void initialize() {
+		applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
 	}
 
 }

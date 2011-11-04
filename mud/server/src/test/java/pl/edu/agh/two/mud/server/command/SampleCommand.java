@@ -12,7 +12,6 @@ public class SampleCommand extends Command {
     @OrderedParam(2)
     private int intParam;
     
-    
     @OrderedParam(3)
     private Integer IntegerParam;
     

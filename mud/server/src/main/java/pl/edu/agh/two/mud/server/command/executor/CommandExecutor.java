@@ -2,8 +2,8 @@ package pl.edu.agh.two.mud.server.command.executor;
 
 import pl.edu.agh.two.mud.server.command.*;
 
-public interface CommandExecutor<ConcreteCommand extends Command> {
+public interface CommandExecutor<C extends Command> {
     
-    void execute(ConcreteCommand command);
+    void execute(C command);
 
 }
