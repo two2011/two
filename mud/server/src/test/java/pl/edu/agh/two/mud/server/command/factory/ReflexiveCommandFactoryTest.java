@@ -9,7 +9,6 @@ import org.junit.*;
 import org.junit.runner.*;
 import org.mockito.*;
 import org.mockito.runners.*;
-import org.springframework.context.*;
 
 import pl.edu.agh.two.mud.common.command.*;
 import pl.edu.agh.two.mud.server.command.*;
@@ -19,9 +18,7 @@ import pl.edu.agh.two.mud.server.command.provider.*;
 public class ReflexiveCommandFactoryTest {
 
 	@Mock
-	private CommandProvider commandClassRegistry;
-	@Mock
-	private ApplicationContext applicationContext;
+	private CommandProvider commandProvider;
 
 	@InjectMocks
 	private ReflexiveCommandFactory reflexiveCommandFactory = new ReflexiveCommandFactory();
@@ -41,8 +38,7 @@ public class ReflexiveCommandFactoryTest {
 		parametersValuesByFieldNames.put("doubleParam", "15.6");
 		parametersValuesByFieldNames.put("DoubleParam", "17.3");
 		when(parsedCommand.getValuesMap()).thenReturn(parametersValuesByFieldNames);
-		doReturn(Command.class).when(commandClassRegistry).getCommandById(commandId);
-		when(applicationContext.getBean(Command.class)).thenReturn(new SampleCommand());
+		when(commandProvider.getCommandById(commandId)).thenReturn(new SampleCommand());
 
 		// WHEN
 		Command command = reflexiveCommandFactory.create(parsedCommand);
