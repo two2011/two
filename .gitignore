@@ -20,5 +20,7 @@
 /mud/client/log.log
 /mud/client/client.log
 /mud/server/log.log
+/mud/server/server.log
 /mud/client/codecover
 /mud/client/bin
+/mud/server/bin
