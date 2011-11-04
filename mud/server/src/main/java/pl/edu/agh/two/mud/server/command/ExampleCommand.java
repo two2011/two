@@ -20,5 +20,17 @@ public class ExampleCommand extends Command {
 	public String getDescription() {
 		return "TUTAJ WRZUCAC USAGE";
 	}
+	
+	public String getPlayerLogin() {
+		return playerLogin;
+	}
+	
+	public int getMoney() {
+		return money;
+	}
+	
+	public Text getChatText() {
+		return chatText;
+	}
 
 }
