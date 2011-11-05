@@ -1,14 +1,24 @@
 package pl.edu.agh.two.mud.common.command.converter;
 
-import java.lang.reflect.*;
-import java.util.*;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
-import pl.edu.agh.two.mud.common.command.*;
-import pl.edu.agh.two.mud.common.command.annotation.*;
-import pl.edu.agh.two.mud.common.command.definition.*;
-import pl.edu.agh.two.mud.common.command.type.*;
+import pl.edu.agh.two.mud.common.command.Command;
+import pl.edu.agh.two.mud.common.command.annotation.Alias;
+import pl.edu.agh.two.mud.common.command.annotation.OrderedParam;
+import pl.edu.agh.two.mud.common.command.definition.CommandDefinition;
+import pl.edu.agh.two.mud.common.command.definition.CommandParameterDefinition;
+import pl.edu.agh.two.mud.common.command.definition.ICommandDefinition;
+import pl.edu.agh.two.mud.common.command.definition.ICommandParameterDefinition;
+import pl.edu.agh.two.mud.common.command.type.Text;
 
-// TODO [ksobon] Write tests !
 public class CommandToDefinitionConverter {
 
 	public ICommandDefinition convertToCommandDefinition(Command command) {
@@ -30,7 +40,10 @@ public class CommandToDefinitionConverter {
 		for (Field field : clazz.getDeclaredFields()) {
 			OrderedParam orderedParam = field.getAnnotation(OrderedParam.class);
 			if (orderedParam != null) {
-				paramAnnotationMap.put(orderedParam, field);
+				if (paramAnnotationMap.put(orderedParam, field) != null) {
+					throw new IllegalArgumentException(
+							"There are two paramaters with the same order number !");
+				}
 			}
 		}
 
@@ -75,7 +88,9 @@ public class CommandToDefinitionConverter {
 		} else if (Integer.class.equals(type) || int.class.equals(type)) {
 			result = "^[0-9]*$";
 		} else {
-			throw new IllegalStateException();
+			throw new IllegalArgumentException(String.format(
+					"Type \"%s\" is not supported as parameter type.",
+					type.getName()));
 		}
 
 		return result;
