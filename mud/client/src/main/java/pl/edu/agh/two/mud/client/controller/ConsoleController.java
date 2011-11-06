@@ -10,7 +10,6 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import pl.edu.agh.two.mud.client.command.exception.InvalidCommandParametersException;
-import pl.edu.agh.two.mud.client.command.exception.UnavailableCommandException;
 import pl.edu.agh.two.mud.client.command.exception.UnknownCommandException;
 import pl.edu.agh.two.mud.client.command.parser.ICommandParser;
 import pl.edu.agh.two.mud.client.command.registry.ICommandDefinitionRegistry;
@@ -56,10 +55,6 @@ public class ConsoleController implements ICommandLineListener {
 			console.appendTextToConsole(String.format(
 					"Komenda \"%s\" jest nieznana.", e.getCommandName()));
 			console.appendTextToConsole(getAvailableCommands());
-		} catch (UnavailableCommandException e) {
-			console.appendTextToConsole(String.format(
-					"Komenda \"%s\" jest aktualnie zabroniona.",
-					e.getCommandName()));
 		} catch (InvalidCommandParametersException e) {
 			console.appendTextToConsole(String.format(
 					"Komenda \"%s\" zostala niepoprawnie uzyta.",

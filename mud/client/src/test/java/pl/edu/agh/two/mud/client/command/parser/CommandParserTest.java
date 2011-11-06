@@ -8,18 +8,14 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import pl.edu.agh.two.mud.client.command.exception.CommandParsingException;
 import pl.edu.agh.two.mud.client.command.exception.InvalidCommandParametersException;
-import pl.edu.agh.two.mud.client.command.exception.UnavailableCommandException;
 import pl.edu.agh.two.mud.client.command.exception.UnknownCommandException;
-import pl.edu.agh.two.mud.client.command.parser.CommandParser;
 import pl.edu.agh.two.mud.client.command.registry.ICommandDefinitionRegistry;
 import pl.edu.agh.two.mud.common.command.IParsedCommand;
 import pl.edu.agh.two.mud.common.command.definition.ICommandDefinition;
@@ -124,29 +120,8 @@ public class CommandParserTest {
 	}
 
 	@Test
-	public void testParseUnavailable() {
-		// Test: defined, unavailable
-		String[] commands = new String[] { "command1", "c1",
-				"command1 p1 p2 p3", "c1 a b c d e" };
-		Set<String> available = Collections.emptySet();
-		commandParser.setAvailableCommands(available);
-		for (String command : commands) {
-			try {
-				commandParser.parse(command);
-				fail("Exception expected");
-			} catch (UnavailableCommandException e) {
-				assertEquals(getCommandName(command), e.getCommandName());
-				assertEquals(commandDefinition1, e.getCommandDefinition());
-			} catch (Exception e) {
-				e.printStackTrace();
-				fail("Other exception expected");
-			}
-		}
-	}
-
-	@Test
 	public void testParseToFewParameters() {
-		// Test: defined, available, to few parameters
+		// Test: defined, to few parameters
 		String[] commands = new String[] { "command1", "command1 p1",
 				"command1 p2", "c1", "c1 p1", "c1 p1 p2" };
 		for (String command : commands) {
@@ -166,7 +141,7 @@ public class CommandParserTest {
 
 	@Test
 	public void testParseToManyParameters() {
-		// Test: defined, available, to many parameters - not text
+		// Test: defined, to many parameters - not text
 		when(commandDefinition1.isTextParam()).thenReturn(false);
 		String[] commands = new String[] { "command1 p1 p2 p3 p4",
 				"c1 p1 p2 p3 p4", "command1 1 2 3 4 5 6 7 8 9" };
@@ -187,7 +162,7 @@ public class CommandParserTest {
 
 	@Test
 	public void testParseInvalidParameter() {
-		// Test input: defined, available, correct number of
+		// Test input: defined, correct number of
 		// parameters, invalid parameter
 		String[] commands = new String[] { "command1 1 a 2", "c1 1 a 2" };
 		for (String command : commands) {
@@ -208,7 +183,7 @@ public class CommandParserTest {
 
 	@Test
 	public void testParseMergedParametersIvalid() {
-		// Test input: defined, available, correct (additional merged) number of
+		// Test input: defined, correct (additional merged) number of
 		// parameters, invalid parameter
 		when(commandDefinition1.isTextParam()).thenReturn(true);
 		String[] commands = new String[] { "command1 1 a 2 3 4 5",
@@ -231,7 +206,7 @@ public class CommandParserTest {
 
 	@Test
 	public void testParseValid() {
-		// Test input: defined, available, correct number of
+		// Test input: defined, correct number of
 		// parameters, valid parameter
 		String[] commands = new String[] { "command1 1 2 3", "c1 1 2 3" };
 		for (String command : commands) {
@@ -259,7 +234,7 @@ public class CommandParserTest {
 
 	@Test
 	public void testParseMergedValid() {
-		// Test input: defined, available, correct (additional merged) number of
+		// Test input: defined, correct (additional merged) number of
 		// parameters, valid parameter
 		when(commandDefinition1.isTextParam()).thenReturn(true);
 		String[] commands = new String[] { "command1 1 2 3 4 5", "c1 1 2 3 4 5" };

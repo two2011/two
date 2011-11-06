@@ -3,14 +3,11 @@ package pl.edu.agh.two.mud.client.command.parser;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.regex.Pattern;
 
 import pl.edu.agh.two.mud.client.command.exception.InvalidCommandParametersException;
-import pl.edu.agh.two.mud.client.command.exception.UnavailableCommandException;
 import pl.edu.agh.two.mud.client.command.exception.UnknownCommandException;
 import pl.edu.agh.two.mud.client.command.registry.ICommandDefinitionRegistry;
 import pl.edu.agh.two.mud.common.command.IParsedCommand;
@@ -22,25 +19,13 @@ public class CommandParser implements ICommandParser {
 
 	private ICommandDefinitionRegistry commandDefinitionRegistry;
 
-	private Set<String> availableCommands = new HashSet<String>();
-
 	public CommandParser(ICommandDefinitionRegistry commandDefinitionRegistry) {
 		this.commandDefinitionRegistry = commandDefinitionRegistry;
-
-		for (ICommandDefinition definition : commandDefinitionRegistry
-				.getCommandDefinitions()) {
-			availableCommands.add(definition.getId());
-		}
-	}
-
-	@Override
-	public void setAvailableCommands(Set<String> ids) {
-		availableCommands = ids;
 	}
 
 	@Override
 	public IParsedCommand parse(String command) throws UnknownCommandException,
-			UnavailableCommandException, InvalidCommandParametersException {
+			InvalidCommandParametersException {
 		if (command == null) {
 			throw new IllegalArgumentException("Cannot parse null command");
 		}
@@ -55,11 +40,6 @@ public class CommandParser implements ICommandParser {
 				.getCommandDefinitionByName(commandName);
 		if (definition == null) {
 			throw new UnknownCommandException(commandName);
-		}
-
-		// Check whether this command can be used by user
-		if (!availableCommands.contains(definition.getId())) {
-			throw new UnavailableCommandException(commandName, definition);
 		}
 
 		List<ICommandParameterDefinition> parameterDefinitions = definition

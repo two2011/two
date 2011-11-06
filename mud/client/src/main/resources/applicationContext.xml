@@ -10,8 +10,10 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 
 	<context:property-placeholder location="classpath*:*.properties" />
 	<context:annotation-config />
-	<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
-	<bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor" />
+	<bean
+		class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
+	<bean
+		class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor" />
 
 	<bean id="mainWindow" class="pl.edu.agh.two.mud.client.ui.MainWindow" />
 
@@ -63,7 +65,13 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 		<constructor-arg ref="mainWindow" />
 		<constructor-arg ref="commandParser" />
 		<constructor-arg ref="commandDefinitionRegistry" />
-		<constructor-arg ref="dispatcher"/>
+		<constructor-arg ref="dispatcher" />
 	</bean>
+
+	<!-- BEGIN: Commands & Executors -->
+	<bean class="pl.edu.agh.two.mud.client.command.DisplayCommandsCommand" />
+	<!-- END: Commands & Executors -->
+
+
 
 </beans>
