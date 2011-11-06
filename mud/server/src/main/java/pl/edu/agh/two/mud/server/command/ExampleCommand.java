@@ -22,7 +22,12 @@ public class ExampleCommand extends UICommand {
 
 	@Override
 	public String getDescription() {
-		return "Przykladowa komenda. Jej uzycie spowoduje wypisanie wszystkich parameterow na konsoli serwera.\n\t example[ex] <param1> <param2> <param3> <param4>";
+		return "Przykladowa komenda. Jej uzycie spowoduje wypisanie wszystkich parameterow na konsoli serwera.\n" +
+				"\t example[ex] <param1> <param2> <param3> <param4>\n" +
+				"\t\tparam1 - String\n" +
+				"\t\tparam2 - int\n" +
+				"\t\tparam3 - Integer\n" +
+				"\t\tparam4 - Text (dowolny ciag znakow wraz ze spacjami)";
 	}
 
 	public String getParam1() {

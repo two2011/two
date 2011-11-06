@@ -7,6 +7,9 @@ import java.net.Socket;
 
 import org.apache.log4j.Logger;
 
+import pl.edu.agh.two.mud.client.command.registry.ICommandDefinitionRegistry;
+import pl.edu.agh.two.mud.common.command.definition.ICommandDefinition;
+
 public class Connection extends Thread {
 
 	private static Logger logger = Logger.getLogger(Connection.class);
@@ -14,6 +17,7 @@ public class Connection extends Thread {
 	private Socket socket;
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
+	private ICommandDefinitionRegistry commandDefinitionRegistry;
 
 	public void connect(String host, int port) throws IOException {
 		socket = new Socket(host, port);
@@ -34,12 +38,23 @@ public class Connection extends Thread {
 		while (true) {
 			try {
 				Object object = in.readObject();
-				System.out.println(object);
+				
+				// Message handling
+				// TODO Should be more generic !
+				if (object instanceof ICommandDefinition) {
+					commandDefinitionRegistry.registerCommandDefinition((ICommandDefinition)object);
+				}
+				
 			} catch (Exception e) {
 				logger.error("Error during reading message from server", e);
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public void setCommandDefinitionRegistry(
+			ICommandDefinitionRegistry commandDefinitionRegistry) {
+		this.commandDefinitionRegistry = commandDefinitionRegistry;
 	}
 
 }

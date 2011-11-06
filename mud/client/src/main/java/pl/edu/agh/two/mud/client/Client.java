@@ -31,9 +31,6 @@ public class Client {
 			mainWindow.open();
 			connection.connect(host, port);
 			connection.start();
-			
-			// TODO [ksobon] Remove sysout !
-			System.out.println("AA");
 			// gui.setLabel(connection.read().toString());
 		} catch (Exception e) {
 			logger.error("Connection with \"" + host + ":" + port

@@ -25,7 +25,9 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	</bean>
 
 	<bean id="connection" class="pl.edu.agh.two.mud.client.Connection"
-		scope="singleton" />
+		scope="singleton">
+		<property name="commandDefinitionRegistry" ref="commandDefinitionRegistry" />
+	</bean>
 
 
 	<!-- BEGIN: Command infrastructure -->

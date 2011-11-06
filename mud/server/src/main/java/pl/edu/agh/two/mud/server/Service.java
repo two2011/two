@@ -40,13 +40,10 @@ public class Service extends Thread {
 	public void run() {
 
 		try {
-			List<ICommandDefinition> commandDefinitions = new ArrayList<ICommandDefinition>();
-			for (UICommand uiCommand : commandProvider.getUICommands()) {
-				commandDefinitions.add(converter.convertToCommandDefinition(uiCommand));
-			}
-			
 			// Send commands defined by server to clients
-			out.writeObject(commandDefinitions);
+			for (UICommand uiCommand : commandProvider.getUICommands()) {
+				out.writeObject(converter.convertToCommandDefinition(uiCommand));
+			}
 
 			// TODO: First send to client CommandDefinitions,
 			// you can use getAvailableCommands method from CommandProvider
@@ -74,7 +71,7 @@ public class Service extends Thread {
 	public void setCommandProvider(CommandProvider commandProvider) {
 		this.commandProvider = commandProvider;
 	}
-	
+
 	public void setConverter(UICommandToDefinitionConverter converter) {
 		this.converter = converter;
 	}
