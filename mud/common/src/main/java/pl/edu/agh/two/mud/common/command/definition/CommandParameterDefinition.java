@@ -2,6 +2,7 @@ package pl.edu.agh.two.mud.common.command.definition;
 
 public class CommandParameterDefinition implements ICommandParameterDefinition {
 
+	private static final long serialVersionUID = -2586432568792198478L;
 	private String name;
 	private String regExp;
 

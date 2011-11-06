@@ -1,9 +1,15 @@
 package pl.edu.agh.two.mud.client;
 
-import java.io.*;
-import java.net.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 
-public class Connection {
+import org.apache.log4j.Logger;
+
+public class Connection extends Thread {
+
+	private static Logger logger = Logger.getLogger(Connection.class);
 
 	private Socket socket;
 	private ObjectOutputStream out;
@@ -21,6 +27,19 @@ public class Connection {
 
 	public void send(Object objectToSend) throws IOException {
 		out.writeObject(objectToSend);
+	}
+
+	@Override
+	public void run() {
+		while (true) {
+			try {
+				Object object = in.readObject();
+				System.out.println(object);
+			} catch (Exception e) {
+				logger.error("Error during reading message from server", e);
+				e.printStackTrace();
+			}
+		}
 	}
 
 }

@@ -1,5 +1,6 @@
 package pl.edu.agh.two.mud.common.command.provider;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 
 import pl.edu.agh.two.mud.common.command.Command;
+import pl.edu.agh.two.mud.common.command.UICommand;
 
 public class SpringCommandProvider implements CommandProvider {
 
@@ -36,7 +38,21 @@ public class SpringCommandProvider implements CommandProvider {
 		}
 		return availableCommands;
 	}
-	
+
+	@Override
+	public List<UICommand> getUICommands() {
+		List<UICommand> uiCommands = new ArrayList<UICommand>();
+		for (Class<? extends Command> commandClass : commandClassesById
+				.values()) {
+			Command command = beanFactory.getBean(commandClass);
+			if (command instanceof UICommand) {
+				uiCommands.add((UICommand) command);
+			}
+		}
+
+		return uiCommands;
+	}
+
 	@Override
 	public boolean isCommandAvailable(String commandId) {
 		return commandClassesById.containsKey(commandId);

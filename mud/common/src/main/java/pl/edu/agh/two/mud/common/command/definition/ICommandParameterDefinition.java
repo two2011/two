@@ -1,6 +1,8 @@
 package pl.edu.agh.two.mud.common.command.definition;
 
-public interface ICommandParameterDefinition {
+import java.io.Serializable;
+
+public interface ICommandParameterDefinition extends Serializable {
 
 	String getName();
 

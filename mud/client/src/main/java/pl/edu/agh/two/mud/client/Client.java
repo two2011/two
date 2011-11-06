@@ -29,7 +29,11 @@ public class Client {
 	public void start(String host, int port) {
 		try {
 			mainWindow.open();
-			// connection.connect(host, port);
+			connection.connect(host, port);
+			connection.start();
+			
+			// TODO [ksobon] Remove sysout !
+			System.out.println("AA");
 			// gui.setLabel(connection.read().toString());
 		} catch (Exception e) {
 			logger.error("Connection with \"" + host + ":" + port

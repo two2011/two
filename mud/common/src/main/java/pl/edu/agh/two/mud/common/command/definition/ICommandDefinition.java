@@ -1,10 +1,11 @@
 package pl.edu.agh.two.mud.common.command.definition;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-public interface ICommandDefinition {
+public interface ICommandDefinition extends Serializable {
 
 	String getId();
 

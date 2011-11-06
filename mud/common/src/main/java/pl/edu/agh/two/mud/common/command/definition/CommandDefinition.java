@@ -9,6 +9,7 @@ import java.util.Map;
 
 public class CommandDefinition implements ICommandDefinition {
 
+	private static final long serialVersionUID = -4083137119523819979L;
 	private String id;
 	private Collection<String> names;
 	private String description;

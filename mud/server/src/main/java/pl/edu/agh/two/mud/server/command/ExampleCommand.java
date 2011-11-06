@@ -5,35 +5,40 @@ import pl.edu.agh.two.mud.common.command.annotation.Alias;
 import pl.edu.agh.two.mud.common.command.annotation.OrderedParam;
 import pl.edu.agh.two.mud.common.command.type.Text;
 
-// Pamietacje o wrzuceniu waszych komend do applicationContext.xml jako beany, to jest przyklad i nie wrzucalem do springa.
-
 @Alias({ "example", "ex" })
 public class ExampleCommand extends UICommand {
 
 	@OrderedParam(1)
-	private String playerLogin;
+	private String param1;
 
 	@OrderedParam(2)
-	private int money;
+	private int param2;
 
 	@OrderedParam(3)
-	private Text chatText;
+	private Integer param3;
+
+	@OrderedParam(4)
+	private Text param4;
 
 	@Override
 	public String getDescription() {
-		return "TUTAJ WRZUCAC USAGE";
+		return "Przykladowa komenda. Jej uzycie spowoduje wypisanie wszystkich parameterow na konsoli serwera.\n\t example[ex] <param1> <param2> <param3> <param4>";
 	}
 
-	public String getPlayerLogin() {
-		return playerLogin;
+	public String getParam1() {
+		return param1;
 	}
 
-	public int getMoney() {
-		return money;
+	public int getParam2() {
+		return param2;
 	}
 
-	public Text getChatText() {
-		return chatText;
+	public Integer getParam3() {
+		return param3;
+	}
+
+	public Text getParam4() {
+		return param4;
 	}
 
 }
