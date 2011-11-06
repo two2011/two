@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import pl.edu.agh.two.mud.common.command.Command;
+import pl.edu.agh.two.mud.common.command.UICommand;
 import pl.edu.agh.two.mud.common.command.annotation.Alias;
 import pl.edu.agh.two.mud.common.command.annotation.OrderedParam;
 import pl.edu.agh.two.mud.common.command.definition.CommandDefinition;
@@ -19,9 +20,10 @@ import pl.edu.agh.two.mud.common.command.definition.ICommandDefinition;
 import pl.edu.agh.two.mud.common.command.definition.ICommandParameterDefinition;
 import pl.edu.agh.two.mud.common.command.type.Text;
 
-public class CommandToDefinitionConverter {
+public class UICommandToDefinitionConverter {
 
-	public ICommandDefinition convertToCommandDefinition(Command command) {
+	public ICommandDefinition convertToCommandDefinition(
+			UICommand command) {
 		Class<? extends Command> clazz = command.getClass();
 
 		String id = command.getId();

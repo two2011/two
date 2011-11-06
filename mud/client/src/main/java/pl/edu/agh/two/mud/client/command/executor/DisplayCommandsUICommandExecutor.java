@@ -7,15 +7,15 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
-import pl.edu.agh.two.mud.client.command.DisplayCommandsCommand;
+import pl.edu.agh.two.mud.client.command.DisplayCommandsUICommand;
 import pl.edu.agh.two.mud.client.command.registry.ICommandDefinitionRegistry;
 import pl.edu.agh.two.mud.client.ui.Console;
 import pl.edu.agh.two.mud.client.ui.MainWindow;
 import pl.edu.agh.two.mud.common.command.definition.ICommandDefinition;
 import pl.edu.agh.two.mud.common.command.executor.CommandExecutor;
 
-public class DisplayCommandsCommandExecutor implements
-		CommandExecutor<DisplayCommandsCommand> {
+public class DisplayCommandsUICommandExecutor implements
+		CommandExecutor<DisplayCommandsUICommand> {
 
 	private Console console;
 
@@ -31,7 +31,7 @@ public class DisplayCommandsCommandExecutor implements
 	}
 
 	@Override
-	public void execute(DisplayCommandsCommand command) {
+	public void execute(DisplayCommandsUICommand command) {
 		StringBuilder builder = new StringBuilder();
 
 		List<ICommandDefinition> commandDefinitions = new ArrayList<ICommandDefinition>(

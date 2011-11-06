@@ -11,24 +11,24 @@ import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.Test;
 
-import pl.edu.agh.two.mud.common.command.Command;
+import pl.edu.agh.two.mud.common.command.UICommand;
 import pl.edu.agh.two.mud.common.command.annotation.Alias;
 import pl.edu.agh.two.mud.common.command.annotation.OrderedParam;
 import pl.edu.agh.two.mud.common.command.definition.ICommandDefinition;
 import pl.edu.agh.two.mud.common.command.type.Text;
 
-public class CommandToDefinitionConverterTest {
+public class UICommandToDefinitionConverterTest {
 
-	private CommandToDefinitionConverter converter;
+	private UICommandToDefinitionConverter converter;
 
 	@Before
 	public void prepareTest() {
-		converter = new CommandToDefinitionConverter();
+		converter = new UICommandToDefinitionConverter();
 	}
 
 	@Test
 	public void noIdCommand() {
-		Command command = mock(Command.class);
+		UICommand command = mock(UICommand.class);
 		when(command.getId()).thenReturn(null);
 		try {
 			converter.convertToCommandDefinition(command);
@@ -39,7 +39,7 @@ public class CommandToDefinitionConverterTest {
 
 	@Test
 	public void noAliasCommand() {
-		Command command = new Command() {
+		UICommand command = new UICommand() {
 
 			@Override
 			public String getDescription() {
@@ -57,7 +57,7 @@ public class CommandToDefinitionConverterTest {
 	@Test
 	public void emptyAliasCommand() {
 		@Alias({})
-		class TestCommand extends Command {
+		class TestCommand extends UICommand {
 			@Override
 			public String getDescription() {
 				return null;
@@ -74,7 +74,7 @@ public class CommandToDefinitionConverterTest {
 	@Test
 	public void commandWithoutDescription() {
 		@Alias(value = { "whathever" })
-		class TestCommand extends Command {
+		class TestCommand extends UICommand {
 			@Override
 			public String getDescription() {
 				return null;
@@ -95,7 +95,7 @@ public class CommandToDefinitionConverterTest {
 		final String description = "description";
 
 		@Alias({ alias1, alias2 })
-		class TestCommand extends Command {
+		class TestCommand extends UICommand {
 			@Override
 			public String getDescription() {
 				return description;
@@ -118,7 +118,7 @@ public class CommandToDefinitionConverterTest {
 
 		@SuppressWarnings("unused")
 		@Alias({ "command1" })
-		class TestCommand extends Command {
+		class TestCommand extends UICommand {
 
 			@OrderedParam(1)
 			private Text param1;
@@ -146,7 +146,7 @@ public class CommandToDefinitionConverterTest {
 
 		@SuppressWarnings("unused")
 		@Alias({ "command1" })
-		class TestCommand extends Command {
+		class TestCommand extends UICommand {
 
 			@OrderedParam(7)
 			private String param1;
@@ -175,7 +175,7 @@ public class CommandToDefinitionConverterTest {
 
 		@SuppressWarnings("unused")
 		@Alias({ alias1 })
-		class TestCommand extends Command {
+		class TestCommand extends UICommand {
 
 			@OrderedParam(1)
 			private String param1;
@@ -206,7 +206,7 @@ public class CommandToDefinitionConverterTest {
 
 		@SuppressWarnings("unused")
 		@Alias({ alias1 })
-		class TestCommand extends Command {
+		class TestCommand extends UICommand {
 
 			@OrderedParam(1)
 			private Integer param1;
@@ -237,7 +237,7 @@ public class CommandToDefinitionConverterTest {
 
 		@SuppressWarnings("unused")
 		@Alias({ alias1 })
-		class TestCommand extends Command {
+		class TestCommand extends UICommand {
 
 			@OrderedParam(1)
 			private int param1;
@@ -268,7 +268,7 @@ public class CommandToDefinitionConverterTest {
 
 		@SuppressWarnings("unused")
 		@Alias({ alias1 })
-		class TestCommand extends Command {
+		class TestCommand extends UICommand {
 
 			@OrderedParam(1)
 			private Text param1;
@@ -298,7 +298,7 @@ public class CommandToDefinitionConverterTest {
 
 		@SuppressWarnings("unused")
 		@Alias({ "command1" })
-		class TestCommand extends Command {
+		class TestCommand extends UICommand {
 
 			@OrderedParam(1)
 			private Object param1;

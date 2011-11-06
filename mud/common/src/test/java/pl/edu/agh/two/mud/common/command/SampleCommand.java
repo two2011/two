@@ -1,55 +1,56 @@
 package pl.edu.agh.two.mud.common.command;
 
-import pl.edu.agh.two.mud.common.command.annotation.*;
-import pl.edu.agh.two.mud.common.command.type.*;
+import pl.edu.agh.two.mud.common.command.annotation.Alias;
+import pl.edu.agh.two.mud.common.command.annotation.OrderedParam;
+import pl.edu.agh.two.mud.common.command.type.Text;
 
 @Alias({ "test", "test2" })
-public class SampleCommand extends Command {
+public class SampleCommand extends UICommand {
 
-    @OrderedParam(1)
-    private String stringParam;
+	@OrderedParam(1)
+	private String stringParam;
 
-    @OrderedParam(2)
-    private int intParam;
-    
-    @OrderedParam(3)
-    private Integer IntegerParam;
-    
-    @OrderedParam(4)
-    private double doubleParam;
-    
-    @OrderedParam(5)
-    private Double DoubleParam;
+	@OrderedParam(2)
+	private int intParam;
 
-    @OrderedParam(6)
-    private Text textParam;
+	@OrderedParam(3)
+	private Integer IntegerParam;
 
-    @Override
-    public String getDescription() {
-        return null;
-    }
+	@OrderedParam(4)
+	private double doubleParam;
 
-    public String getStringParam() {
-        return stringParam;
-    }
+	@OrderedParam(5)
+	private Double DoubleParam;
 
-    public int getIntParam() {
-        return intParam;
-    }
+	@OrderedParam(6)
+	private Text textParam;
 
-    public Text getTextParam() {
-        return textParam;
-    }
-    
-    public double getdoubleParam() {
+	@Override
+	public String getDescription() {
+		return null;
+	}
+
+	public String getStringParam() {
+		return stringParam;
+	}
+
+	public int getIntParam() {
+		return intParam;
+	}
+
+	public Text getTextParam() {
+		return textParam;
+	}
+
+	public double getdoubleParam() {
 		return doubleParam;
 	}
-    
-    public Integer getIntegerParam() {
+
+	public Integer getIntegerParam() {
 		return IntegerParam;
 	}
-    
-    public Double getDoubleParam() {
+
+	public Double getDoubleParam() {
 		return DoubleParam;
 	}
 

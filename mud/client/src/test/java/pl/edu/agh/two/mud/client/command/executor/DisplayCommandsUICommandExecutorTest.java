@@ -14,18 +14,18 @@ import java.util.Collections;
 import org.junit.Before;
 import org.junit.Test;
 
-import pl.edu.agh.two.mud.client.command.DisplayCommandsCommand;
+import pl.edu.agh.two.mud.client.command.DisplayCommandsUICommand;
 import pl.edu.agh.two.mud.client.command.registry.ICommandDefinitionRegistry;
 import pl.edu.agh.two.mud.client.ui.Console;
 import pl.edu.agh.two.mud.client.ui.MainWindow;
 import pl.edu.agh.two.mud.common.command.definition.ICommandDefinition;
 
-public class DisplayCommandsCommandExecutorTest {
+public class DisplayCommandsUICommandExecutorTest {
 
 	private MainWindow mainWindow;
 	private Console console;
 	private ICommandDefinitionRegistry commandDefinitionRegistry;
-	private DisplayCommandsCommandExecutor executor;
+	private DisplayCommandsUICommandExecutor executor;
 
 	@Before
 	public void prepareTest() {
@@ -39,7 +39,7 @@ public class DisplayCommandsCommandExecutorTest {
 		// Command Definition Registry
 		commandDefinitionRegistry = mock(ICommandDefinitionRegistry.class);
 
-		executor = new DisplayCommandsCommandExecutor();
+		executor = new DisplayCommandsUICommandExecutor();
 		executor.setMainWindow(mainWindow);
 		executor.setCommandDefinitionRegistry(commandDefinitionRegistry);
 	}
@@ -50,7 +50,7 @@ public class DisplayCommandsCommandExecutorTest {
 		when(commandDefinitionRegistry.getCommandDefinitions()).thenReturn(
 				commands);
 
-		executor.execute(new DisplayCommandsCommand());
+		executor.execute(new DisplayCommandsUICommand());
 		verify(console, only()).appendTextToConsole(matches("^Brak komend.$"));
 	}
 
@@ -64,7 +64,7 @@ public class DisplayCommandsCommandExecutorTest {
 		when(commandDefinitionRegistry.getCommandDefinitions()).thenReturn(
 				Arrays.asList(new ICommandDefinition[] { commandDefinition }));
 
-		executor.execute(new DisplayCommandsCommand());
+		executor.execute(new DisplayCommandsUICommand());
 		verify(console, only()).appendTextToConsole(
 				startsWith("Dostepne komendy:"));
 	}
@@ -85,7 +85,7 @@ public class DisplayCommandsCommandExecutorTest {
 				Arrays.asList(new ICommandDefinition[] { commandDefinition1,
 						commandDefinition2 }));
 
-		executor.execute(new DisplayCommandsCommand());
+		executor.execute(new DisplayCommandsUICommand());
 		verify(console, only())
 				.appendTextToConsole(
 						matches("Dostepne komendy:.*\\s*- a.*\\s*.*\\s*- b.*\\s*.*\\s*$"));

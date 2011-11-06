@@ -44,10 +44,6 @@ public class ClientCommandFactoryTest extends ReflexiveCommandFactoryTest {
 	@Test
 	public void testInternalCommand() {
 		class InnerCommand extends Command {
-			@Override
-			public String getDescription() {
-				return "description";
-			}
 		}
 
 		InnerCommand innerCommand = new InnerCommand();
