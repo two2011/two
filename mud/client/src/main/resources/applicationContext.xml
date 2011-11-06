@@ -16,6 +16,8 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 		class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor" />
 
 	<bean id="mainWindow" class="pl.edu.agh.two.mud.client.ui.MainWindow" />
+	<bean id="mainConsole" class="pl.edu.agh.two.mud.client.ui.Console"
+		factory-bean="mainWindow" factory-method="getMainConsole" />
 
 	<bean id="client" class="pl.edu.agh.two.mud.client.Client" scope="singleton">
 		<constructor-arg ref="mainWindow" />
@@ -75,9 +77,17 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 		<property name="mainWindow" ref="mainWindow" />
 	</bean>
 
+	<bean class="pl.edu.agh.two.mud.client.command.DelegateToServerCommand" />
 	<bean
 		class="pl.edu.agh.two.mud.client.command.executor.DelegateToServerCommandExecutor">
 		<property name="connection" ref="connection" />
+		<property name="dispatcher" ref="dispatcher" />
+	</bean>
+
+	<bean class="pl.edu.agh.two.mud.client.command.WriteErrorOnConsoleCommand" />
+	<bean
+		class="pl.edu.agh.two.mud.client.command.executor.WriteErrorOnConsoleCommandExecutor">
+		<property name="console" ref="mainConsole" />
 	</bean>
 	<!-- END: Commands & Executors -->
 
