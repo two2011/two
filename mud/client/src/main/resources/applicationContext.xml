@@ -64,12 +64,16 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	<bean id="consoleController" class="pl.edu.agh.two.mud.client.controller.ConsoleController">
 		<constructor-arg ref="mainWindow" />
 		<constructor-arg ref="commandParser" />
-		<constructor-arg ref="commandDefinitionRegistry" />
 		<constructor-arg ref="dispatcher" />
 	</bean>
 
 	<!-- BEGIN: Commands & Executors -->
 	<bean class="pl.edu.agh.two.mud.client.command.DisplayCommandsCommand" />
+	<bean
+		class="pl.edu.agh.two.mud.client.command.DisplayCommandsCommandExecutor">
+		<property name="commandDefinitionRegistry" ref="commandDefinitionRegistry" />
+		<property name="mainWindow" ref="mainWindow" />
+	</bean>
 	<!-- END: Commands & Executors -->
 
 

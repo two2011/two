@@ -1,18 +1,13 @@
 package pl.edu.agh.two.mud.client.controller;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Iterator;
-import java.util.List;
 
 import org.apache.log4j.Logger;
 
 import pl.edu.agh.two.mud.client.command.exception.InvalidCommandParametersException;
 import pl.edu.agh.two.mud.client.command.exception.UnknownCommandException;
 import pl.edu.agh.two.mud.client.command.parser.ICommandParser;
-import pl.edu.agh.two.mud.client.command.registry.ICommandDefinitionRegistry;
 import pl.edu.agh.two.mud.client.ui.Console;
 import pl.edu.agh.two.mud.client.ui.Console.ICommandLineListener;
 import pl.edu.agh.two.mud.client.ui.MainWindow;
@@ -26,15 +21,12 @@ public class ConsoleController implements ICommandLineListener {
 
 	private Console console;
 	private ICommandParser commandParser;
-	private ICommandDefinitionRegistry commandDefinitionRegistry;
 	private Dispatcher dispatcher;
 
 	public ConsoleController(MainWindow window, ICommandParser commandParser,
-			ICommandDefinitionRegistry commandDefinitionRegistry,
 			Dispatcher dispatcher) {
 		this.console = window.getMainConsole();
 		this.commandParser = commandParser;
-		this.commandDefinitionRegistry = commandDefinitionRegistry;
 		this.dispatcher = dispatcher;
 
 		// TODO [ksobon] Controller should be registered as listener after user
@@ -54,7 +46,6 @@ public class ConsoleController implements ICommandLineListener {
 		} catch (UnknownCommandException e) {
 			console.appendTextToConsole(String.format(
 					"Komenda \"%s\" jest nieznana.", e.getCommandName()));
-			console.appendTextToConsole(getAvailableCommands());
 		} catch (InvalidCommandParametersException e) {
 			console.appendTextToConsole(String.format(
 					"Komenda \"%s\" zostala niepoprawnie uzyta.",
@@ -64,33 +55,6 @@ public class ConsoleController implements ICommandLineListener {
 		} catch (Throwable t) {
 			log.error("Unexpected error during command parsing", t);
 		}
-	}
-
-	private String getAvailableCommands() {
-		StringBuilder builder = new StringBuilder();
-
-		List<ICommandDefinition> commandDefinitions = new ArrayList<ICommandDefinition>(
-				commandDefinitionRegistry.getCommandDefinitions());
-		Collections.sort(commandDefinitions,
-				new Comparator<ICommandDefinition>() {
-
-					@Override
-					public int compare(ICommandDefinition o1,
-							ICommandDefinition o2) {
-						return o1.getNames().iterator().next()
-								.compareTo(o2.getNames().iterator().next());
-					}
-				});
-		if (commandDefinitions.size() > 0) {
-			builder.append("Dostepne komendy:\n");
-			for (ICommandDefinition commandDefinition : commandDefinitions) {
-				builder.append(getCommand(commandDefinition));
-			}
-		} else {
-			builder.append("Brak komend.");
-		}
-
-		return builder.toString();
 	}
 
 	private String getCommand(ICommandDefinition commandDefinition) {
