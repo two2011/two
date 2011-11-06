@@ -10,10 +10,9 @@ import org.junit.Test;
 import pl.edu.agh.two.mud.client.command.DelegateToServerCommand;
 import pl.edu.agh.two.mud.common.command.Command;
 import pl.edu.agh.two.mud.common.command.IParsedCommand;
-import pl.edu.agh.two.mud.common.command.factory.ReflexiveCommandFactoryTest;
 import pl.edu.agh.two.mud.common.command.provider.CommandProvider;
 
-public class ClientCommandFactoryTest extends ReflexiveCommandFactoryTest {
+public class ClientCommandFactoryTest {
 
 	private ClientCommandFactory factory;
 
