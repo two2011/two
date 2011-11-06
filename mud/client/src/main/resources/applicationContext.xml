@@ -39,7 +39,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	</bean>
 
 	<bean id="commandFactory"
-		class="pl.edu.agh.two.mud.common.command.factory.ReflexiveCommandFactory">
+		class="pl.edu.agh.two.mud.client.command.factory.ClientCommandFactory">
 		<property name="commandProvider" ref="commandProvider" />
 	</bean>
 
@@ -73,6 +73,11 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 		class="pl.edu.agh.two.mud.client.command.executor.DisplayCommandsCommandExecutor">
 		<property name="commandDefinitionRegistry" ref="commandDefinitionRegistry" />
 		<property name="mainWindow" ref="mainWindow" />
+	</bean>
+
+	<bean
+		class="pl.edu.agh.two.mud.client.command.executor.DelegateToServerCommandExecutor">
+		<property name="connection" ref="connection" />
 	</bean>
 	<!-- END: Commands & Executors -->
 
