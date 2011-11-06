@@ -8,6 +8,7 @@ public interface CommandProvider {
 	
 	Command getCommandById(String commandId);
 	List<Command> getAvailableCommands();
+	boolean isCommandAvailable(String commandId);
 	
 
 }

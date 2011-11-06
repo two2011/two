@@ -36,6 +36,11 @@ public class SpringCommandProvider implements CommandProvider {
 		}
 		return availableCommands;
 	}
+	
+	@Override
+	public boolean isCommandAvailable(String commandId) {
+		return commandClassesById.containsKey(commandId);
+	}
 
 	protected void registerCommand(String id,
 			Class<? extends Command> commandClass) {
