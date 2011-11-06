@@ -1,4 +1,4 @@
-package pl.edu.agh.two.mud.client.command;
+package pl.edu.agh.two.mud.client.command.parser;
 
 import java.util.ArrayList;
 import java.util.Arrays;

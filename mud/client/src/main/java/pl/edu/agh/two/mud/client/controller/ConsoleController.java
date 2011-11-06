@@ -1,4 +1,4 @@
-package pl.edu.agh.two.mud.client.command;
+package pl.edu.agh.two.mud.client.controller;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,12 +12,14 @@ import org.apache.log4j.Logger;
 import pl.edu.agh.two.mud.client.command.exception.InvalidCommandParametersException;
 import pl.edu.agh.two.mud.client.command.exception.UnavailableCommandException;
 import pl.edu.agh.two.mud.client.command.exception.UnknownCommandException;
+import pl.edu.agh.two.mud.client.command.parser.ICommandParser;
 import pl.edu.agh.two.mud.client.command.registry.ICommandDefinitionRegistry;
 import pl.edu.agh.two.mud.client.ui.Console;
 import pl.edu.agh.two.mud.client.ui.Console.ICommandLineListener;
 import pl.edu.agh.two.mud.client.ui.MainWindow;
 import pl.edu.agh.two.mud.common.command.IParsedCommand;
 import pl.edu.agh.two.mud.common.command.definition.ICommandDefinition;
+import pl.edu.agh.two.mud.common.command.dispatcher.Dispatcher;
 
 public class ConsoleController implements ICommandLineListener {
 
@@ -26,12 +28,15 @@ public class ConsoleController implements ICommandLineListener {
 	private Console console;
 	private ICommandParser commandParser;
 	private ICommandDefinitionRegistry commandDefinitionRegistry;
+	private Dispatcher dispatcher;
 
 	public ConsoleController(MainWindow window, ICommandParser commandParser,
-			ICommandDefinitionRegistry commandDefinitionRegistry) {
+			ICommandDefinitionRegistry commandDefinitionRegistry,
+			Dispatcher dispatcher) {
 		this.console = window.getMainConsole();
 		this.commandParser = commandParser;
 		this.commandDefinitionRegistry = commandDefinitionRegistry;
+		this.dispatcher = dispatcher;
 
 		// TODO [ksobon] Controller should be registered as listener after user
 		// connects with server
@@ -46,15 +51,7 @@ public class ConsoleController implements ICommandLineListener {
 	private void handleConsoleCommand(String command) {
 		try {
 			IParsedCommand parsedCommand = commandParser.parse(command);
-
-			// Client Commands "Hack"
-			if (parsedCommand.getCommandId().equals(
-					ClientCommands.COMMAND_COMMANDS_ID)) {
-				console.appendTextToConsole(getAvailableCommands());
-			} else {
-				// TODO [ksobon] Do the magic stuff !!
-			}
-
+			dispatcher.dispatch(parsedCommand);
 		} catch (UnknownCommandException e) {
 			console.appendTextToConsole(String.format(
 					"Komenda \"%s\" jest nieznana.", e.getCommandName()));

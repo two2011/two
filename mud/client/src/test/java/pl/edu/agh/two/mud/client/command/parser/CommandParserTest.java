@@ -1,4 +1,4 @@
-package pl.edu.agh.two.mud.client.command;
+package pl.edu.agh.two.mud.client.command.parser;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -19,6 +19,7 @@ import pl.edu.agh.two.mud.client.command.exception.CommandParsingException;
 import pl.edu.agh.two.mud.client.command.exception.InvalidCommandParametersException;
 import pl.edu.agh.two.mud.client.command.exception.UnavailableCommandException;
 import pl.edu.agh.two.mud.client.command.exception.UnknownCommandException;
+import pl.edu.agh.two.mud.client.command.parser.CommandParser;
 import pl.edu.agh.two.mud.client.command.registry.ICommandDefinitionRegistry;
 import pl.edu.agh.two.mud.common.command.IParsedCommand;
 import pl.edu.agh.two.mud.common.command.definition.ICommandDefinition;
