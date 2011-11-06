@@ -1,8 +1,5 @@
 package pl.edu.agh.two.mud.client.controller;
 
-import java.util.Collection;
-import java.util.Iterator;
-
 import org.apache.log4j.Logger;
 
 import pl.edu.agh.two.mud.client.command.exception.InvalidCommandParametersException;
@@ -12,7 +9,6 @@ import pl.edu.agh.two.mud.client.ui.Console;
 import pl.edu.agh.two.mud.client.ui.Console.ICommandLineListener;
 import pl.edu.agh.two.mud.client.ui.MainWindow;
 import pl.edu.agh.two.mud.common.command.IParsedCommand;
-import pl.edu.agh.two.mud.common.command.definition.ICommandDefinition;
 import pl.edu.agh.two.mud.common.command.dispatcher.Dispatcher;
 
 public class ConsoleController implements ICommandLineListener {
@@ -29,8 +25,6 @@ public class ConsoleController implements ICommandLineListener {
 		this.commandParser = commandParser;
 		this.dispatcher = dispatcher;
 
-		// TODO [ksobon] Controller should be registered as listener after user
-		// connects with server
 		console.addCommandLineListener(this);
 	}
 
@@ -50,33 +44,8 @@ public class ConsoleController implements ICommandLineListener {
 			console.appendTextToConsole(String.format(
 					"Komenda \"%s\" zostala niepoprawnie uzyta.",
 					e.getCommandName()));
-			console.appendTextToConsole("Poprawne uzycie:");
-			console.appendTextToConsole(getCommand(e.getCommandDefinition()));
 		} catch (Throwable t) {
 			log.error("Unexpected error during command parsing", t);
 		}
-	}
-
-	private String getCommand(ICommandDefinition commandDefinition) {
-		return String.format("      - %s\n            %s\n",
-				getNameWithAliases(commandDefinition.getNames()),
-				commandDefinition.getDescription());
-	}
-
-	private String getNameWithAliases(Collection<String> names) {
-		StringBuilder builder = new StringBuilder();
-		Iterator<String> iterator = names.iterator();
-		builder.append(iterator.next());
-
-		if (names.size() > 1) {
-			builder.append(" [");
-			while (iterator.hasNext()) {
-				builder.append(String.format("%s, ", iterator.next()));
-			}
-			builder.delete(builder.length() - 3, builder.length() - 1);
-			builder.append("]");
-		}
-
-		return builder.toString();
 	}
 }

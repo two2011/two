@@ -73,7 +73,7 @@ public class DisplayCommandsCommandExecutor implements
 			while (iterator.hasNext()) {
 				builder.append(String.format("%s, ", iterator.next()));
 			}
-			builder.delete(builder.length() - 3, builder.length() - 1);
+			builder.delete(builder.length() - 2, builder.length() - 1);
 			builder.append("]");
 		}
 
