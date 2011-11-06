@@ -5,7 +5,6 @@ import java.io.IOException;
 import org.apache.log4j.Logger;
 
 import pl.edu.agh.two.mud.client.configuration.ApplicationContext;
-import pl.edu.agh.two.mud.client.connection.impl.Connection;
 import pl.edu.agh.two.mud.client.ui.MainWindow;
 
 public class Client {

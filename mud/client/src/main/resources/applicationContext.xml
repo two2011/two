@@ -24,14 +24,13 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 		<property name="connection" ref="connection" />
 	</bean>
 
-	<bean id="connection"
-		class="pl.edu.agh.two.mud.client.connection.impl.ServerConnection"
+	<bean id="connection" class="pl.edu.agh.two.mud.client.Connection"
 		scope="singleton" />
 
 
 	<!-- BEGIN: Command infrastructure -->
 	<bean id="converter"
-		class="pl.edu.agh.two.mud.common.command.converter.CommandToDefinitionConverter" />
+		class="pl.edu.agh.two.mud.common.command.converter.UICommandToDefinitionConverter" />
 
 	<bean id="commandDefinitionRegistry"
 		class="pl.edu.agh.two.mud.client.command.registry.CommandDefinitionRegistry" />
@@ -70,21 +69,19 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	</bean>
 
 	<!-- BEGIN: Commands & Executors -->
-	<bean class="pl.edu.agh.two.mud.client.command.DisplayCommandsCommand" />
+	<bean class="pl.edu.agh.two.mud.client.command.DisplayCommandsUICommand" />
 	<bean
-		class="pl.edu.agh.two.mud.client.command.executor.DisplayCommandsCommandExecutor">
+		class="pl.edu.agh.two.mud.client.command.executor.DisplayCommandsUICommandExecutor">
 		<property name="commandDefinitionRegistry" ref="commandDefinitionRegistry" />
 		<property name="mainWindow" ref="mainWindow" />
 	</bean>
 
-	<bean class="pl.edu.agh.two.mud.client.command.DelegateToServerCommand" />
 	<bean
 		class="pl.edu.agh.two.mud.client.command.executor.DelegateToServerCommandExecutor">
 		<property name="connection" ref="connection" />
 		<property name="dispatcher" ref="dispatcher" />
 	</bean>
 
-	<bean class="pl.edu.agh.two.mud.client.command.WriteErrorOnConsoleCommand" />
 	<bean
 		class="pl.edu.agh.two.mud.client.command.executor.WriteErrorOnConsoleCommandExecutor">
 		<property name="console" ref="mainConsole" />
