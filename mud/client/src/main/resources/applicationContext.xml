@@ -70,7 +70,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	<!-- BEGIN: Commands & Executors -->
 	<bean class="pl.edu.agh.two.mud.client.command.DisplayCommandsCommand" />
 	<bean
-		class="pl.edu.agh.two.mud.client.command.DisplayCommandsCommandExecutor">
+		class="pl.edu.agh.two.mud.client.command.executor.DisplayCommandsCommandExecutor">
 		<property name="commandDefinitionRegistry" ref="commandDefinitionRegistry" />
 		<property name="mainWindow" ref="mainWindow" />
 	</bean>

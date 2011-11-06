@@ -1,4 +1,4 @@
-package pl.edu.agh.two.mud.client.command;
+package pl.edu.agh.two.mud.client.command.executor;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
+import pl.edu.agh.two.mud.client.command.DisplayCommandsCommand;
 import pl.edu.agh.two.mud.client.command.registry.ICommandDefinitionRegistry;
 import pl.edu.agh.two.mud.client.ui.Console;
 import pl.edu.agh.two.mud.client.ui.MainWindow;
