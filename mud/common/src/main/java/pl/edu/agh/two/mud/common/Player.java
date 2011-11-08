@@ -3,6 +3,8 @@ package pl.edu.agh.two.mud.common;
 public class Player implements IPlayer {
 
 	private String name;
+	
+	private String password;
 
 	private int strength;
 
@@ -24,6 +26,16 @@ public class Player implements IPlayer {
 	@Override
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	@Override
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	@Override
+	public String getPassword() {
+		return password;
 	}
 
 	@Override
@@ -85,7 +97,6 @@ public class Player implements IPlayer {
 	public void setLevel(Integer level) {
 		this.level = level;
 	}
-
 
 
 }

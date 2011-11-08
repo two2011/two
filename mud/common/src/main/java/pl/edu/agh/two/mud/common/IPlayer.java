@@ -5,6 +5,10 @@ public interface IPlayer {
 	public abstract String getName();
 
 	public abstract void setName(String name);
+	
+	public abstract String getPassword();
+
+	public abstract void setPassword(String password);
 
 	public abstract Integer getStrength();
 
@@ -29,5 +33,6 @@ public interface IPlayer {
 	public abstract Integer getLevel();
 
 	public abstract void setLevel(Integer level);
+
 
 }
