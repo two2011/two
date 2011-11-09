@@ -42,10 +42,16 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	</bean>
 	<bean id="mailer" class="pl.edu.agh.two.mud.server.mail.Mailer" />
 	<bean id="serviceRegistry" class="pl.edu.agh.two.mud.server.ServiceRegistry" />
-	<bean id="board" class="pl.edu.agh.two.mud.server.world.model.Board" scope="singleton" />
+	<bean id="board" class="pl.edu.agh.two.mud.server.world.model.Board"
+		scope="singleton" />
 
 	<!-- BEGIN: Commands & Executors -->
 	<bean class="pl.edu.agh.two.mud.server.command.ExampleCommand" />
+	<bean class="pl.edu.agh.two.mud.server.command.LogInCommand" />
+	<bean class="pl.edu.agh.two.mud.server.executor.LogInCommandExecutor">
+		<property name="board" ref="board" />
+		<property name="serviceRegistry" ref="serviceRegistry" />
+	</bean>
 	<bean class="pl.edu.agh.two.mud.server.command.RegisterCommand" />
 	<bean class="pl.edu.agh.two.mud.server.executor.ExampleCommandExecutor" />
 	<bean class="pl.edu.agh.two.mud.server.executor.RegisterCommandExecutor">

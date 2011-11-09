@@ -5,15 +5,12 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketAddress;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.log4j.Logger;
 
 import pl.edu.agh.two.mud.common.command.IParsedCommand;
 import pl.edu.agh.two.mud.common.command.UICommand;
 import pl.edu.agh.two.mud.common.command.converter.UICommandToDefinitionConverter;
-import pl.edu.agh.two.mud.common.command.definition.ICommandDefinition;
 import pl.edu.agh.two.mud.common.command.dispatcher.Dispatcher;
 import pl.edu.agh.two.mud.common.command.provider.CommandProvider;
 
@@ -42,7 +39,7 @@ public class Service extends Thread {
 		try {
 			// Send commands defined by server to clients
 			for (UICommand uiCommand : commandProvider.getUICommands()) {
-				out.writeObject(converter.convertToCommandDefinition(uiCommand));
+				writeObject(converter.convertToCommandDefinition(uiCommand));
 			}
 
 			// TODO: First send to client CommandDefinitions,
@@ -62,6 +59,10 @@ public class Service extends Thread {
 			logger.error(clientAddress + " - closing client socket error: "
 					+ e.getMessage());
 		}
+	}
+
+	public synchronized void writeObject(Object o) throws IOException {
+		out.writeObject(o);
 	}
 
 	public void setDispatcher(Dispatcher dispatcher) {

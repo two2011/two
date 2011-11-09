@@ -8,6 +8,8 @@ import java.net.Socket;
 import org.apache.log4j.Logger;
 
 import pl.edu.agh.two.mud.client.command.registry.ICommandDefinitionRegistry;
+import pl.edu.agh.two.mud.client.ui.MainWindow;
+import pl.edu.agh.two.mud.common.IPlayer;
 import pl.edu.agh.two.mud.common.command.definition.ICommandDefinition;
 
 public class Connection extends Thread {
@@ -18,6 +20,7 @@ public class Connection extends Thread {
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
 	private ICommandDefinitionRegistry commandDefinitionRegistry;
+	private MainWindow mainWindow;
 
 	public void connect(String host, int port) throws IOException {
 		socket = new Socket(host, port);
@@ -42,9 +45,18 @@ public class Connection extends Thread {
 				// Message handling
 				// TODO Should be more generic !
 				if (object instanceof ICommandDefinition) {
-					commandDefinitionRegistry.registerCommandDefinition((ICommandDefinition)object);
+					commandDefinitionRegistry
+							.registerCommandDefinition((ICommandDefinition) object);
 				}
 
+				if (object instanceof IPlayer) {
+					mainWindow.getPlayerPanel().updateHero((IPlayer) object);
+				}
+
+				if (object instanceof String) {
+					mainWindow.getMainConsole().appendTextToConsole(
+							(String) object);
+				}
 			} catch (Exception e) {
 				logger.error("Error during reading message from server", e);
 				e.printStackTrace();
@@ -55,6 +67,14 @@ public class Connection extends Thread {
 	public void setCommandDefinitionRegistry(
 			ICommandDefinitionRegistry commandDefinitionRegistry) {
 		this.commandDefinitionRegistry = commandDefinitionRegistry;
+	}
+
+	public MainWindow getMainWindow() {
+		return mainWindow;
+	}
+
+	public void setMainWindow(MainWindow mainWindow) {
+		this.mainWindow = mainWindow;
 	}
 
 }

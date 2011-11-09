@@ -30,4 +30,10 @@ public class ServiceRegistry implements IServiceRegistry {
 		map.put(service, player);
 	}
 
+	@Override
+	public Service getCurrentService() {
+		Thread thread = Thread.currentThread();
+		return (thread instanceof Service) ? (Service) thread : null;
+	}
+
 }

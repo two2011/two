@@ -11,7 +11,7 @@ public class LogInCommand extends UICommand {
 	private String name;
 
 	@OrderedParam(2)
-	private int password;
+	private String password;
 
 	@Override
 	public String getDescription() {
@@ -23,7 +23,7 @@ public class LogInCommand extends UICommand {
 		return name;
 	}
 
-	public int getPassword() {
+	public String getPassword() {
 		return password;
 	}
 

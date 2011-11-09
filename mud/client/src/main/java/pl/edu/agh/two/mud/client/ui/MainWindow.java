@@ -12,6 +12,8 @@ public class MainWindow {
 
 	private Console mainConsole;
 
+	private PlayerPanel playerPanel;
+
 	/**
 	 * Opens application window.
 	 */
@@ -47,8 +49,8 @@ public class MainWindow {
 		mainConsole = new Console();
 		frame.getContentPane().add(mainConsole, "cell 0 0 1 2,grow");
 
-		PlayerPanel playerPanel = new PlayerPanel();
-		frame.getContentPane().add(playerPanel, "cell 1 0,grow");
+		playerPanel = new PlayerPanel();
+		frame.getContentPane().add(getPlayerPanel(), "cell 1 0,grow");
 
 		Console chatConsole = new Console();
 		frame.getContentPane().add(chatConsole, "cell 1 1,grow");
@@ -56,6 +58,10 @@ public class MainWindow {
 
 	public Console getMainConsole() {
 		return mainConsole;
+	}
+
+	public PlayerPanel getPlayerPanel() {
+		return playerPanel;
 	}
 
 }

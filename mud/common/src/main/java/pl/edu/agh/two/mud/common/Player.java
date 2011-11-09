@@ -1,22 +1,26 @@
 package pl.edu.agh.two.mud.common;
 
-public class Player implements IPlayer {
+import java.io.Serializable;
+
+public class Player implements IPlayer, Serializable {
+
+	private static final long serialVersionUID = 6035858257763542932L;
 
 	private String name;
-	
+
 	private String password;
 
-	private int strength;
+	private int strength = 1;
 
-	private int power;
+	private int power = 1;
 
-	private int agililty;
+	private int agililty = 1;
 
-	private int gold;
+	private int gold = 0;
 
-	private int experience;
+	private int experience = 0;
 
-	private int level;
+	private int level = 1;
 
 	@Override
 	public String getName() {
@@ -27,7 +31,7 @@ public class Player implements IPlayer {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	@Override
 	public void setPassword(String password) {
 		this.password = password;

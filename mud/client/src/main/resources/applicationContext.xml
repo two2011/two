@@ -27,6 +27,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	<bean id="connection" class="pl.edu.agh.two.mud.client.Connection"
 		scope="singleton">
 		<property name="commandDefinitionRegistry" ref="commandDefinitionRegistry" />
+		<property name="mainWindow" ref="mainWindow" />
 	</bean>
 
 
@@ -89,7 +90,6 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 		<property name="console" ref="mainConsole" />
 	</bean>
 	<!-- END: Commands & Executors -->
-
 
 
 </beans>
