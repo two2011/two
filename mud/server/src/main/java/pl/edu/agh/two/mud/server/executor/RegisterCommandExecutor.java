@@ -1,8 +1,9 @@
-package pl.edu.agh.two.mud.server.command.executor;
+package pl.edu.agh.two.mud.server.executor;
 
 import javax.mail.MessagingException;
 
 import pl.edu.agh.two.mud.common.Player;
+import pl.edu.agh.two.mud.common.command.executor.CommandExecutor;
 import pl.edu.agh.two.mud.server.command.RegisterCommand;
 import pl.edu.agh.two.mud.server.mail.Mailer;
 import pl.edu.agh.two.mud.server.world.model.Board;
@@ -33,4 +34,7 @@ public class RegisterCommandExecutor implements
 		this.board = board;
 	}
 
+	public void setMailer(Mailer mailer) {
+		this.mailer = mailer;
+	}
 }
