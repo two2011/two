@@ -3,7 +3,7 @@ package pl.edu.agh.two.mud.common.command.definition;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,7 +13,7 @@ public class CommandDefinition implements ICommandDefinition {
 	private String id;
 	private Collection<String> names;
 	private String description;
-	private Map<String, ICommandParameterDefinition> parametersMap = new HashMap<String, ICommandParameterDefinition>();
+	private Map<String, ICommandParameterDefinition> parametersMap = new LinkedHashMap<String, ICommandParameterDefinition>();
 	boolean textParam;
 
 	public CommandDefinition(String id, Collection<String> names,
