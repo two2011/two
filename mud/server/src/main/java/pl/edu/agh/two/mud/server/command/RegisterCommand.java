@@ -6,10 +6,10 @@ import pl.edu.agh.two.mud.common.command.annotation.OrderedParam;
 
 @Alias({"rejestruj", "rej"})
 public class RegisterCommand extends UICommand {
-	
+
 	@OrderedParam(1)
 	private String login;
-	
+
 	@OrderedParam(2)
 	private String email;
 

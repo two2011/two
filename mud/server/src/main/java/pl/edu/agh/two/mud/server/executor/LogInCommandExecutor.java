@@ -19,10 +19,10 @@ public class LogInCommandExecutor implements CommandExecutor<LogInCommand> {
 	public void execute(LogInCommand command) {
 		String login = command.getLogin();
 		String password = command.getPassword();
+		Service service = serviceRegistry.getCurrentService();
 		try {
 			IPlayer player = board.getPlayerByName(login);
 			if (player.getPassword().equals(password)) {
-				Service service = serviceRegistry.getCurrentService();
 				serviceRegistry.bindPlayerToService(service, player);
 				try {
 					service.writeObject("Witaj, " + login);
@@ -30,9 +30,19 @@ public class LogInCommandExecutor implements CommandExecutor<LogInCommand> {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+			} else {
+				try {
+					service.writeObject("Zle haslo");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		} catch (NoPlayerWithSuchNameException e) {
-			e.printStackTrace();
+			try {
+				service.writeObject("Nie ma takiego gracza");
+			} catch (IOException ioEcException) {
+				ioEcException.printStackTrace();
+			}
 		}
 
 	}
