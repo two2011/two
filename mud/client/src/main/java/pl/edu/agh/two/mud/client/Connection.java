@@ -38,20 +38,20 @@ public class Connection extends Thread {
 		while (true) {
 			try {
 				Object object = in.readObject();
-				
+
 				// Message handling
 				// TODO Should be more generic !
 				if (object instanceof ICommandDefinition) {
 					commandDefinitionRegistry.registerCommandDefinition((ICommandDefinition)object);
 				}
-				
+
 			} catch (Exception e) {
 				logger.error("Error during reading message from server", e);
 				e.printStackTrace();
 			}
 		}
 	}
-	
+
 	public void setCommandDefinitionRegistry(
 			ICommandDefinitionRegistry commandDefinitionRegistry) {
 		this.commandDefinitionRegistry = commandDefinitionRegistry;

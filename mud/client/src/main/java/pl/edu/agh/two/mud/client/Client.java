@@ -31,6 +31,26 @@ public class Client {
 			mainWindow.open();
 			connection.connect(host, port);
 			connection.start();
+
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					while (true) {
+						Object o;
+						try {
+							o = connection.read();
+							if (o instanceof String) {
+								mainWindow.getMainConsole()
+										.appendTextToConsole((String) o);
+							}
+						} catch (ClassNotFoundException e) {
+							logger.error(e);
+						} catch (IOException e) {
+							logger.error(e);
+						}
+					}
+				}
+			}).start();
 			// gui.setLabel(connection.read().toString());
 		} catch (Exception e) {
 			logger.error("Connection with \"" + host + ":" + port
