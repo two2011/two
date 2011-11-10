@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.fest.assertions.Assertions.assertThat;
-import static pl.edu.agh.two.mud.server.world.model.Direction.LEFT;
-import static pl.edu.agh.two.mud.server.world.model.Direction.RIGHT;
-import static pl.edu.agh.two.mud.server.world.model.Direction.UP;
+import static pl.edu.agh.two.mud.server.world.model.Direction.W;
+import static pl.edu.agh.two.mud.server.world.model.Direction.E;
+import static pl.edu.agh.two.mud.server.world.model.Direction.N;
 
 public class BoardTest {
 
@@ -22,12 +22,12 @@ public class BoardTest {
 
         // when
         List<Direction> expectedDirections = new ArrayList<Direction>();
-        expectedDirections.add(RIGHT);
-        expectedDirections.add(UP);
+        expectedDirections.add(E);
+        expectedDirections.add(N);
 
         List<Direction> expectedDirections2 = new ArrayList<Direction>();
-        expectedDirections2.add(UP);
-        expectedDirections2.add(LEFT);
+        expectedDirections2.add(N);
+        expectedDirections2.add(W);
 
         // then
         List<Direction> actualDirections = board.getPossibleDirections(fields[0][1]);

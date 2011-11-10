@@ -6,57 +6,70 @@
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
 ">
-	<context:property-placeholder location="classpath*:*.properties" />
-	<context:annotation-config />
-	<bean
-		class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
-	<bean
-		class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor" />
+    <context:property-placeholder location="classpath*:*.properties"/>
+    <context:annotation-config/>
+    <bean
+            class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
+    <bean
+            class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor"/>
 
-	<bean id="commandProvider"
-		class="pl.edu.agh.two.mud.common.command.provider.SpringCommandProvider"
-		init-method="buildProvider" />
-	<bean id="commandExecutorProvider"
-		class="pl.edu.agh.two.mud.common.command.provider.SpringCommandExecutorProvider"
-		init-method="buildProvider" />
-	<bean id="commandFactory"
-		class="pl.edu.agh.two.mud.common.command.factory.ReflexiveCommandFactory">
-		<property name="commandProvider" ref="commandProvider" />
-	</bean>
-	<bean id="dispatcher"
-		class="pl.edu.agh.two.mud.common.command.dispatcher.SynchronizedDispatcher">
-		<property name="commandExecutorProvider" ref="commandExecutorProvider" />
-		<property name="commandFactory" ref="commandFactory" />
-	</bean>
+    <bean id="commandProvider"
+          class="pl.edu.agh.two.mud.common.command.provider.SpringCommandProvider"
+          init-method="buildProvider"/>
+    <bean id="commandExecutorProvider"
+          class="pl.edu.agh.two.mud.common.command.provider.SpringCommandExecutorProvider"
+          init-method="buildProvider"/>
+    <bean id="commandFactory"
+          class="pl.edu.agh.two.mud.common.command.factory.ReflexiveCommandFactory">
+        <property name="commandProvider" ref="commandProvider"/>
+    </bean>
+    <bean id="dispatcher"
+          class="pl.edu.agh.two.mud.common.command.dispatcher.SynchronizedDispatcher">
+        <property name="commandExecutorProvider" ref="commandExecutorProvider"/>
+        <property name="commandFactory" ref="commandFactory"/>
+    </bean>
 
-	<bean id="converter"
-		class="pl.edu.agh.two.mud.common.command.converter.UICommandToDefinitionConverter" />
+    <bean id="converter"
+          class="pl.edu.agh.two.mud.common.command.converter.UICommandToDefinitionConverter"/>
 
-	<bean id="server" class="pl.edu.agh.two.mud.server.Server" />
-	<bean id="service" class="pl.edu.agh.two.mud.server.Service"
-		scope="prototype">
-		<property name="dispatcher" ref="dispatcher" />
-		<property name="commandProvider" ref="commandProvider" />
-		<property name="converter" ref="converter" />
-	</bean>
-	<bean id="mailer" class="pl.edu.agh.two.mud.server.mail.Mailer" />
-	<bean id="serviceRegistry" class="pl.edu.agh.two.mud.server.ServiceRegistry" />
-	<bean id="board" class="pl.edu.agh.two.mud.server.world.model.Board"
-		scope="singleton" />
+    <bean id="server" class="pl.edu.agh.two.mud.server.Server"/>
+    <bean id="service" class="pl.edu.agh.two.mud.server.Service"
+          scope="prototype">
+        <property name="dispatcher" ref="dispatcher"/>
+        <property name="commandProvider" ref="commandProvider"/>
+        <property name="converter" ref="converter"/>
+    </bean>
+    <bean id="mailer" class="pl.edu.agh.two.mud.server.mail.Mailer"/>
+    <bean id="serviceRegistry" class="pl.edu.agh.two.mud.server.ServiceRegistry"/>
+    <bean id="board" class="pl.edu.agh.two.mud.server.world.model.Board"
+          scope="singleton"/>
 
-	<!-- BEGIN: Commands & Executors -->
-	<bean class="pl.edu.agh.two.mud.server.command.ExampleCommand" />
-	<bean class="pl.edu.agh.two.mud.server.command.LogInCommand" />
-	<bean class="pl.edu.agh.two.mud.server.executor.LogInCommandExecutor">
-		<property name="board" ref="board" />
-		<property name="serviceRegistry" ref="serviceRegistry" />
-	</bean>
-	<bean class="pl.edu.agh.two.mud.server.command.RegisterCommand" />
-	<bean class="pl.edu.agh.two.mud.server.executor.ExampleCommandExecutor" />
-	<bean class="pl.edu.agh.two.mud.server.executor.RegisterCommandExecutor">
-		<property name="board" ref="board" />
-		<property name="mailer" ref="mailer" />
-	</bean>
-	<!-- END: Commands & Executors -->
-</beans>
+    <!-- BEGIN: Commands & Executors -->
+    <bean class="pl.edu.agh.two.mud.server.command.ExampleCommand"/>
+    <bean class="pl.edu.agh.two.mud.server.command.LogInCommand"/>
+    <bean class="pl.edu.agh.two.mud.server.executor.LogInCommandExecutor">
+        <property name="board" ref="board"/>
+        <property name="serviceRegistry" ref="serviceRegistry"/>
+    </bean>
+    <bean class="pl.edu.agh.two.mud.server.command.RegisterCommand"/>
+    <bean class="pl.edu.agh.two.mud.server.executor.ExampleCommandExecutor"/>
+    <bean class="pl.edu.agh.two.mud.server.executor.RegisterCommandExecutor">
+        <property name="board" ref="board"/>
+        <property name="mailer" ref="mailer"/>
+    </bean>
+    <bean class="pl.edu.agh.two.mud.server.command.MoveCommand"/>
+    <bean class="pl.edu.agh.two.mud.server.executor.MoveCommandExecutor">
+        <property name="board" ref="board"/>
+        <property name="serviceRegistry" ref="serviceRegistry"/>
+    </bean>
+    <!-- END: Commands & Executors -->
+</beans></beans>

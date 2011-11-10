@@ -34,5 +34,4 @@ public interface IPlayer {
 
 	public abstract void setLevel(Integer level);
 
-
 }

@@ -62,49 +62,20 @@ public class Board {
         int x = field.getX();
         int y = field.getY();
         if (y > 0 && fields[x][y - 1] != null) {
-            result.add(Direction.UP);
+            result.add(Direction.N);
         }
         if (y < size - 1 && fields[x][y + 1] != null) {
-            result.add(Direction.DOWN);
+            result.add(Direction.S);
         }
         if (x > 0 && fields[x - 1][y] != null) {
-            result.add(Direction.LEFT);
+            result.add(Direction.W);
         }
         if (x < size - 1 && fields[x + 1][y] != null) {
-            result.add(Direction.RIGHT);
+            result.add(Direction.E);
         }
 
         return result;
     }
-
-    // todo move to CommandExecutor
-//    public Field changeField(Command command) {
-//        Player player = command.getPlayer;
-//        Direction direction = command.direction;
-//        Field from = player.getField();
-//        int fromXPosition = from.getX();
-//        int fromYPosition = from.getY();
-//
-//        Field to = null;
-//        switch (direction) {
-//            case UP:
-//                to = board.getFields()[fromXPosition][fromYPosition - 1];
-//                break;
-//            case DOWN:
-//                to = board.getFields()[fromXPosition][fromYPosition + 1];
-//                break;
-//            case LEFT:
-//                to = board.getFields()[fromXPosition - 1][fromYPosition];
-//                break;
-//            case RIGHT:
-//                to = board.getFields()[fromXPosition + 1][fromYPosition];
-//                break;
-//        }
-//        from.removePlayer(player);
-//        to.addPlayer(player);
-//        player.setField(to);
-//        return to;
-//    }
 
     public boolean addPlayer(IPlayer player) {
         playersOnFields.put(player, startingField);
@@ -128,4 +99,11 @@ public class Board {
         throw new NoPlayerWithSuchNameException(playerName);
     }
 
+    public Field getPlayersPosition(IPlayer player) {
+        return playersOnFields.get(player);
+    }
+
+    public void setPlayersPosition(IPlayer player, Field field) {
+        playersOnFields.put(player, field);
+    }
 }
