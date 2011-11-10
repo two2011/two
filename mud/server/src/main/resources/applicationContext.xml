@@ -58,5 +58,11 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 		<property name="board" ref="board" />
 		<property name="mailer" ref="mailer" />
 	</bean>
+	<bean class="pl.edu.agh.two.mud.server.command.WhisperCommand" />
+	<bean class="pl.edu.agh.two.mud.server.executor.WhisperCommandExecutor">
+		<property name="board" ref="board" />
+		<property name="serviceRegistry" ref="serviceRegistry" />
+	</bean>
+
 	<!-- END: Commands & Executors -->
 </beans>
