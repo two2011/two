@@ -16,7 +16,7 @@ public class LogInCommand extends UICommand {
 	@Override
 	public String getDescription() {
 		return "Komenda logowania. Jej uzycie spowoduje zalogowanie sie na wybrana postac.\n"
-				+ "\t login[ex] <login> <password>";
+				+ "\t login[log][l] <login> <password>";
 	}
 
 	public String getLogin() {
