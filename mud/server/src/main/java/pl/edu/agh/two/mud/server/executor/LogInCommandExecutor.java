@@ -27,6 +27,11 @@ public class LogInCommandExecutor implements CommandExecutor<LogInCommand> {
 				try {
 					service.writeObject("Witaj, " + login);
 					service.writeObject(player);
+					board.setPlayersPosition(player, board.getStartingField());
+					board.getStartingField().addPlayer(player);
+					service.writeObject(board.getStartingField()
+							.getFormattedFieldSummary());
+
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
