@@ -20,7 +20,7 @@ public class Field {
 
     List<IPlayer> players = new ArrayList<IPlayer>();
 
-    public Field(int x, int y, String name, String description) {
+    public Field(int y, int x, String name, String description) {
         this.x = x;
         this.y = y;
         this.name = name;
@@ -91,7 +91,7 @@ public class Field {
             result = result.substring(0, result.length() - 2);
         }
 
-        result += "Widzisz droge w kierunku: ";
+        result += "\nWidzisz droge w kierunku: ";
         for (Direction direction : board.getPossibleDirections(this)) {
             result += "\t" + direction.toString();
         }

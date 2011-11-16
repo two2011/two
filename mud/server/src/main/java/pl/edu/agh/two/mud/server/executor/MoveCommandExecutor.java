@@ -21,39 +21,48 @@ public class MoveCommandExecutor implements CommandExecutor<MoveCommand> {
 
         Service service = serviceRegistry.getCurrentService();
         IPlayer player = serviceRegistry.getPlayer(service);
-        Direction direction = command.getDirection();
-        Field from = board.getPlayersPosition(player);
+        if (player != null) {
+            Direction direction = command.getDirection();
+            Field from = board.getPlayersPosition(player);
 
-        if (!isDirectionValid(direction, from)) {
+            if (!isDirectionValid(direction, from)) {
+                try {
+                    service.writeObject("Nie mozesz tam isc!");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+
+                int fromXPosition = from.getX();
+                int fromYPosition = from.getY();
+
+                Field to = null;
+                switch (direction) {
+                    case N:
+                        to = board.getFields()[fromYPosition - 1][fromXPosition];
+                        break;
+                    case S:
+                        to = board.getFields()[fromYPosition + 1][fromXPosition];
+                        break;
+                    case W:
+                        to = board.getFields()[fromYPosition][fromXPosition - 1];
+                        break;
+                    case E:
+                        to = board.getFields()[fromYPosition][fromXPosition + 1];
+                        break;
+
+                }
+                from.removePlayer(player);
+                to.addPlayer(player);
+                board.setPlayersPosition(player, to);
+            }
+        } else {
             try {
-                service.writeObject("Nie mozesz tam isc!");
+                service.writeObject("Nie mozesz uzyc teraz tej komendy!");
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-
-        int fromXPosition = from.getX();
-        int fromYPosition = from.getY();
-
-        Field to = null;
-        switch (direction) {
-            case N:
-                to = board.getFields()[fromXPosition][fromYPosition - 1];
-                break;
-            case S:
-                to = board.getFields()[fromXPosition][fromYPosition + 1];
-                break;
-            case W:
-                to = board.getFields()[fromXPosition - 1][fromYPosition];
-                break;
-            case E:
-                to = board.getFields()[fromXPosition + 1][fromYPosition];
-                break;
-
-        }
-        from.removePlayer(player);
-        to.addPlayer(player);
-        board.setPlayersPosition(player, to);
     }
 
     private boolean isDirectionValid(Direction direction, Field from) {

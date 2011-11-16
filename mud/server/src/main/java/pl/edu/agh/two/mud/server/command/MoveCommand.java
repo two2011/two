@@ -31,4 +31,9 @@ public class MoveCommand extends UICommand {
         }
         return null;
     }
+
+    public MoveCommand withDirection(String direction) {
+        this.direction = direction;
+        return this;
+    }
 }

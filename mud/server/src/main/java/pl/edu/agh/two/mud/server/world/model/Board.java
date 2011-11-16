@@ -10,12 +10,12 @@ public class Board {
     private String name;
     private String description;
 
-    private int size;
-
     private Field[][] fields;
 
     private Map<IPlayer, Field> playersOnFields = new HashMap<IPlayer, Field>();
     private Field startingField;
+    private int xAxisSize;
+    private int yAxisSize;
 
     public String getName() {
         return name;
@@ -31,14 +31,6 @@ public class Board {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public int getSize() {
-        return size;
-    }
-
-    public void setSize(int size) {
-        this.size = size;
     }
 
     public Field[][] getFields() {
@@ -57,20 +49,28 @@ public class Board {
         this.startingField = startingField;
     }
 
+    public void setxAxisSize(int xAxisSize) {
+        this.xAxisSize = xAxisSize;
+    }
+
+    public void setyAxisSize(int yAxisSize) {
+        this.yAxisSize = yAxisSize;
+    }
+
     public List<Direction> getPossibleDirections(Field field) {
         List<Direction> result = new ArrayList<Direction>();
         int x = field.getX();
         int y = field.getY();
-        if (y > 0 && fields[x][y - 1] != null) {
+        if (y > 0 && fields[y - 1][x] != null) {
             result.add(Direction.N);
         }
-        if (y < size - 1 && fields[x][y + 1] != null) {
+        if (y < yAxisSize - 1 && fields[y + 1][x] != null) {
             result.add(Direction.S);
         }
-        if (x > 0 && fields[x - 1][y] != null) {
+        if (x > 0 && fields[y][x - 1] != null) {
             result.add(Direction.W);
         }
-        if (x < size - 1 && fields[x + 1][y] != null) {
+        if (x < xAxisSize - 1 && fields[y][x + 1] != null) {
             result.add(Direction.E);
         }
 

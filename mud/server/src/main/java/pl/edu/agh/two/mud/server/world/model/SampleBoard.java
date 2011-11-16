@@ -14,5 +14,7 @@ public class SampleBoard extends Board {
 
         this.setFields(fields);
         this.setStartingField(fields[0][0]);
+        this.setxAxisSize(3);
+        this.setyAxisSize(1);
     }
 }
