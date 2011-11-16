@@ -7,6 +7,7 @@ import pl.edu.agh.two.mud.server.Service;
 import pl.edu.agh.two.mud.server.ServiceRegistry;
 import pl.edu.agh.two.mud.server.command.MoveCommand;
 import pl.edu.agh.two.mud.server.world.model.Board;
+import pl.edu.agh.two.mud.server.world.model.Field;
 import pl.edu.agh.two.mud.server.world.model.SampleBoard;
 
 import java.io.IOException;
@@ -81,7 +82,10 @@ public class MoveCommandExecutorTest {
         executor.execute(command);
 
         // then
-        assertThat(board.getPlayersPosition(player)).isNotEqualTo(board.getStartingField());
+
+        Field newPlayersPosition = board.getPlayersPosition(player);
+        assertThat(newPlayersPosition).isNotEqualTo(board.getStartingField());
+        verify(service).writeObject(newPlayersPosition.getFormattedFieldSummary());
     }
 
     private MoveCommand prepareValidMoveEastCommand() {

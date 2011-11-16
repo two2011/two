@@ -55,6 +55,12 @@ public class MoveCommandExecutor implements CommandExecutor<MoveCommand> {
                 from.removePlayer(player);
                 to.addPlayer(player);
                 board.setPlayersPosition(player, to);
+
+                try {
+                    service.writeObject(to.getFormattedFieldSummary());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         } else {
             try {
