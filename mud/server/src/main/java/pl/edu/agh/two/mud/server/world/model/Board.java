@@ -83,7 +83,7 @@ public class Board {
     }
 
     public boolean removePlayer(IPlayer player) {
-        playersOnFields.remove(player);
+        playersOnFields.put(player, null);
         return playersOnFields.containsKey(player);
     }
 

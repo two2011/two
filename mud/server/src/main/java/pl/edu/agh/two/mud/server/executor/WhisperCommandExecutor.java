@@ -10,6 +10,7 @@ import pl.edu.agh.two.mud.server.Service;
 import pl.edu.agh.two.mud.server.command.WhisperCommand;
 import pl.edu.agh.two.mud.server.world.exception.NoPlayerWithSuchNameException;
 import pl.edu.agh.two.mud.server.world.model.Board;
+import pl.edu.agh.two.mud.server.world.model.Field;
 
 public class WhisperCommandExecutor implements CommandExecutor<WhisperCommand> {
 
@@ -22,13 +23,24 @@ public class WhisperCommandExecutor implements CommandExecutor<WhisperCommand> {
 		IPlayer currentPlayer = serviceRegistry.getPlayer(currentService);
 		Text content = command.getContent();
 		try {
-			IPlayer targetPlayer = board.getPlayerByName(command.getTarget());
-			try {
-				serviceRegistry.getService(targetPlayer).writeObject(
-						currentPlayer.getName() + " szepcze: "
-								+ content.getText());
-			} catch (IOException e) {
-				e.printStackTrace();
+			Field field = board.getPlayersPosition(currentPlayer);
+			if (field != null) {
+				IPlayer targetPlayer = field.getPlayerByName(command
+						.getTarget());
+				try {
+					serviceRegistry.getService(targetPlayer).writeObject(
+							currentPlayer.getName() + " szepcze: "
+									+ content.getText());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} else {
+				try {
+					serviceRegistry.getService(currentPlayer).writeObject(
+							"Nieznany blad");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		} catch (NoPlayerWithSuchNameException e) {
 			try {

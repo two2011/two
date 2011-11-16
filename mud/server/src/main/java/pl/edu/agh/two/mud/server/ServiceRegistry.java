@@ -36,4 +36,9 @@ public class ServiceRegistry implements IServiceRegistry {
 		return (thread instanceof Service) ? (Service) thread : null;
 	}
 
+	@Override
+	public void unbindPlayer(IPlayer player) {
+		map.remove(getCurrentService());
+	}
+
 }

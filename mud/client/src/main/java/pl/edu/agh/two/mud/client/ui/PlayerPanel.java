@@ -9,6 +9,7 @@ import javax.swing.border.LineBorder;
 
 import net.miginfocom.swing.MigLayout;
 import pl.edu.agh.two.mud.common.IPlayer;
+import pl.edu.agh.two.mud.common.Player;
 
 public class PlayerPanel extends JPanel {
 
@@ -199,7 +200,11 @@ public class PlayerPanel extends JPanel {
 		gold.setForeground(VALUE_TEXT_COLOR);
 	}
 
-	public void updateHero(IPlayer player) {
+	public void updateHero(IPlayer p) {
+		IPlayer player = p;
+		if (p == null) {
+			player = new Player();
+		}
 		// updating name
 		name.setText(player.getName());
 

@@ -10,6 +10,8 @@ public interface IServiceRegistry {
 
 	public void bindPlayerToService(Service service, IPlayer player);
 
+	public void unbindPlayer(IPlayer player);
+
 	public Service getCurrentService();
 
 }

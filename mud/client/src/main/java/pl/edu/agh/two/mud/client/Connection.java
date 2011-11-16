@@ -47,16 +47,15 @@ public class Connection extends Thread {
 				if (object instanceof ICommandDefinition) {
 					commandDefinitionRegistry
 							.registerCommandDefinition((ICommandDefinition) object);
-				}
-
-				if (object instanceof IPlayer) {
+				} else if (object instanceof IPlayer) {
 					mainWindow.getPlayerPanel().updateHero((IPlayer) object);
-				}
-
-				if (object instanceof String) {
+				} else if (object instanceof String) {
 					mainWindow.getMainConsole().appendTextToConsole(
 							(String) object);
+				} else if (object == null) {
+					mainWindow.getPlayerPanel().updateHero(null);
 				}
+
 			} catch (Exception e) {
 				logger.error("Error during reading message from server", e);
 				e.printStackTrace();
