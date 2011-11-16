@@ -3,8 +3,7 @@ package pl.edu.agh.two.mud.server.world.model;
 import org.junit.Test;
 import pl.edu.agh.two.mud.common.Player;
 
-import java.util.Arrays;
-
+import static java.util.Arrays.asList;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -24,7 +23,7 @@ public class FieldTest {
         Board board = mock(Board.class);
         Field testedField = new Field(0, 0, FIELD_NAME, FIELD_DESCRIPTION);
         testedField.setBoard(board);
-        when(board.getPossibleDirections(testedField)).thenReturn(Arrays.asList(N, E));
+        when(board.getPossibleDirections(testedField)).thenReturn(asList(N, E));
         Player somePlayer = createPlayerWithName(FIRST_PLAYER_NAME);
         testedField.addPlayer(somePlayer);
 
