@@ -31,7 +31,7 @@ public class LogOutCommandExecutor implements CommandExecutor<LogOutCommand> {
 			}
 		} else {
 			try {
-				service.writeObject("Nie jestes zalogowany");
+				service.writeObject("Nie jestes zalogowany.");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
