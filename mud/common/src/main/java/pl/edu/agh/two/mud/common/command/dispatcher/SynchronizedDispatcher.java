@@ -2,6 +2,7 @@ package pl.edu.agh.two.mud.common.command.dispatcher;
 
 import pl.edu.agh.two.mud.common.command.Command;
 import pl.edu.agh.two.mud.common.command.IParsedCommand;
+import pl.edu.agh.two.mud.common.command.exception.CommandExecutingException;
 import pl.edu.agh.two.mud.common.command.executor.CommandExecutor;
 import pl.edu.agh.two.mud.common.command.factory.CommandFactory;
 import pl.edu.agh.two.mud.common.command.provider.CommandExecutorProvider;
@@ -21,7 +22,16 @@ public class SynchronizedDispatcher implements Dispatcher {
 	public void dispatch(Command command) {
 		CommandExecutor commandExecutor = commandExecutorProvider
 				.getExecutorForCommand(command);
-		commandExecutor.execute(command);
+		try {
+			commandExecutor.execute(command);
+		} catch (CommandExecutingException e) {
+			try {
+				e.handleException();
+			} catch (Throwable t) {
+				System.out.println("Something goes really badly !");
+				t.printStackTrace();
+			}
+		}
 	}
 
 	public void setCommandExecutorProvider(
