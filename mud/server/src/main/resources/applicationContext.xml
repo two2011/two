@@ -71,6 +71,12 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 		<property name="serviceRegistry" ref="serviceRegistry" />
 	</bean>
 
+	<bean class="pl.edu.agh.two.mud.server.command.TalkCommand" />
+	<bean class="pl.edu.agh.two.mud.server.executor.TalkCommandExecutor">
+		<property name="board" ref="board" />
+		<property name="serviceRegistry" ref="serviceRegistry" />
+	</bean>
+
 	<bean class="pl.edu.agh.two.mud.server.command.MoveCommand" />
 	<bean class="pl.edu.agh.two.mud.server.executor.MoveCommandExecutor">
 		<property name="board" ref="board" />
