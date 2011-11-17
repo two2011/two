@@ -37,13 +37,22 @@ public class PlayerPanel extends JPanel {
 
 	private static final String GOLD_LABEL_TEXT = "Zloto";
 
-	private static final String DEFAULT_PARAM_VALUE = "0";
-
 	private static final long serialVersionUID = -8842308968094233877L;
 
 	private static final Color LABEL_TEXT_COLOR = Color.WHITE;
 
 	private static final Color VALUE_TEXT_COLOR = Color.YELLOW;
+
+	private static final IPlayer NULL_PLAYER = new Player();
+	{
+		NULL_PLAYER.setAgililty(0);
+		NULL_PLAYER.setPower(0);
+		NULL_PLAYER.setStrength(0);
+
+		NULL_PLAYER.setExperience(0);
+		NULL_PLAYER.setGold(0);
+		NULL_PLAYER.setLevel(0);
+	}
 
 	private JLabel feet;
 
@@ -81,6 +90,8 @@ public class PlayerPanel extends JPanel {
 		createEquipmentPanel();
 		createOthersPanel();
 
+		updateHero(null);
+
 	}
 
 	private void createGeneralInfo() {
@@ -96,7 +107,7 @@ public class PlayerPanel extends JPanel {
 		levelLabel.setForeground(LABEL_TEXT_COLOR);
 		add(levelLabel, "cell 2 0");
 
-		level = new JLabel(DEFAULT_PARAM_VALUE);
+		level = new JLabel();
 		level.setForeground(VALUE_TEXT_COLOR);
 		add(level, "cell 3 0");
 	}
@@ -113,7 +124,7 @@ public class PlayerPanel extends JPanel {
 		strengthLabel.setForeground(LABEL_TEXT_COLOR);
 		statisticsPanel.add(strengthLabel);
 
-		strength = new JLabel(DEFAULT_PARAM_VALUE);
+		strength = new JLabel();
 		strength.setForeground(VALUE_TEXT_COLOR);
 		statisticsPanel.add(strength);
 
@@ -121,7 +132,7 @@ public class PlayerPanel extends JPanel {
 		powerLabel.setForeground(LABEL_TEXT_COLOR);
 		statisticsPanel.add(powerLabel);
 
-		power = new JLabel(DEFAULT_PARAM_VALUE);
+		power = new JLabel();
 		power.setForeground(VALUE_TEXT_COLOR);
 		statisticsPanel.add(power);
 
@@ -129,7 +140,7 @@ public class PlayerPanel extends JPanel {
 		agilityLabel.setForeground(LABEL_TEXT_COLOR);
 		statisticsPanel.add(agilityLabel);
 
-		agility = new JLabel(DEFAULT_PARAM_VALUE);
+		agility = new JLabel();
 		agility.setForeground(VALUE_TEXT_COLOR);
 		statisticsPanel.add(agility);
 	}
@@ -187,7 +198,7 @@ public class PlayerPanel extends JPanel {
 		othersPanel.add(expirienceLabel);
 		expirienceLabel.setForeground(LABEL_TEXT_COLOR);
 
-		experience = new JLabel(DEFAULT_PARAM_VALUE);
+		experience = new JLabel();
 		othersPanel.add(experience);
 		experience.setForeground(VALUE_TEXT_COLOR);
 
@@ -195,7 +206,7 @@ public class PlayerPanel extends JPanel {
 		othersPanel.add(goldLabel);
 		goldLabel.setForeground(LABEL_TEXT_COLOR);
 
-		gold = new JLabel(DEFAULT_PARAM_VALUE);
+		gold = new JLabel();
 		othersPanel.add(gold);
 		gold.setForeground(VALUE_TEXT_COLOR);
 	}
@@ -203,7 +214,7 @@ public class PlayerPanel extends JPanel {
 	public void updateHero(IPlayer p) {
 		IPlayer player = p;
 		if (p == null) {
-			player = new Player();
+			player = NULL_PLAYER;
 		}
 		// updating name
 		name.setText(player.getName());
