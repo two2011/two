@@ -114,4 +114,9 @@ public class Player implements IPlayer, Serializable {
 		return enemy;
 	}
 
+	@Override
+	public void setEnemy(IPlayer enemy) {
+		this.enemy = enemy;
+	}
+
 }
