@@ -8,7 +8,7 @@ public class HitCommand extends UICommand{
 
 	@Override
 	public String getDescription() {
-		return "U¿ycie komendy spowoduje wykonanie ataku na osobie z ktora aktualnie walczymy";
+		return "Uzycie komendy spowoduje wykonanie ataku na osobie z ktora aktualnie walczymy";
 	}
 	
 	
