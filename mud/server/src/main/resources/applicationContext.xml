@@ -54,19 +54,22 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	</bean>
 
 	<bean class="pl.edu.agh.two.mud.server.command.LogOutCommand" />
-	<bean class="pl.edu.agh.two.mud.server.command.executor.LogOutCommandExecutor">
+	<bean
+		class="pl.edu.agh.two.mud.server.command.executor.LogOutCommandExecutor">
 		<property name="board" ref="board" />
 		<property name="serviceRegistry" ref="serviceRegistry" />
 	</bean>
 
 	<bean class="pl.edu.agh.two.mud.server.command.RegisterCommand" />
-	<bean class="pl.edu.agh.two.mud.server.command.executor.RegisterCommandExecutor">
+	<bean
+		class="pl.edu.agh.two.mud.server.command.executor.RegisterCommandExecutor">
 		<property name="board" ref="board" />
 		<property name="mailer" ref="mailer" />
 	</bean>
 
 	<bean class="pl.edu.agh.two.mud.server.command.WhisperCommand" />
-	<bean class="pl.edu.agh.two.mud.server.command.executor.WhisperCommandExecutor">
+	<bean
+		class="pl.edu.agh.two.mud.server.command.executor.WhisperCommandExecutor">
 		<property name="board" ref="board" />
 		<property name="serviceRegistry" ref="serviceRegistry" />
 	</bean>
@@ -82,15 +85,35 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 		<property name="board" ref="board" />
 		<property name="serviceRegistry" ref="serviceRegistry" />
 	</bean>
-	
-	<bean class="pl.edu.agh.two.mud.server.command.executor.SendErrorToUserCommandExecutor" scope="prototype">
+
+	<bean
+		class="pl.edu.agh.two.mud.server.command.executor.SendErrorToUserCommandExecutor"
+		scope="prototype">
 		<property name="service">
-			<bean class="java.lang.Thread" factory-method="currentThread"/>
+			<bean class="java.lang.Thread" factory-method="currentThread" />
 		</property>
 	</bean>
 	
 	<bean class="pl.edu.agh.two.mud.server.command.executor.SendAvailableCommandExecutor">
 		<property name="converter" ref="converter"/>
+		<property name="serviceRegistry" ref="serviceRegistry"/>
+	</bean>
+
+	<bean class="pl.edu.agh.two.mud.server.command.HitCommand" />
+	<bean class="pl.edu.agh.two.mud.server.command.executor.HitCommandExecutor">
+		<property name="serviceRegistry" ref="serviceRegistry" />
+	</bean>
+	
+	<bean class="pl.edu.agh.two.mud.server.command.executor.SendAvailableCommandExecutor">
+		<property name="converter" ref="converter" />
+		<property name="serviceRegistry" ref="serviceRegistry" />
+	</bean>
+	
+	<bean class="pl.edu.agh.two.mud.server.command.AttackUICommand"/>
+	<bean class="pl.edu.agh.two.mud.server.command.executor.AttackUICommandExecutor">
+		<property name="board" ref="board"/>
+		<property name="dispatcher" ref="dispatcher"/>
+		<!-- <property name="fight" ref="fight"/>  -->
 		<property name="serviceRegistry" ref="serviceRegistry"/>
 	</bean>
 

@@ -10,10 +10,10 @@ public class SendAvailableCommands extends Command {
 
 	private IPlayer player;
 
-	private Collection<Class<UICommand>> uiCommands;
+	private Collection<Class<? extends UICommand>> uiCommands;
 
 	public SendAvailableCommands(IPlayer player,
-			Collection<Class<UICommand>> uiCommands) {
+			Collection<Class<? extends UICommand>> uiCommands) {
 		this.player = player;
 		this.uiCommands = uiCommands;
 	}
@@ -22,7 +22,7 @@ public class SendAvailableCommands extends Command {
 		return player;
 	}
 
-	public Collection<Class<UICommand>> getUiCommands() {
+	public Collection<Class<? extends UICommand>> getUiCommands() {
 		return uiCommands;
 	}
 

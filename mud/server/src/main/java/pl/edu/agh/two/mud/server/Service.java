@@ -5,14 +5,20 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketAddress;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 
 import pl.edu.agh.two.mud.common.command.IParsedCommand;
 import pl.edu.agh.two.mud.common.command.UICommand;
 import pl.edu.agh.two.mud.common.command.converter.UICommandToDefinitionConverter;
+import pl.edu.agh.two.mud.common.command.definition.ICommandDefinition;
 import pl.edu.agh.two.mud.common.command.dispatcher.Dispatcher;
 import pl.edu.agh.two.mud.common.command.provider.CommandProvider;
+import pl.edu.agh.two.mud.common.message.AvailableCommandsMessage;
+import pl.edu.agh.two.mud.server.command.HitCommand;
+import pl.edu.agh.two.mud.server.command.RunCommand;
 
 public class Service extends Thread {
 
@@ -38,9 +44,16 @@ public class Service extends Thread {
 
 		try {
 			// Send commands defined by server to clients
+			List<ICommandDefinition> commandsToSend = new ArrayList();
 			for (UICommand uiCommand : commandProvider.getUICommands()) {
-				writeObject(converter.convertToCommandDefinition(uiCommand));
+				if (uiCommand.getClass().equals(HitCommand.class)
+						|| uiCommand.getClass().equals(RunCommand.class)) {
+					continue;
+				}
+				commandsToSend.add(converter
+						.convertToCommandDefinition(uiCommand));
 			}
+			writeObject(new AvailableCommandsMessage(commandsToSend));
 
 			// TODO: First send to client CommandDefinitions,
 			// you can use getAvailableCommands method from CommandProvider

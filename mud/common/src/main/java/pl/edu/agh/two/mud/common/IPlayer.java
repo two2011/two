@@ -34,6 +34,10 @@ public interface IPlayer {
 
 	public abstract void setLevel(Integer level);
 	
+	public abstract Integer getHealthPoints();
+	
+	public abstract void setHealthPoints(Integer healthPoints);
+	
 	public boolean isInFight();
 	
 	public IPlayer getEnemy();

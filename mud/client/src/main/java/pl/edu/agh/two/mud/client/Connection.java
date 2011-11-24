@@ -11,6 +11,7 @@ import pl.edu.agh.two.mud.client.command.registry.ICommandDefinitionRegistry;
 import pl.edu.agh.two.mud.client.ui.MainWindow;
 import pl.edu.agh.two.mud.common.IPlayer;
 import pl.edu.agh.two.mud.common.command.definition.ICommandDefinition;
+import pl.edu.agh.two.mud.common.message.AvailableCommandsMessage;
 
 public class Connection extends Thread {
 
@@ -44,9 +45,15 @@ public class Connection extends Thread {
 
 				// Message handling
 				// TODO Should be more generic !
-				if (object instanceof ICommandDefinition) {
-					commandDefinitionRegistry
-							.registerCommandDefinition((ICommandDefinition) object);
+				if (object instanceof AvailableCommandsMessage) {
+					AvailableCommandsMessage command = (AvailableCommandsMessage) object;
+
+					commandDefinitionRegistry.clearRegistry();
+					for (ICommandDefinition commandDefinition : command
+							.getCommandDefinitions()) {
+						commandDefinitionRegistry
+								.registerCommandDefinition(commandDefinition);
+					}
 				} else if (object instanceof IPlayer) {
 					mainWindow.getPlayerPanel().updateHero((IPlayer) object);
 				} else if (object instanceof String) {

@@ -14,5 +14,7 @@ public interface ICommandDefinitionRegistry {
 
 	void registerCommandDefinition(ICommandDefinition definition)
 			throws CommandRegistrationException;
+	
+	void clearRegistry();
 
 }

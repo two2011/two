@@ -81,4 +81,10 @@ public class CommandDefinitionRegistry implements ICommandDefinitionRegistry,
 			mapByName.put(name, definition);
 		}
 	}
+
+	@Override
+	public void clearRegistry() {
+		mapById.clear();
+		mapByName.clear();
+	}
 }
