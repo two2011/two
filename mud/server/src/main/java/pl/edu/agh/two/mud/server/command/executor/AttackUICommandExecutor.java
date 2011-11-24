@@ -47,6 +47,10 @@ public class AttackUICommandExecutor implements
 							"Przeciwnik %s nie znajduje siê na Twoim polu",
 							command.getPlayer()));
 				}
+				
+				if (currentPlayer.equals(enemy)) {
+					throw new ClientAwareException("Nie mozesz atakowaæ sam siebie");
+				}
 
 				if (enemy.isInFight()) {
 					throw new ClientAwareException(String.format(
