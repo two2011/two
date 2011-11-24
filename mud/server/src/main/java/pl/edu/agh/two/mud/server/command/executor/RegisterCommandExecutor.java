@@ -1,5 +1,7 @@
 package pl.edu.agh.two.mud.server.command.executor;
 
+import java.util.Random;
+
 import javax.mail.MessagingException;
 
 import pl.edu.agh.two.mud.common.Player;
@@ -10,24 +12,30 @@ import pl.edu.agh.two.mud.server.world.model.Board;
 
 public class RegisterCommandExecutor implements
 		CommandExecutor<RegisterCommand> {
-	
+
 	private Board board;
 	private Mailer mailer;
 
 	@Override
 	public void execute(RegisterCommand command) {
-		Player player=new Player();
-		player.setName(command.getLogin());
-		//todo fix password
-		player.setPassword(command.getLogin());
+		Player player = new Player();
 		try {
-			//todo use password generator
-			mailer.sendRegistrationMail(command.getEmail(), command.getLogin(), command.getLogin());
+			String password = generatePassword();
+			mailer.sendRegistrationMail(command.getEmail(), command.getLogin(),
+					password);
+			player.setName(command.getLogin());
+			player.setPassword(password);
+			board.addPlayer(player);
 		} catch (MessagingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		board.addPlayer(player);
+	}
+
+	private String generatePassword() {
+		Long password = new Random(System.nanoTime()).nextLong();
+		password += 100000;
+		password = Math.abs(password);
+		return password.toString();
 	}
 
 	public void setBoard(Board board) {
