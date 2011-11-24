@@ -5,6 +5,6 @@ import pl.edu.agh.two.mud.common.IPlayer;
 public interface Fight {
 	
 	public void startFight(IPlayer playerOne, IPlayer playetTwo);
-	
+	public IPlayer getCurrentlyAttackingPlayer();
 
 }
