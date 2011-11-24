@@ -74,34 +74,18 @@ public class AttackUICommandExecutor implements
 
 	}
 
-	/**
-	 * @param serviceRegistry
-	 *            the serviceRegistry to set
-	 */
 	public void setServiceRegistry(IServiceRegistry serviceRegistry) {
 		this.serviceRegistry = serviceRegistry;
 	}
 
-	/**
-	 * @param board
-	 *            the board to set
-	 */
 	public void setBoard(Board board) {
 		this.board = board;
 	}
 
-	/**
-	 * @param dispatcher
-	 *            the dispatcher to set
-	 */
 	public void setDispatcher(Dispatcher dispatcher) {
 		this.dispatcher = dispatcher;
 	}
 
-	/**
-	 * @param fight
-	 *            the fight to set
-	 */
 	public void setFight(Fight fight) {
 		this.fight = fight;
 	}
