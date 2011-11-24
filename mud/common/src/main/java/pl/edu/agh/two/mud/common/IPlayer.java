@@ -5,7 +5,7 @@ public interface IPlayer {
 	public abstract String getName();
 
 	public abstract void setName(String name);
-	
+
 	public abstract String getPassword();
 
 	public abstract void setPassword(String password);
@@ -33,13 +33,17 @@ public interface IPlayer {
 	public abstract Integer getLevel();
 
 	public abstract void setLevel(Integer level);
-	
+
 	public abstract Integer getHealthPoints();
-	
+
 	public abstract void setHealthPoints(Integer healthPoints);
-	
+
 	public boolean isInFight();
-	
+
 	public IPlayer getEnemy();
+
+	int getMaxHealthPoints();
+
+	void setMaxHealthPoints(int maxHealthPoints);
 
 }

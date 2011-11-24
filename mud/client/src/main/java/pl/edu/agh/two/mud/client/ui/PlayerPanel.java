@@ -13,6 +13,10 @@ import pl.edu.agh.two.mud.common.Player;
 
 public class PlayerPanel extends JPanel {
 
+	private static final String SLASH = "/";
+
+	private static final String PZ = "PZ";
+
 	private static final String AGILITY_LABEL_TEXT = "Zwinnosc";
 
 	private static final String EQUIPMENT_WEAPON_LABEL_TEXT = "Bron";
@@ -52,6 +56,9 @@ public class PlayerPanel extends JPanel {
 		NULL_PLAYER.setExperience(0);
 		NULL_PLAYER.setGold(0);
 		NULL_PLAYER.setLevel(0);
+
+		NULL_PLAYER.setHealthPoints(0);
+		NULL_PLAYER.setMaxHealthPoints(0);
 	}
 
 	private JLabel feet;
@@ -75,6 +82,8 @@ public class PlayerPanel extends JPanel {
 	private JLabel name;
 
 	private JLabel level;
+
+	private JLabel health;
 
 	/**
 	 * Create the panel.
@@ -209,6 +218,14 @@ public class PlayerPanel extends JPanel {
 		gold = new JLabel();
 		othersPanel.add(gold);
 		gold.setForeground(VALUE_TEXT_COLOR);
+
+		JLabel healthLabel = new JLabel(PZ);
+		othersPanel.add(healthLabel);
+		healthLabel.setForeground(LABEL_TEXT_COLOR);
+
+		health = new JLabel();
+		othersPanel.add(health);
+		health.setForeground(VALUE_TEXT_COLOR);
 	}
 
 	public void updateHero(IPlayer p) {
@@ -232,6 +249,10 @@ public class PlayerPanel extends JPanel {
 
 		// updating gold
 		gold.setText(player.getGold().toString());
+
+		// updating health
+		health.setText(player.getHealthPoints() + SLASH
+				+ player.getMaxHealthPoints());
 	}
 
 }

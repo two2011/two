@@ -21,8 +21,10 @@ public class Player implements IPlayer, Serializable {
 	private int experience = 0;
 
 	private int level = 1;
-	
+
 	private int healthPoints = 10;
+
+	private int maxHealthPoints = 10;
 
 	private IPlayer enemy;
 
@@ -110,6 +112,7 @@ public class Player implements IPlayer, Serializable {
 	public Integer getHealthPoints() {
 		return healthPoints;
 	}
+
 	@Override
 	public boolean isInFight() {
 		return getEnemy() != null;
@@ -118,13 +121,22 @@ public class Player implements IPlayer, Serializable {
 	@Override
 	public void setHealthPoints(Integer healthPoints) {
 		this.healthPoints = healthPoints;
-		
-	}
 
+	}
 
 	@Override
 	public IPlayer getEnemy() {
 		return enemy;
+	}
+
+	@Override
+	public int getMaxHealthPoints() {
+		return maxHealthPoints;
+	}
+
+	@Override
+	public void setMaxHealthPoints(int maxHealthPoints) {
+		this.maxHealthPoints = maxHealthPoints;
 	}
 
 }
