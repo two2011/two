@@ -22,6 +22,8 @@ public class Player implements IPlayer, Serializable {
 
 	private int level = 1;
 
+	private IPlayer enemy;
+
 	@Override
 	public String getName() {
 		return name;
@@ -102,5 +104,14 @@ public class Player implements IPlayer, Serializable {
 		this.level = level;
 	}
 
+	@Override
+	public boolean isInFight() {
+		return getEnemy() != null;
+	}
+
+	@Override
+	public IPlayer getEnemy() {
+		return enemy;
+	}
 
 }
