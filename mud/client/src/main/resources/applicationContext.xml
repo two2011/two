@@ -28,6 +28,8 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 		scope="singleton">
 		<property name="commandDefinitionRegistry" ref="commandDefinitionRegistry" />
 		<property name="mainWindow" ref="mainWindow" />
+		<property name="commandProvider" ref="commandProvider" />
+		<property name="converter" ref="converter" />
 	</bean>
 
 
@@ -48,11 +50,8 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	</bean>
 
 	<bean id="commandProvider"
-		class="pl.edu.agh.two.mud.client.command.provider.ClientSpringCommandProvider"
-		init-method="buildProvider">
-		<property name="commandDefinitionRegistry" ref="commandDefinitionRegistry" />
-		<property name="converter" ref="converter" />
-	</bean>
+		class="pl.edu.agh.two.mud.common.command.provider.SpringCommandProvider"
+		init-method="buildProvider" />
 
 	<bean id="commandExecutorProvider"
 		class="pl.edu.agh.two.mud.common.command.provider.SpringCommandExecutorProvider"

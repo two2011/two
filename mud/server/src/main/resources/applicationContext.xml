@@ -87,8 +87,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	</bean>
 
 	<bean
-		class="pl.edu.agh.two.mud.server.command.executor.SendErrorToUserCommandExecutor"
-		scope="prototype">
+		class="pl.edu.agh.two.mud.server.command.executor.SendErrorToUserCommandExecutor">
 		<property name="service">
 			<bean class="java.lang.Thread" factory-method="currentThread" />
 		</property>

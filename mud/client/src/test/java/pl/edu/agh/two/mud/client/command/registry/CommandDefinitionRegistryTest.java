@@ -8,13 +8,10 @@ import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.springframework.context.ApplicationContext;
 
 import pl.edu.agh.two.mud.common.command.definition.ICommandDefinition;
 
@@ -80,42 +77,6 @@ public class CommandDefinitionRegistryTest {
 	@Before
 	public void before() {
 		commandDefinitionRegistry = new CommandDefinitionRegistry();
-	}
-
-	@Test
-	public void testSetApplicationContext() {
-		// Test registration from application context		
-		Map<String, ICommandDefinition> result = new HashMap<String, ICommandDefinition>();
-		result.put("c1", commandDefinition1);
-
-		ApplicationContext context = mock(ApplicationContext.class);
-		when(context.getBeansOfType(ICommandDefinition.class)).thenReturn(
-				result);
-
-		try {
-			commandDefinitionRegistry.setApplicationContext(context);
-			assertEquals(commandDefinition1,
-					commandDefinitionRegistry
-							.getCommandDefinitionById(Command1.COMMAND_ID));
-		} catch (RuntimeException e) {
-			fail("Unexpected exception");
-			e.printStackTrace();
-		}
-		
-		// Test registration from application context when definition is registered
-		commandDefinitionRegistry = new CommandDefinitionRegistry();
-		try {
-			commandDefinitionRegistry.registerCommandDefinition(commandDefinition1);
-		} catch (CommandRegistrationException e) {
-			fail("Unexpected exception");
-			e.printStackTrace();
-		}
-		
-		try {
-			commandDefinitionRegistry.setApplicationContext(context);
-			fail("Excpetion expected");
-		} catch (RuntimeException e) {
-		}
 	}
 
 	@Test

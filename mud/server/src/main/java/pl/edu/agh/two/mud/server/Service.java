@@ -44,7 +44,7 @@ public class Service extends Thread {
 
 		try {
 			// Send commands defined by server to clients
-			List<ICommandDefinition> commandsToSend = new ArrayList();
+			List<ICommandDefinition> commandsToSend = new ArrayList<ICommandDefinition>();
 			for (UICommand uiCommand : commandProvider.getUICommands()) {
 				if (uiCommand.getClass().equals(HitCommand.class)
 						|| uiCommand.getClass().equals(RunCommand.class)) {
