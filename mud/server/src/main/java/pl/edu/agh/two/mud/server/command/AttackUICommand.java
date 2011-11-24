@@ -12,7 +12,8 @@ public class AttackUICommand extends UICommand {
 
 	@Override
 	public String getDescription() {
-		return "Atakowanie !";
+		return "Komenda atakowania - atakuje wybrana postac o ile nie jest ona w stanie walki\n"
+				+ "\t atak[a] <user>";
 	}
 
 	public String getPlayer() {

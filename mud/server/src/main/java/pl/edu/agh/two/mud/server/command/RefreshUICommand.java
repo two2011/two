@@ -8,7 +8,8 @@ public class RefreshUICommand extends UICommand {
 
 	@Override
 	public String getDescription() {
-		return "Odswieza zawartosc";
+		return "Komenda odswiezania - wypisuje informacje odnosnie pola, na ktorym sie znajdujesz\n"
+				+ "\t odswiez[o]";
 	}
 
 }
