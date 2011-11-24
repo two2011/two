@@ -93,28 +93,37 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 			<bean class="java.lang.Thread" factory-method="currentThread" />
 		</property>
 	</bean>
-	
-	<bean class="pl.edu.agh.two.mud.server.command.executor.SendAvailableCommandExecutor">
-		<property name="converter" ref="converter"/>
-		<property name="serviceRegistry" ref="serviceRegistry"/>
+
+	<bean
+		class="pl.edu.agh.two.mud.server.command.executor.SendAvailableCommandExecutor">
+		<property name="converter" ref="converter" />
+		<property name="serviceRegistry" ref="serviceRegistry" />
 	</bean>
 
 	<bean class="pl.edu.agh.two.mud.server.command.HitCommand" />
 	<bean class="pl.edu.agh.two.mud.server.command.executor.HitCommandExecutor">
 		<property name="serviceRegistry" ref="serviceRegistry" />
 	</bean>
-	
-	<bean class="pl.edu.agh.two.mud.server.command.executor.SendAvailableCommandExecutor">
+
+	<bean
+		class="pl.edu.agh.two.mud.server.command.executor.SendAvailableCommandExecutor">
 		<property name="converter" ref="converter" />
 		<property name="serviceRegistry" ref="serviceRegistry" />
 	</bean>
-	
-	<bean class="pl.edu.agh.two.mud.server.command.AttackUICommand"/>
-	<bean class="pl.edu.agh.two.mud.server.command.executor.AttackUICommandExecutor">
-		<property name="board" ref="board"/>
-		<property name="dispatcher" ref="dispatcher"/>
-		<!-- <property name="fight" ref="fight"/>  -->
-		<property name="serviceRegistry" ref="serviceRegistry"/>
+
+	<bean class="pl.edu.agh.two.mud.server.command.AttackUICommand" />
+	<bean
+		class="pl.edu.agh.two.mud.server.command.executor.AttackUICommandExecutor">
+		<property name="board" ref="board" />
+		<property name="dispatcher" ref="dispatcher" />
+		<property name="serviceRegistry" ref="serviceRegistry" />
+	</bean>
+
+	<bean class="pl.edu.agh.two.mud.server.command.RefreshUICommand" />
+	<bean
+		class="pl.edu.agh.two.mud.server.command.executor.RefreshUICommandExecutor">
+		<property name="board" ref="board" />
+		<property name="serviceRegistry" ref="serviceRegistry" />
 	</bean>
 
 	<!-- END: Commands & Executors -->
