@@ -16,8 +16,7 @@ import pl.edu.agh.two.mud.server.IServiceRegistry;
 import pl.edu.agh.two.mud.server.Service;
 import pl.edu.agh.two.mud.server.command.SendAvailableCommands;
 
-public class SendAvailableCommandExecutor implements
-		CommandExecutor<SendAvailableCommands> {
+public class SendAvailableCommandExecutor implements CommandExecutor<SendAvailableCommands> {
 
 	private IServiceRegistry serviceRegistry;
 
@@ -26,17 +25,14 @@ public class SendAvailableCommandExecutor implements
 	private CommandProvider commandProvider;
 
 	@Override
-	public void execute(SendAvailableCommands command)
-			throws CommandExecutingException {
+	public void execute(SendAvailableCommands command) throws CommandExecutingException {
 
 		Service service = serviceRegistry.getService(command.getPlayer());
 		Collection<ICommandDefinition> commandDefinitions = new ArrayList<ICommandDefinition>();
 
-		for (Class<? extends UICommand> uiCommandClass : command
-				.getUiCommands()) {
-			commandDefinitions.add(converter
-					.convertToCommandDefinition((UICommand) commandProvider
-							.getCommandById(uiCommandClass.getName())));
+		for (Class<? extends UICommand> uiCommandClass : command.getUiCommands()) {
+			commandDefinitions.add(converter.convertToCommandDefinition((UICommand) commandProvider
+					.getCommandById(uiCommandClass.getName())));
 		}
 
 		try {
@@ -47,20 +43,16 @@ public class SendAvailableCommandExecutor implements
 
 	}
 
-	/**
-	 * @param serviceRegistry
-	 *            the serviceRegistry to set
-	 */
 	public void setServiceRegistry(IServiceRegistry serviceRegistry) {
 		this.serviceRegistry = serviceRegistry;
 	}
 
-	/**
-	 * @param converter
-	 *            the converter to set
-	 */
 	public void setConverter(UICommandToDefinitionConverter converter) {
 		this.converter = converter;
+	}
+
+	public void setCommandProvider(CommandProvider commandProvider) {
+		this.commandProvider = commandProvider;
 	}
 
 }

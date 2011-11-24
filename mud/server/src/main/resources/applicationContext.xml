@@ -99,6 +99,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 		class="pl.edu.agh.two.mud.server.command.executor.SendAvailableCommandExecutor">
 		<property name="converter" ref="converter" />
 		<property name="serviceRegistry" ref="serviceRegistry" />
+		<property name="commandProvider" ref="commandProvider" />
 	</bean>
 
 	<bean class="pl.edu.agh.two.mud.server.command.HitCommand" />
