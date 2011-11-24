@@ -24,6 +24,8 @@ public class Player implements IPlayer, Serializable {
 	
 	private int healthPoints = 10;
 
+	private IPlayer enemy;
+
 	@Override
 	public String getName() {
 		return name;
@@ -108,6 +110,10 @@ public class Player implements IPlayer, Serializable {
 	public Integer getHealthPoints() {
 		return healthPoints;
 	}
+	@Override
+	public boolean isInFight() {
+		return getEnemy() != null;
+	}
 
 	@Override
 	public void setHealthPoints(Integer healthPoints) {
@@ -115,5 +121,10 @@ public class Player implements IPlayer, Serializable {
 		
 	}
 
+
+	@Override
+	public IPlayer getEnemy() {
+		return enemy;
+	}
 
 }

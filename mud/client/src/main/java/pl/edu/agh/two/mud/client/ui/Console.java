@@ -131,6 +131,7 @@ public class Console extends JPanel {
 	 */
 	public void appendTextToConsole(String text) {
 		output.setText(output.getText() + "\n" + text);
+		output.moveCaretPosition(output.getText().length()-1);
 	}
 
 }
