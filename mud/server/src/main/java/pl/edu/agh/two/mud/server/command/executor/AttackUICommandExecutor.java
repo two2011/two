@@ -44,12 +44,12 @@ public class AttackUICommandExecutor implements
 				IPlayer enemy = field.getPlayerByName(command.getPlayer());
 				if (enemy == null) {
 					throw new ClientAwareException(String.format(
-							"Przeciwnik %s nie znajduje siê na Twoim polu",
+							"Przeciwnik %s nie znajduje sie na Twoim polu",
 							command.getPlayer()));
 				}
 				
 				if (currentPlayer.equals(enemy)) {
-					throw new ClientAwareException("Nie mozesz atakowaæ sam siebie");
+					throw new ClientAwareException("Nie mozesz atakowac sam siebie");
 				}
 
 				if (enemy.isInFight()) {
