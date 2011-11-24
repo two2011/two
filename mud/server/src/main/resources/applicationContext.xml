@@ -106,6 +106,8 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	<bean class="pl.edu.agh.two.mud.server.command.executor.HitCommandExecutor">
 		<property name="serviceRegistry" ref="serviceRegistry" />
 	</bean>
+	
+	<bean class="pl.edu.agh.two.mud.server.command.RunCommand" />
 
 	<bean class="pl.edu.agh.two.mud.server.command.AttackUICommand" />
 	<bean
