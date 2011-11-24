@@ -33,5 +33,9 @@ public interface IPlayer {
 	public abstract Integer getLevel();
 
 	public abstract void setLevel(Integer level);
+	
+	public abstract Integer getHealthPoints();
+	
+	public abstract void setHealthPoints(Integer healthPoints);
 
 }

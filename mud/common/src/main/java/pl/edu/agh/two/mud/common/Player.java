@@ -21,6 +21,8 @@ public class Player implements IPlayer, Serializable {
 	private int experience = 0;
 
 	private int level = 1;
+	
+	private int healthPoints = 10;
 
 	@Override
 	public String getName() {
@@ -100,6 +102,17 @@ public class Player implements IPlayer, Serializable {
 	@Override
 	public void setLevel(Integer level) {
 		this.level = level;
+	}
+
+	@Override
+	public Integer getHealthPoints() {
+		return healthPoints;
+	}
+
+	@Override
+	public void setHealthPoints(Integer healthPoints) {
+		this.healthPoints = healthPoints;
+		
 	}
 
 

@@ -88,6 +88,9 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 			<bean class="java.lang.Thread" factory-method="currentThread"/>
 		</property>
 	</bean>
+	
+	<bean class="pl.edu.agh.two.mud.server.command.HitCommand" />
+	<bean class="pl.edu.agh.two.mud.server.command.executor.HitCommandExecutor"/>
 
 	<!-- END: Commands & Executors -->
 </beans>
