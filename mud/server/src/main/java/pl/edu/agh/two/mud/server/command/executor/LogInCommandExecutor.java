@@ -1,12 +1,18 @@
 package pl.edu.agh.two.mud.server.command.executor;
 
 import java.io.IOException;
+import java.util.List;
 
 import pl.edu.agh.two.mud.common.IPlayer;
+import pl.edu.agh.two.mud.common.command.UICommand;
+import pl.edu.agh.two.mud.common.command.dispatcher.Dispatcher;
 import pl.edu.agh.two.mud.common.command.executor.CommandExecutor;
+import pl.edu.agh.two.mud.common.command.provider.CommandProvider;
 import pl.edu.agh.two.mud.server.IServiceRegistry;
 import pl.edu.agh.two.mud.server.Service;
 import pl.edu.agh.two.mud.server.command.LogInCommand;
+import pl.edu.agh.two.mud.server.command.RegisterCommand;
+import pl.edu.agh.two.mud.server.command.SendAvailableCommands;
 import pl.edu.agh.two.mud.server.world.exception.NoPlayerWithSuchNameException;
 import pl.edu.agh.two.mud.server.world.model.Board;
 
@@ -14,7 +20,10 @@ public class LogInCommandExecutor implements CommandExecutor<LogInCommand> {
 
 	private Board board;
 	private IServiceRegistry serviceRegistry;
+	private Dispatcher dispatcher;
+	private CommandProvider commandProvider;
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void execute(LogInCommand command) {
 		String login = command.getLogin();
@@ -31,6 +40,13 @@ public class LogInCommandExecutor implements CommandExecutor<LogInCommand> {
 					board.getStartingField().addPlayer(player);
 					service.writeObject(board.getStartingField()
 							.getFormattedFieldSummary());
+					List<Class<? extends UICommand>> commandsClasses = commandProvider
+							.convertUICommandsToClasses(commandProvider
+									.getUICommandsWithout(LogInCommand.class,
+											RegisterCommand.class));
+
+					dispatcher.dispatch(new SendAvailableCommands(player,
+							commandsClasses));
 
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -58,6 +74,22 @@ public class LogInCommandExecutor implements CommandExecutor<LogInCommand> {
 
 	public void setServiceRegistry(IServiceRegistry serviceRegistry) {
 		this.serviceRegistry = serviceRegistry;
+	}
+
+	public Dispatcher getDispatcher() {
+		return dispatcher;
+	}
+
+	public void setDispatcher(Dispatcher dispatcher) {
+		this.dispatcher = dispatcher;
+	}
+
+	public CommandProvider getCommandProvider() {
+		return commandProvider;
+	}
+
+	public void setCommandProvider(CommandProvider commandProvider) {
+		this.commandProvider = commandProvider;
 	}
 
 }

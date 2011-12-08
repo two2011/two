@@ -1,19 +1,26 @@
 package pl.edu.agh.two.mud.server.command.executor;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import pl.edu.agh.two.mud.common.IPlayer;
+import pl.edu.agh.two.mud.common.command.dispatcher.Dispatcher;
 import pl.edu.agh.two.mud.common.command.executor.CommandExecutor;
 import pl.edu.agh.two.mud.server.IServiceRegistry;
 import pl.edu.agh.two.mud.server.Service;
+import pl.edu.agh.two.mud.server.command.LogInCommand;
 import pl.edu.agh.two.mud.server.command.LogOutCommand;
+import pl.edu.agh.two.mud.server.command.RegisterCommand;
+import pl.edu.agh.two.mud.server.command.SendAvailableCommands;
 import pl.edu.agh.two.mud.server.world.model.Board;
 
 public class LogOutCommandExecutor implements CommandExecutor<LogOutCommand> {
 
 	private Board board;
 	private IServiceRegistry serviceRegistry;
+	private Dispatcher dispatcher;
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void execute(LogOutCommand command) {
 		Service service = serviceRegistry.getCurrentService();
@@ -23,7 +30,11 @@ public class LogOutCommandExecutor implements CommandExecutor<LogOutCommand> {
 			serviceRegistry.unbindPlayer(currentPlayer);
 			try {
 				service.writeObject("Zegnaj, " + currentPlayer.getName());
-				board.getPlayersPosition(currentPlayer).removePlayer(currentPlayer);
+				getDispatcher().dispatch(
+						new SendAvailableCommands(currentPlayer, Arrays.asList(
+								LogInCommand.class, RegisterCommand.class)));
+				board.getPlayersPosition(currentPlayer).removePlayer(
+						currentPlayer);
 				board.removePlayer(currentPlayer);
 				service.writeObject((IPlayer) null);
 			} catch (IOException e) {
@@ -45,6 +56,14 @@ public class LogOutCommandExecutor implements CommandExecutor<LogOutCommand> {
 
 	public void setServiceRegistry(IServiceRegistry serviceRegistry) {
 		this.serviceRegistry = serviceRegistry;
+	}
+
+	public Dispatcher getDispatcher() {
+		return dispatcher;
+	}
+
+	public void setDispatcher(Dispatcher dispatcher) {
+		this.dispatcher = dispatcher;
 	}
 
 }

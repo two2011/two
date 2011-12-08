@@ -45,7 +45,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	<bean id="serviceRegistry" class="pl.edu.agh.two.mud.server.ServiceRegistry" />
 	<bean id="board" class="pl.edu.agh.two.mud.server.world.model.SampleBoard"
 		scope="singleton" />
-		
+
 	<bean id="fight" class="pl.edu.agh.two.mud.server.world.fight.impl.PlayersFight" />
 
 	<!-- BEGIN: Commands & Executors -->
@@ -53,6 +53,8 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	<bean class="pl.edu.agh.two.mud.server.command.executor.LogInCommandExecutor">
 		<property name="board" ref="board" />
 		<property name="serviceRegistry" ref="serviceRegistry" />
+		<property name="dispatcher" ref="dispatcher" />
+		<property name="commandProvider" ref="commandProvider" />
 	</bean>
 
 	<bean class="pl.edu.agh.two.mud.server.command.LogOutCommand" />
@@ -60,6 +62,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 		class="pl.edu.agh.two.mud.server.command.executor.LogOutCommandExecutor">
 		<property name="board" ref="board" />
 		<property name="serviceRegistry" ref="serviceRegistry" />
+		<property name="dispatcher" ref="dispatcher" />
 	</bean>
 
 	<bean class="pl.edu.agh.two.mud.server.command.RegisterCommand" />
@@ -89,7 +92,8 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	</bean>
 
 	<bean
-		class="pl.edu.agh.two.mud.server.command.executor.SendErrorToUserCommandExecutor" scope="prototype">
+		class="pl.edu.agh.two.mud.server.command.executor.SendErrorToUserCommandExecutor"
+		scope="prototype">
 		<property name="service">
 			<bean class="java.lang.Thread" factory-method="currentThread" />
 		</property>
@@ -106,7 +110,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	<bean class="pl.edu.agh.two.mud.server.command.executor.HitCommandExecutor">
 		<property name="serviceRegistry" ref="serviceRegistry" />
 	</bean>
-	
+
 	<bean class="pl.edu.agh.two.mud.server.command.RunCommand" />
 
 	<bean class="pl.edu.agh.two.mud.server.command.AttackUICommand" />

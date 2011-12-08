@@ -13,7 +13,13 @@ public interface CommandProvider {
 
 	List<UICommand> getUICommands();
 
-	List<UICommand> getUICommandsWithout(Class<? extends UICommand>... classesToExclude);
+	List<UICommand> getUICommandsWithout(
+			Class<? extends UICommand>... classesToExclude);
+
+	List<UICommand> getUICommands(Class<? extends UICommand>... classes);
+
+	List<Class<? extends UICommand>> convertUICommandsToClasses(
+			List<UICommand> uiCommands);
 
 	boolean isCommandAvailable(String commandId);
 
