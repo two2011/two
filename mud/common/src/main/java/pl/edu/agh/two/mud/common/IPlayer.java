@@ -38,7 +38,7 @@ public interface IPlayer {
 
 	public abstract void setHealthPoints(Integer healthPoints);
 	
-	public abstract void substractHealthPoints(Integer damage);
+	public abstract void subtractHealthPoints(Integer damage);
 
 	public boolean isInFight();
 

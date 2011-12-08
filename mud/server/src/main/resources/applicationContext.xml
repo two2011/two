@@ -46,11 +46,11 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	<bean id="board" class="pl.edu.agh.two.mud.server.world.model.SampleBoard"
 		scope="singleton" />
 
-	<bean id="fight" class="pl.edu.agh.two.mud.server.world.fight.impl.PlayersFight" />
-
-	<bean id="fight" class="pl.edu.agh.two.mud.server.world.fight.impl.PlayersFight">
+	<bean id="fight" class="pl.edu.agh.two.mud.server.world.fight.impl.PlayersFight" scope="prototype">
 		<property name="dispatcher" ref="dispatcher" />
 		<property name="serviceRegistry" ref="serviceRegistry" />
+		<property name="commandProvider" ref="commandProvider"/>
+		<property name="board" ref="board" />
 	</bean>
 
 	<!-- BEGIN: Commands & Executors -->
@@ -121,6 +121,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	<bean class="pl.edu.agh.two.mud.server.command.HitCommand" />
 	<bean class="pl.edu.agh.two.mud.server.command.executor.HitCommandExecutor">
 		<property name="serviceRegistry" ref="serviceRegistry" />
+		<property name="fight" ref="fight"/>
 	</bean>
 
 	<bean class="pl.edu.agh.two.mud.server.command.RunCommand" />
