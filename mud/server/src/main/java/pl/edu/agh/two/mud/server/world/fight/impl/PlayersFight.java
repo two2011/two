@@ -7,6 +7,7 @@ import java.util.Random;
 import pl.edu.agh.two.mud.common.IPlayer;
 import pl.edu.agh.two.mud.common.command.UICommand;
 import pl.edu.agh.two.mud.common.command.dispatcher.Dispatcher;
+import pl.edu.agh.two.mud.common.command.provider.CommandProvider;
 import pl.edu.agh.two.mud.server.IServiceRegistry;
 import pl.edu.agh.two.mud.server.Service;
 import pl.edu.agh.two.mud.server.command.HitCommand;
@@ -17,6 +18,7 @@ import pl.edu.agh.two.mud.server.world.fight.Fight;
 public class PlayersFight implements Fight {
 	private Dispatcher dispatcher;
 	private IServiceRegistry serviceRegistry;
+	private CommandProvider commandProvider;
 
 	@Override
 	public void startFight(IPlayer playerOne, IPlayer playerTwo) {
@@ -51,17 +53,21 @@ public class PlayersFight implements Fight {
 	public void hit(IPlayer playerWhoHits) {
 		IPlayer enemy = playerWhoHits.getEnemy();
 		int damage = new Random().nextInt(4) + 1;
-		enemy.substractHealthPoints(damage);
+		enemy.subtractHealthPoints(damage);
+		Service playerWhoHitsService = serviceRegistry.getService(playerWhoHits);
+		Service enemyService = serviceRegistry.getService(enemy);
 		try {
 			if (enemy.isAlive()) {
+				enemyService.writeObject(enemy);
+				enemyService.writeObject(String.format("Krwawisz! Zadano ci %d pkt obrazen.", damage));
+				playerWhoHitsService.writeObject(String.format("Zadales przeciwnikowi %d pkt obrazen.", damage));
 				switchAttackingPlayer(playerWhoHits, enemy);
-			} else {
-				Service service = serviceRegistry.getService(enemy);
-				service.writeObject(enemy);
-				service.writeObject("Zginales!");
 				
-				Service service2 = serviceRegistry.getService(playerWhoHits);
-				service.writeObject("Wygrales!");
+			} else {
+				playerWhoHitsService.writeObject(enemy);
+				playerWhoHitsService.writeObject("Zginales!");
+				
+				playerWhoHitsService.writeObject("Wygrales!");
 				endFight(playerWhoHits, enemy);
 				
 			}
@@ -72,7 +78,11 @@ public class PlayersFight implements Fight {
 
 	private void endFight(IPlayer playerWhoHits, IPlayer enemy) {
 		playerWhoHits.setEnemy(null);
+		unlockAllCommands(playerWhoHits);
 		enemy.setEnemy(null);
+		if(enemy.isAlive()){
+			unlockAllCommands(enemy);
+		}
 	}
 
 	public void setServiceRegistry(IServiceRegistry serviceRegistry) {
@@ -83,11 +93,19 @@ public class PlayersFight implements Fight {
 		sendAvailableCommands(from, new Class[] {});
 		sendAvailableCommands(to, HitCommand.class, RunCommand.class);
 	}
+	
+	public void unlockAllCommands(IPlayer player){
+//		sendAvailableCommands(player, commandProvider.getUICommands());
+	}
 
 	@Override
 	public void runFromFight(IPlayer player) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public void setCommandProvider(CommandProvider commandProvider) {
+		this.commandProvider = commandProvider;
 	}
 
 }

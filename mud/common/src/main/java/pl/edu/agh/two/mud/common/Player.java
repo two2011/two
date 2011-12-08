@@ -140,7 +140,7 @@ public class Player implements IPlayer, Serializable {
 	}
 
 	@Override
-	public void substractHealthPoints(Integer damage) {
+	public void subtractHealthPoints(Integer damage) {
 		healthPoints -= damage;
 	}
 
