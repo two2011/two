@@ -41,6 +41,8 @@ public interface IPlayer {
 	public boolean isInFight();
 
 	public IPlayer getEnemy();
+	
+	public void setEnemy(IPlayer enemy);
 
 	int getMaxHealthPoints();
 

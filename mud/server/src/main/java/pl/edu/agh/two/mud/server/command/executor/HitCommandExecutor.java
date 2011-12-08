@@ -14,6 +14,8 @@ public class HitCommandExecutor implements CommandExecutor<HitCommand> {
 	public void execute(HitCommand command) throws CommandExecutingException {
 		Service service = serviceRegistry.getCurrentService();
         IPlayer player = serviceRegistry.getPlayer(service);
+        
+        player.getEnemy();
 	}
 	
 	public void setServiceRegistry(ServiceRegistry serviceRegistry) {

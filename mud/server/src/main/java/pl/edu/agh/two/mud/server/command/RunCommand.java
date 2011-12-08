@@ -8,8 +8,7 @@ public class RunCommand extends UICommand {
 
 	@Override
 	public String getDescription() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Uciekaj";
 	}
 
 }

@@ -10,7 +10,11 @@ import org.apache.log4j.Logger;
 import pl.edu.agh.two.mud.client.command.registry.ICommandDefinitionRegistry;
 import pl.edu.agh.two.mud.client.ui.MainWindow;
 import pl.edu.agh.two.mud.common.IPlayer;
+import pl.edu.agh.two.mud.common.command.UICommand;
+import pl.edu.agh.two.mud.common.command.converter.UICommandToDefinitionConverter;
 import pl.edu.agh.two.mud.common.command.definition.ICommandDefinition;
+import pl.edu.agh.two.mud.common.command.provider.CommandProvider;
+import pl.edu.agh.two.mud.common.message.AvailableCommandsMessage;
 
 public class Connection extends Thread {
 
@@ -20,6 +24,8 @@ public class Connection extends Thread {
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
 	private ICommandDefinitionRegistry commandDefinitionRegistry;
+	private CommandProvider commandProvider;
+	private UICommandToDefinitionConverter converter;
 	private MainWindow mainWindow;
 
 	public void connect(String host, int port) throws IOException {
@@ -44,14 +50,26 @@ public class Connection extends Thread {
 
 				// Message handling
 				// TODO Should be more generic !
-				if (object instanceof ICommandDefinition) {
-					commandDefinitionRegistry
-							.registerCommandDefinition((ICommandDefinition) object);
+				if (object instanceof AvailableCommandsMessage) {
+					AvailableCommandsMessage command = (AvailableCommandsMessage) object;
+
+					// Clear registry
+					commandDefinitionRegistry.clearExternalCommands();
+
+					// Register internal commands
+					for (UICommand uiCommand : commandProvider.getUICommands()) {
+						commandDefinitionRegistry.registerCommandDefinition(converter
+								.convertToCommandDefinition(uiCommand));
+					}
+
+					// Register external commands
+					for (ICommandDefinition commandDefinition : command.getCommandDefinitions()) {
+						commandDefinitionRegistry.registerCommandDefinition(commandDefinition);
+					}
 				} else if (object instanceof IPlayer) {
 					mainWindow.getPlayerPanel().updateHero((IPlayer) object);
 				} else if (object instanceof String) {
-					mainWindow.getMainConsole().appendTextToConsole(
-							(String) object);
+					mainWindow.getMainConsole().appendTextToConsole((String) object);
 				} else if (object == null) {
 					mainWindow.getPlayerPanel().updateHero(null);
 				}
@@ -63,8 +81,7 @@ public class Connection extends Thread {
 		}
 	}
 
-	public void setCommandDefinitionRegistry(
-			ICommandDefinitionRegistry commandDefinitionRegistry) {
+	public void setCommandDefinitionRegistry(ICommandDefinitionRegistry commandDefinitionRegistry) {
 		this.commandDefinitionRegistry = commandDefinitionRegistry;
 	}
 
@@ -74,6 +91,14 @@ public class Connection extends Thread {
 
 	public void setMainWindow(MainWindow mainWindow) {
 		this.mainWindow = mainWindow;
+	}
+
+	public void setCommandProvider(CommandProvider commandProvider) {
+		this.commandProvider = commandProvider;
+	}
+
+	public void setConverter(UICommandToDefinitionConverter converter) {
+		this.converter = converter;
 	}
 
 }

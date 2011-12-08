@@ -130,13 +130,13 @@ public class Player implements IPlayer, Serializable {
 	}
 
 	@Override
-	public int getMaxHealthPoints() {
-		return maxHealthPoints;
+	public void setEnemy(IPlayer enemy) {
+		this.enemy = enemy;
 	}
 
 	@Override
-	public void setMaxHealthPoints(int maxHealthPoints) {
-		this.maxHealthPoints = maxHealthPoints;
+	public int getMaxHealthPoints() {
+		return maxHealthPoints;
 	}
 
 }
