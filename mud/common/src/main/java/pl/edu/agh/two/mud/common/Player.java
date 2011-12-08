@@ -139,4 +139,9 @@ public class Player implements IPlayer, Serializable {
 		return maxHealthPoints;
 	}
 
+	@Override
+	public void setMaxHealthPoints(int maxHealthPoints) {
+		this.maxHealthPoints = maxHealthPoints;
+	}
+
 }
