@@ -139,4 +139,20 @@ public class Player implements IPlayer, Serializable {
 		return maxHealthPoints;
 	}
 
+	@Override
+	public void substractHealthPoints(Integer damage) {
+		healthPoints -= damage;
+	}
+
+	@Override
+	public void setMaxHealthPoints(int maxHealthPoints) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public boolean isAlive() {
+		return healthPoints > 0;
+	}
+
 }

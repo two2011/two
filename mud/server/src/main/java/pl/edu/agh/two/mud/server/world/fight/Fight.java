@@ -6,5 +6,7 @@ public interface Fight {
 	
 	public void startFight(IPlayer playerOne, IPlayer playetTwo);
 	public IPlayer getCurrentlyAttackingPlayer();
+	public void hit(IPlayer player);
+	public void switchAttackingPlayer(IPlayer from, IPlayer to);
 
 }
