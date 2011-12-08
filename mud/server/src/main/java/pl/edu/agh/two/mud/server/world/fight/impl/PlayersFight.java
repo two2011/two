@@ -12,11 +12,16 @@ import pl.edu.agh.two.mud.server.Service;
 import pl.edu.agh.two.mud.server.command.HitCommand;
 import pl.edu.agh.two.mud.server.command.RunCommand;
 import pl.edu.agh.two.mud.server.command.SendAvailableCommands;
+import pl.edu.agh.two.mud.server.command.SendMessageToUserCommand;
 import pl.edu.agh.two.mud.server.world.fight.Fight;
+import pl.edu.agh.two.mud.server.world.model.Board;
+import pl.edu.agh.two.mud.server.world.model.Direction;
+import pl.edu.agh.two.mud.server.world.model.Field;
 
 public class PlayersFight implements Fight {
 	private Dispatcher dispatcher;
 	private IServiceRegistry serviceRegistry;
+	private Board board;
 
 	@Override
 	public void startFight(IPlayer playerOne, IPlayer playerTwo) {
@@ -85,9 +90,47 @@ public class PlayersFight implements Fight {
 	}
 
 	@Override
-	public void runFromFight(IPlayer player) {
-		// TODO Auto-generated method stub
+	public void runFromFight(IPlayer currentPlayer, Direction direction) {
+		Field from = board.getPlayersPosition(currentPlayer);
 		
+		int fromXPosition = from.getX();
+        int fromYPosition = from.getY();
+
+        Field to = null;
+        switch (direction) {
+            case N:
+                to = board.getFields()[fromYPosition - 1][fromXPosition];
+                break;
+            case S:
+                to = board.getFields()[fromYPosition + 1][fromXPosition];
+                break;
+            case W:
+                to = board.getFields()[fromYPosition][fromXPosition - 1];
+                break;
+            case E:
+                to = board.getFields()[fromYPosition][fromXPosition + 1];
+                break;
+
+        }
+        
+        
+		IPlayer enemy = currentPlayer.getEnemy();
+		boolean canRun = Math.random() > 0.5;
+		if(!canRun) {
+			// TODO
+		}
+		else {
+			from.removePlayer(currentPlayer);
+	        to.addPlayer(currentPlayer);
+	        board.setPlayersPosition(currentPlayer, to);
+	        dispatcher.dispatch(new SendMessageToUserCommand(to.getFormattedFieldSummary()));
+	        currentPlayer.setEnemy(null);
+	        enemy.setEnemy(null);
+		}
 	}
+	
+	public void setBoard(Board board) {
+        this.board = board;
+    }
 
 }

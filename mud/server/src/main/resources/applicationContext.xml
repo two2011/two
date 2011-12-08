@@ -51,6 +51,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	<bean id="fight" class="pl.edu.agh.two.mud.server.world.fight.impl.PlayersFight">
 		<property name="dispatcher" ref="dispatcher" />
 		<property name="serviceRegistry" ref="serviceRegistry" />
+		<property name="board" ref="board" />
 	</bean>
 
 	<!-- BEGIN: Commands & Executors -->
