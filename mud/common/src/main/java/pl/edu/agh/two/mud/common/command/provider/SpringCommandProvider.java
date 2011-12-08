@@ -88,8 +88,8 @@ public class SpringCommandProvider implements CommandProvider {
 	@Override
 	public List<UICommand> getUICommandsWithout(
 			Class<? extends UICommand>... classesToExclude) {
-		Set<Class<? extends UICommand>> exclude = new ImmutableSet.Builder<Class<? extends UICommand>>().add(
-				classesToExclude).build();
+		Set<Class<? extends UICommand>> exclude = new ImmutableSet.Builder<Class<? extends UICommand>>()
+				.add(classesToExclude).build();
 
 		List<UICommand> uiCommands = new ArrayList<UICommand>();
 		for (UICommand uiCommand : getUICommands()) {
@@ -105,8 +105,8 @@ public class SpringCommandProvider implements CommandProvider {
 
 	@Override
 	public List<UICommand> getUICommands(Class<? extends UICommand>... classes) {
-		HashSet<Class<? extends UICommand>> classesToInclude = new HashSet<Class<? extends UICommand>>(
-				Arrays.asList(classes));
+		Set<Class<? extends UICommand>> classesToInclude = new ImmutableSet.Builder<Class<? extends UICommand>>()
+				.add(classes).build();
 
 		List<UICommand> uiCommands = new ArrayList<UICommand>();
 		for (UICommand uiCommand : getUICommands()) {
