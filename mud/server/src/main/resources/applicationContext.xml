@@ -57,6 +57,8 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	<bean class="pl.edu.agh.two.mud.server.command.executor.LogInCommandExecutor">
 		<property name="board" ref="board" />
 		<property name="serviceRegistry" ref="serviceRegistry" />
+		<property name="dispatcher" ref="dispatcher" />
+		<property name="commandProvider" ref="commandProvider" />
 	</bean>
 
 	<bean class="pl.edu.agh.two.mud.server.command.LogOutCommand" />
@@ -64,6 +66,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 		class="pl.edu.agh.two.mud.server.command.executor.LogOutCommandExecutor">
 		<property name="board" ref="board" />
 		<property name="serviceRegistry" ref="serviceRegistry" />
+		<property name="dispatcher" ref="dispatcher" />
 	</bean>
 
 	<bean class="pl.edu.agh.two.mud.server.command.RegisterCommand" />

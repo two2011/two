@@ -17,8 +17,8 @@ import pl.edu.agh.two.mud.common.command.definition.ICommandDefinition;
 import pl.edu.agh.two.mud.common.command.dispatcher.Dispatcher;
 import pl.edu.agh.two.mud.common.command.provider.CommandProvider;
 import pl.edu.agh.two.mud.common.message.AvailableCommandsMessage;
-import pl.edu.agh.two.mud.server.command.HitCommand;
-import pl.edu.agh.two.mud.server.command.RunCommand;
+import pl.edu.agh.two.mud.server.command.LogInCommand;
+import pl.edu.agh.two.mud.server.command.RegisterCommand;
 
 public class Service extends Thread {
 
@@ -39,15 +39,19 @@ public class Service extends Thread {
 		logger.info("New client connected: " + clientAddress);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void run() {
 
 		try {
 			// Send commands defined by server to clients
 			List<ICommandDefinition> commandsToSend = new ArrayList<ICommandDefinition>();
-			for (UICommand uiCommand : commandProvider.getUICommandsWithout(HitCommand.class, RunCommand.class)) {
-				commandsToSend.add(converter.convertToCommandDefinition(uiCommand));
+			for (UICommand command : commandProvider.getUICommands(
+					RegisterCommand.class, LogInCommand.class)) {
+				commandsToSend.add(converter
+						.convertToCommandDefinition(command));
 			}
+
 			writeObject(new AvailableCommandsMessage(commandsToSend));
 
 			// TODO: First send to client CommandDefinitions,
@@ -64,7 +68,8 @@ public class Service extends Thread {
 			logger.info(clientAddress + " - shutting down client connection");
 			clientSocket.close();
 		} catch (IOException e) {
-			logger.error(clientAddress + " - closing client socket error: " + e.getMessage());
+			logger.error(clientAddress + " - closing client socket error: "
+					+ e.getMessage());
 		}
 	}
 
