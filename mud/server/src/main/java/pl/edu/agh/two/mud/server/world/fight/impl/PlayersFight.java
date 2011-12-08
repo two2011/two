@@ -2,6 +2,7 @@ package pl.edu.agh.two.mud.server.world.fight.impl;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 import pl.edu.agh.two.mud.common.IPlayer;
@@ -11,6 +12,8 @@ import pl.edu.agh.two.mud.common.command.provider.CommandProvider;
 import pl.edu.agh.two.mud.server.IServiceRegistry;
 import pl.edu.agh.two.mud.server.Service;
 import pl.edu.agh.two.mud.server.command.HitCommand;
+import pl.edu.agh.two.mud.server.command.LogInCommand;
+import pl.edu.agh.two.mud.server.command.RegisterCommand;
 import pl.edu.agh.two.mud.server.command.RunCommand;
 import pl.edu.agh.two.mud.server.command.SendAvailableCommands;
 import pl.edu.agh.two.mud.server.world.fight.Fight;
@@ -95,7 +98,14 @@ public class PlayersFight implements Fight {
 	}
 	
 	public void unlockAllCommands(IPlayer player){
-//		sendAvailableCommands(player, commandProvider.getUICommands());
+		List<Class<? extends UICommand>> availableCommands = commandProvider.convertUICommandsToClasses(commandProvider.getUICommandsWithout(LogInCommand.class, RegisterCommand.class));
+		sendAvailableCommands(player, availableCommands);
+	}
+
+	private void sendAvailableCommands(IPlayer player,
+			List<Class<? extends UICommand>> availableCommands) {
+		dispatcher.dispatch(new SendAvailableCommands(player, availableCommands));
+		
 	}
 
 	@Override
