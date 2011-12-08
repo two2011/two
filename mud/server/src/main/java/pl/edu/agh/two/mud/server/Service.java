@@ -45,13 +45,8 @@ public class Service extends Thread {
 		try {
 			// Send commands defined by server to clients
 			List<ICommandDefinition> commandsToSend = new ArrayList<ICommandDefinition>();
-			for (UICommand uiCommand : commandProvider.getUICommands()) {
-				if (uiCommand.getClass().equals(HitCommand.class)
-						|| uiCommand.getClass().equals(RunCommand.class)) {
-					continue;
-				}
-				commandsToSend.add(converter
-						.convertToCommandDefinition(uiCommand));
+			for (UICommand uiCommand : commandProvider.getUICommandsWithout(HitCommand.class, RunCommand.class)) {
+				commandsToSend.add(converter.convertToCommandDefinition(uiCommand));
 			}
 			writeObject(new AvailableCommandsMessage(commandsToSend));
 
@@ -69,8 +64,7 @@ public class Service extends Thread {
 			logger.info(clientAddress + " - shutting down client connection");
 			clientSocket.close();
 		} catch (IOException e) {
-			logger.error(clientAddress + " - closing client socket error: "
-					+ e.getMessage());
+			logger.error(clientAddress + " - closing client socket error: " + e.getMessage());
 		}
 	}
 

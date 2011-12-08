@@ -10,8 +10,10 @@ public interface CommandProvider {
 	Command getCommandById(String commandId);
 
 	List<Command> getAvailableCommands();
-	
+
 	List<UICommand> getUICommands();
+
+	List<UICommand> getUICommandsWithout(Class<? extends UICommand>... classesToExclude);
 
 	boolean isCommandAvailable(String commandId);
 
