@@ -1,9 +1,7 @@
 package pl.edu.agh.two.mud.common.command.provider;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +13,8 @@ import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 
 import pl.edu.agh.two.mud.common.command.Command;
 import pl.edu.agh.two.mud.common.command.UICommand;
+
+import com.google.common.collect.ImmutableSet;
 
 public class SpringCommandProvider implements CommandProvider {
 
@@ -88,8 +88,8 @@ public class SpringCommandProvider implements CommandProvider {
 	@Override
 	public List<UICommand> getUICommandsWithout(
 			Class<? extends UICommand>... classesToExclude) {
-		Set<Class<? extends UICommand>> exclude = new HashSet<Class<? extends UICommand>>(
-				Arrays.asList(classesToExclude));
+		Set<Class<? extends UICommand>> exclude = new ImmutableSet.Builder<Class<? extends UICommand>>().add(
+				classesToExclude).build();
 
 		List<UICommand> uiCommands = new ArrayList<UICommand>();
 		for (UICommand uiCommand : getUICommands()) {

@@ -48,6 +48,11 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 
 	<bean id="fight" class="pl.edu.agh.two.mud.server.world.fight.impl.PlayersFight" />
 
+	<bean id="fight" class="pl.edu.agh.two.mud.server.world.fight.impl.PlayersFight">
+		<property name="dispatcher" ref="dispatcher" />
+		<property name="serviceRegistry" ref="serviceRegistry" />
+	</bean>
+
 	<!-- BEGIN: Commands & Executors -->
 	<bean class="pl.edu.agh.two.mud.server.command.LogInCommand" />
 	<bean class="pl.edu.agh.two.mud.server.command.executor.LogInCommandExecutor">
@@ -98,6 +103,13 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 			<bean class="java.lang.Thread" factory-method="currentThread" />
 		</property>
 	</bean>
+	
+	<bean
+		class="pl.edu.agh.two.mud.server.command.executor.SendMessageToUserCommandExecutor" scope="prototype">
+		<property name="service">
+			<bean class="java.lang.Thread" factory-method="currentThread" />
+		</property>
+	</bean>
 
 	<bean
 		class="pl.edu.agh.two.mud.server.command.executor.SendAvailableCommandExecutor">
@@ -117,7 +129,6 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	<bean
 		class="pl.edu.agh.two.mud.server.command.executor.AttackUICommandExecutor">
 		<property name="board" ref="board" />
-		<property name="dispatcher" ref="dispatcher" />
 		<property name="serviceRegistry" ref="serviceRegistry" />
 		<property name="fight" ref="fight" />
 	</bean>

@@ -1,17 +1,11 @@
 package pl.edu.agh.two.mud.server.command.executor;
 
-import java.util.Arrays;
-
 import pl.edu.agh.two.mud.common.IPlayer;
-import pl.edu.agh.two.mud.common.command.dispatcher.Dispatcher;
 import pl.edu.agh.two.mud.common.command.exception.CommandExecutingException;
 import pl.edu.agh.two.mud.common.command.executor.CommandExecutor;
 import pl.edu.agh.two.mud.server.IServiceRegistry;
 import pl.edu.agh.two.mud.server.Service;
 import pl.edu.agh.two.mud.server.command.AttackUICommand;
-import pl.edu.agh.two.mud.server.command.HitCommand;
-import pl.edu.agh.two.mud.server.command.RunCommand;
-import pl.edu.agh.two.mud.server.command.SendAvailableCommands;
 import pl.edu.agh.two.mud.server.command.exception.ClientAwareException;
 import pl.edu.agh.two.mud.server.world.exception.NoPlayerWithSuchNameException;
 import pl.edu.agh.two.mud.server.world.fight.Fight;
@@ -24,8 +18,6 @@ public class AttackUICommandExecutor implements
 	private IServiceRegistry serviceRegistry;
 
 	private Board board;
-
-	private Dispatcher dispatcher;
 
 	private Fight fight;
 
@@ -61,11 +53,6 @@ public class AttackUICommandExecutor implements
 				currentPlayer.setEnemy(enemy);
 				enemy.setEnemy(currentPlayer);
 
-				dispatcher.dispatch(new SendAvailableCommands(currentPlayer,
-						Arrays.asList(HitCommand.class, RunCommand.class)));
-				dispatcher.dispatch(new SendAvailableCommands(enemy, Arrays
-						.asList(HitCommand.class, RunCommand.class)));
-
 				fight.startFight(currentPlayer, enemy);
 
 			} else {
@@ -84,10 +71,6 @@ public class AttackUICommandExecutor implements
 
 	public void setBoard(Board board) {
 		this.board = board;
-	}
-
-	public void setDispatcher(Dispatcher dispatcher) {
-		this.dispatcher = dispatcher;
 	}
 
 	public void setFight(Fight fight) {
