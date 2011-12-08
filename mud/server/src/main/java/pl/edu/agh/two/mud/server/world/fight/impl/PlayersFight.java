@@ -84,4 +84,10 @@ public class PlayersFight implements Fight {
 		sendAvailableCommands(to, HitCommand.class, RunCommand.class);
 	}
 
+	@Override
+	public void runFromFight(IPlayer player) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

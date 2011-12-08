@@ -145,14 +145,13 @@ public class Player implements IPlayer, Serializable {
 	}
 
 	@Override
-	public void setMaxHealthPoints(int maxHealthPoints) {
-		// TODO Auto-generated method stub
-
+	public boolean isAlive() {
+		return healthPoints > 0;
 	}
 
 	@Override
-	public boolean isAlive() {
-		return healthPoints > 0;
+	public void setMaxHealthPoints(int maxHealthPoints) {
+		this.maxHealthPoints = maxHealthPoints;
 	}
 
 }
