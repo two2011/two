@@ -17,4 +17,10 @@ public class PlayersFight implements Fight {
 		return null;
 	}
 
+	@Override
+	public void runFromFight(IPlayer player) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
