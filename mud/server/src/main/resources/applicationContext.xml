@@ -50,6 +50,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 		<property name="dispatcher" ref="dispatcher" />
 		<property name="serviceRegistry" ref="serviceRegistry" />
 		<property name="commandProvider" ref="commandProvider"/>
+		<property name="board" ref="board" />
 	</bean>
 
 	<!-- BEGIN: Commands & Executors -->
