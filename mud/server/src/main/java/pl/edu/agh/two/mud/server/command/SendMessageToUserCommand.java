@@ -2,7 +2,7 @@ package pl.edu.agh.two.mud.server.command;
 
 import pl.edu.agh.two.mud.common.command.Command;
 
-public abstract class SendMessageToUserCommand extends Command {
+public class SendMessageToUserCommand extends Command {
 
 	private String message;
 
