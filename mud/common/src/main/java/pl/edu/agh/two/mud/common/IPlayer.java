@@ -37,6 +37,8 @@ public interface IPlayer {
 	public abstract Integer getHealthPoints();
 
 	public abstract void setHealthPoints(Integer healthPoints);
+	
+	public abstract void substractHealthPoints(Integer damage);
 
 	public boolean isInFight();
 
@@ -47,5 +49,7 @@ public interface IPlayer {
 	int getMaxHealthPoints();
 
 	void setMaxHealthPoints(int maxHealthPoints);
+	
+	public boolean isAlive();
 
 }
