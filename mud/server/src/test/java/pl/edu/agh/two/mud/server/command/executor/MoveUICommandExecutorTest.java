@@ -3,10 +3,13 @@ package pl.edu.agh.two.mud.server.command.executor;
 import org.junit.Before;
 import org.junit.Test;
 import pl.edu.agh.two.mud.common.Player;
+import pl.edu.agh.two.mud.common.command.dispatcher.Dispatcher;
+import pl.edu.agh.two.mud.common.command.exception.FatalException;
+import pl.edu.agh.two.mud.common.message.MessageType;
 import pl.edu.agh.two.mud.server.Service;
 import pl.edu.agh.two.mud.server.ServiceRegistry;
 import pl.edu.agh.two.mud.server.command.MoveUICommand;
-import pl.edu.agh.two.mud.server.command.executor.MoveUICommandExecutor;
+import pl.edu.agh.two.mud.server.command.SendMessageToUserCommand;
 import pl.edu.agh.two.mud.server.world.model.Board;
 import pl.edu.agh.two.mud.server.world.model.Field;
 import pl.edu.agh.two.mud.server.world.model.SampleBoard;
@@ -21,6 +24,7 @@ public class MoveUICommandExecutorTest {
     private Board board;
     private final ServiceRegistry serviceRegistry = mock(ServiceRegistry.class);
     private final Service service = mock(Service.class);
+    private final Dispatcher dispatcher = mock(Dispatcher.class);
 
     @Before
     public void before() {
@@ -28,10 +32,11 @@ public class MoveUICommandExecutorTest {
         when(serviceRegistry.getCurrentService()).thenReturn(service);
         executor.setBoard(board);
         executor.setServiceRegistry(serviceRegistry);
+        executor.setDispatcher(dispatcher);
     }
 
     @Test
-    public void shouldNotExecuteForNotLoggedInPlayer() throws IOException {
+    public void shouldNotExecuteForNotLoggedInPlayer() throws IOException, FatalException {
         // given
         MoveUICommand command = prepareValidMoveNorthCommand();
 
@@ -39,11 +44,11 @@ public class MoveUICommandExecutorTest {
         executor.execute(command);
 
         // then
-        verify(service).writeObject("Nie mozesz uzyc teraz tej komendy!");
+        verify(dispatcher).dispatch(new SendMessageToUserCommand("Nie mozesz uzyc teraz tej komendy!", MessageType.INFO));
     }
 
     @Test
-    public void shouldNotChangeFieldWhenInvalidDirection() throws IOException {
+    public void shouldNotChangeFieldWhenInvalidDirection() throws IOException, FatalException {
         // given
         MoveUICommand command = prepareInvalidMoveCommand();
         when(serviceRegistry.getPlayer(service)).thenReturn(new Player());
@@ -52,11 +57,11 @@ public class MoveUICommandExecutorTest {
         executor.execute(command);
 
         // then
-        verify(service).writeObject("Nie mozesz tam isc!");
+        verify(dispatcher).dispatch(new SendMessageToUserCommand("Nie mozesz tam isc!", MessageType.INFO));
     }
 
     @Test
-    public void shouldNotChangeFieldWhenDirectionNotPossible() throws IOException {
+    public void shouldNotChangeFieldWhenDirectionNotPossible() throws IOException, FatalException {
         // given
         MoveUICommand command = prepareValidMoveNorthCommand();
         Player player = new Player();
@@ -67,11 +72,11 @@ public class MoveUICommandExecutorTest {
         executor.execute(command);
 
         // then
-        verify(service).writeObject("Nie mozesz tam isc!");
+        verify(dispatcher).dispatch(new SendMessageToUserCommand("Nie mozesz tam isc!", MessageType.INFO));
     }
 
     @Test
-    public void shouldChangeField() throws IOException {
+    public void shouldChangeField() throws IOException, FatalException {
         // given
         MoveUICommand command = prepareValidMoveEastCommand();
         Player player = new Player();

@@ -38,7 +38,7 @@ public class Board {
     }
 
     public void setFields(Field[][] fields) {
-        this.fields = fields;
+        this.fields = fields.clone();
     }
 
     public Field getStartingField() {
@@ -93,8 +93,9 @@ public class Board {
 
     public IPlayer getPlayerByName(String playerName) throws NoPlayerWithSuchNameException {
         for (IPlayer player : playersOnFields.keySet()) {
-            if (player.getName().equals(playerName))
+            if (player.getName().equals(playerName)) {
                 return player;
+            }
         }
         throw new NoPlayerWithSuchNameException(playerName);
     }

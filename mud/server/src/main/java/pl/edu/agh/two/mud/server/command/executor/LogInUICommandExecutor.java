@@ -59,10 +59,6 @@ public class LogInUICommandExecutor implements CommandExecutor<LogInUICommand> {
         this.serviceRegistry = serviceRegistry;
     }
 
-    public Dispatcher getDispatcher() {
-        return dispatcher;
-    }
-
     public void setDispatcher(Dispatcher dispatcher) {
         this.dispatcher = dispatcher;
     }

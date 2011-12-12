@@ -10,15 +10,15 @@ import java.util.List;
 public class Field {
 
     @Autowired
-    Board board;
+    private Board board;
 
-    String name;
-    String description;
+    private String name;
+    private String description;
 
-    int x;
-    int y;
+    private int x;
+    private int y;
 
-    List<IPlayer> players = new ArrayList<IPlayer>();
+    private List<IPlayer> players = new ArrayList<IPlayer>();
 
     public Field(int y, int x, String name, String description) {
         this.x = x;
@@ -75,8 +75,9 @@ public class Field {
     public IPlayer getPlayerByName(String playerName)
             throws NoPlayerWithSuchNameException {
         for (IPlayer player : players) {
-            if (player.getName().equals(playerName))
+            if (player.getName().equals(playerName)) {
                 return player;
+            }
         }
         throw new NoPlayerWithSuchNameException(playerName);
     }

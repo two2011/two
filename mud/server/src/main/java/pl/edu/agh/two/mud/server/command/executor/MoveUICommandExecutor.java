@@ -1,10 +1,14 @@
 package pl.edu.agh.two.mud.server.command.executor;
 
 import pl.edu.agh.two.mud.common.IPlayer;
+import pl.edu.agh.two.mud.common.command.dispatcher.Dispatcher;
+import pl.edu.agh.two.mud.common.command.exception.FatalException;
 import pl.edu.agh.two.mud.common.command.executor.CommandExecutor;
+import pl.edu.agh.two.mud.common.message.MessageType;
 import pl.edu.agh.two.mud.server.IServiceRegistry;
 import pl.edu.agh.two.mud.server.Service;
 import pl.edu.agh.two.mud.server.command.MoveUICommand;
+import pl.edu.agh.two.mud.server.command.SendMessageToUserCommand;
 import pl.edu.agh.two.mud.server.world.model.Board;
 import pl.edu.agh.two.mud.server.world.model.Direction;
 import pl.edu.agh.two.mud.server.world.model.Field;
@@ -15,9 +19,10 @@ public class MoveUICommandExecutor implements CommandExecutor<MoveUICommand> {
 
     private Board board;
     private IServiceRegistry serviceRegistry;
+    private Dispatcher dispatcher;
 
     @Override
-    public void execute(MoveUICommand command) {
+    public void execute(MoveUICommand command) throws FatalException {
 
         Service service = serviceRegistry.getCurrentService();
         IPlayer player = serviceRegistry.getPlayer(service);
@@ -26,11 +31,7 @@ public class MoveUICommandExecutor implements CommandExecutor<MoveUICommand> {
             Field from = board.getPlayersPosition(player);
 
             if (!isDirectionValid(direction, from)) {
-                try {
-                    service.writeObject("Nie mozesz tam isc!");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                dispatcher.dispatch(new SendMessageToUserCommand("Nie mozesz tam isc!", MessageType.INFO));
             } else {
 
                 int fromXPosition = from.getX();
@@ -59,15 +60,11 @@ public class MoveUICommandExecutor implements CommandExecutor<MoveUICommand> {
                 try {
                     service.writeObject(to.getFormattedFieldSummary());
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    throw new FatalException(e);
                 }
             }
         } else {
-            try {
-                service.writeObject("Nie mozesz uzyc teraz tej komendy!");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            dispatcher.dispatch(new SendMessageToUserCommand("Nie mozesz uzyc teraz tej komendy!", MessageType.INFO));
         }
     }
 
@@ -81,6 +78,10 @@ public class MoveUICommandExecutor implements CommandExecutor<MoveUICommand> {
 
     public void setBoard(Board board) {
         this.board = board;
+    }
+
+    public void setDispatcher(Dispatcher dispatcher) {
+        this.dispatcher = dispatcher;
     }
 
 }
