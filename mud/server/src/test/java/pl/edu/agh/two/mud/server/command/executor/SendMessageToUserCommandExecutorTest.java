@@ -32,7 +32,7 @@ public class SendMessageToUserCommandExecutorTest {
 	public void preprateTest() {
 		command = mock(SendMessageToUserCommand.class);
 		when(command.getMessage()).thenReturn(MESSAGE);
-		when(command.getMessageType()).thenReturn(TYPE);
+		when(command.getType()).thenReturn(TYPE);
 
 		service = mock(Service.class);
 
@@ -62,7 +62,7 @@ public class SendMessageToUserCommandExecutorTest {
 		try {
 			executor.execute(command);
 			try {
-				verify(service).writeObject(new TextMessage(command.getMessage(), command.getMessageType()));
+				verify(service).writeObject(new TextMessage(command.getMessage(), command.getType()));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

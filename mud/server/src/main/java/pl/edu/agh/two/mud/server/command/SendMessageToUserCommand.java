@@ -7,19 +7,19 @@ public class SendMessageToUserCommand extends Command {
 
 	private String message;
 
-	private MessageType messageType;
+	private MessageType type;
 
-	public SendMessageToUserCommand(String errorMessage, MessageType messageType) {
-		this.message = errorMessage;
-		this.messageType = messageType;
+	public SendMessageToUserCommand(String message, MessageType type) {
+		this.message = message;
+		this.type = type;
 	}
 
 	public String getMessage() {
 		return message;
 	}
 
-	public MessageType getMessageType() {
-		return messageType;
+	public MessageType getType() {
+		return type;
 	}
 
 }

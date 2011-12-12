@@ -19,7 +19,7 @@ public class SendMessageToUserCommandExecutor implements CommandExecutor<SendMes
 	public void execute(SendMessageToUserCommand command) throws CommandExecutingException {
 
 		try {
-			service.writeObject(new TextMessage(command.getMessage(), command.getMessageType()));
+			service.writeObject(new TextMessage(command.getMessage(), command.getType()));
 		} catch (Throwable t) {
 			throw new FatalException(t, logger);
 		}
