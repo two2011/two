@@ -15,6 +15,8 @@ import pl.edu.agh.two.mud.server.world.model.Board;
 
 import java.io.IOException;
 
+import static pl.edu.agh.two.mud.common.message.MessageType.INFO;
+
 public class LogOutUICommandExecutor implements CommandExecutor<LogOutUICommand> {
 
     private Board board;
@@ -29,7 +31,7 @@ public class LogOutUICommandExecutor implements CommandExecutor<LogOutUICommand>
         if (currentPlayer != null) {
             serviceRegistry.unbindPlayer(currentPlayer);
             try {
-                dispatcher.dispatch(new SendMessageToUserCommand("Zegnaj, " + currentPlayer.getName(), MessageType.INFO));
+                dispatcher.dispatch(new SendMessageToUserCommand("Zegnaj, " + currentPlayer.getName(), INFO));
                 dispatcher.dispatch(new SendAvailableCommands(currentPlayer, AvailableCommands.getInstance().getUnloggedCommands()));
                 board.getPlayersPosition(currentPlayer).removePlayer(currentPlayer);
                 board.removePlayer(currentPlayer);
@@ -38,7 +40,7 @@ public class LogOutUICommandExecutor implements CommandExecutor<LogOutUICommand>
                 throw new FatalException(e);
             }
         } else {
-            dispatcher.dispatch(new SendMessageToUserCommand("Nie jestes zalogowany.", MessageType.INFO));
+            dispatcher.dispatch(new SendMessageToUserCommand("Nie jestes zalogowany!", INFO));
         }
 
     }

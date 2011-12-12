@@ -8,7 +8,7 @@ import pl.edu.agh.two.mud.common.command.exception.FatalException;
 import pl.edu.agh.two.mud.common.command.provider.CommandProvider;
 import pl.edu.agh.two.mud.server.Service;
 import pl.edu.agh.two.mud.server.ServiceRegistry;
-import pl.edu.agh.two.mud.server.command.LogInUICommand;
+import pl.edu.agh.two.mud.server.command.LogOutUICommand;
 import pl.edu.agh.two.mud.server.command.SendMessageToUserCommand;
 import pl.edu.agh.two.mud.server.command.util.AvailableCommands;
 import pl.edu.agh.two.mud.server.world.exception.NoPlayerWithSuchNameException;
@@ -18,11 +18,11 @@ import pl.edu.agh.two.mud.server.world.model.SampleBoard;
 import java.io.IOException;
 
 import static org.mockito.Mockito.*;
-import static pl.edu.agh.two.mud.common.message.MessageType.ERROR;
 import static pl.edu.agh.two.mud.common.message.MessageType.INFO;
 
-public class LogInUICommandExecutorTest {
-    LogInUICommandExecutor executor = new LogInUICommandExecutor();
+public class LogOutUICommandExecutorTest {
+
+    LogOutUICommandExecutor executor = new LogOutUICommandExecutor();
     Board board;
     ServiceRegistry serviceRegistry = mock(ServiceRegistry.class);
     Service service = mock(Service.class);
@@ -42,52 +42,32 @@ public class LogInUICommandExecutorTest {
     }
 
     @Test
-    public void shouldSuccessfullyExecuteLogInCommand() throws NoPlayerWithSuchNameException, FatalException {
+    public void shouldSuccessfullyExecuteLogOutCommand() throws NoPlayerWithSuchNameException, FatalException {
         // given
-        LogInUICommand command = mockCommand();
+        LogOutUICommand command = mock(LogOutUICommand.class);
 
         Player player = createPlayer("krzyho", "correctPassword");
         board.addPlayer(player);
+        when(serviceRegistry.getPlayer(service)).thenReturn(player);
+//        serviceRegistry.bindPlayerToService(service, player);
 
         // when
         executor.execute(command);
 
         // then
-        verify(serviceRegistry).bindPlayerToService(service, player);
+        verify(serviceRegistry).unbindPlayer(player);
     }
 
     @Test
-    public void shouldNotLoginWithWrongPassword() throws NoPlayerWithSuchNameException, IOException, FatalException {
+    public void shouldNotLogoutWhenNoPlayer() throws IOException, FatalException {
         // given
-        LogInUICommand command = mockCommand();
-
-        Player player = createPlayer("krzyho", "wrongPassword");
-        board.addPlayer(player);
+        LogOutUICommand command = mock(LogOutUICommand.class);
 
         // when
         executor.execute(command);
 
         // then
-        verify(dispatcher).dispatch(new SendMessageToUserCommand("Zle haslo!", INFO));
-    }
-
-    @Test
-    public void shouldNotLoginWhenNoPlayerRegistered() throws IOException, FatalException {
-        // given
-        LogInUICommand command = mockCommand();
-
-        // when
-        executor.execute(command);
-
-        // then
-        verify(dispatcher).dispatch(new SendMessageToUserCommand("Nie ma takiego gracza!", ERROR));
-    }
-
-    private LogInUICommand mockCommand() {
-        LogInUICommand command = mock(LogInUICommand.class);
-        when(command.getLogin()).thenReturn("krzyho");
-        when(command.getPassword()).thenReturn("correctPassword");
-        return command;
+        verify(dispatcher).dispatch(new SendMessageToUserCommand("Nie jestes zalogowany!", INFO));
     }
 
     private Player createPlayer(String name, String password) {

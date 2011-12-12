@@ -16,6 +16,9 @@ import pl.edu.agh.two.mud.server.world.model.Board;
 
 import java.io.IOException;
 
+import static pl.edu.agh.two.mud.common.message.MessageType.ERROR;
+import static pl.edu.agh.two.mud.common.message.MessageType.INFO;
+
 public class LogInUICommandExecutor implements CommandExecutor<LogInUICommand> {
 
     private Board board;
@@ -32,7 +35,7 @@ public class LogInUICommandExecutor implements CommandExecutor<LogInUICommand> {
             if (player.getPassword().equals(password)) {
                 serviceRegistry.bindPlayerToService(service, player);
                 try {
-                    dispatcher.dispatch(new SendMessageToUserCommand("Witaj, " + login, MessageType.INFO));
+                    dispatcher.dispatch(new SendMessageToUserCommand("Witaj, " + login, INFO));
                     service.writeObject(player);
                     board.setPlayersPosition(player, board.getStartingField());
                     board.getStartingField().addPlayer(player);
@@ -43,10 +46,10 @@ public class LogInUICommandExecutor implements CommandExecutor<LogInUICommand> {
                     throw new FatalException(e);
                 }
             } else {
-                dispatcher.dispatch(new SendMessageToUserCommand("Zle haslo!", MessageType.ERROR));
+                dispatcher.dispatch(new SendMessageToUserCommand("Zle haslo!", INFO));
             }
         } catch (NoPlayerWithSuchNameException e) {
-            dispatcher.dispatch(new SendMessageToUserCommand("Nie ma takiego gracza!", MessageType.ERROR));
+            dispatcher.dispatch(new SendMessageToUserCommand("Nie ma takiego gracza!", ERROR));
         }
 
     }
