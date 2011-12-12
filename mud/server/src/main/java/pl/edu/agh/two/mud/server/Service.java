@@ -54,8 +54,6 @@ public class Service extends Thread {
 
 			writeObject(new AvailableCommandsMessage(commandsToSend));
 
-			// TODO: First send to client CommandDefinitions,
-			// you can use getAvailableCommands method from CommandProvider
 			while (true) {
 				Object userCommand = in.readObject();
 				dispatcher.dispatch((IParsedCommand) userCommand);
