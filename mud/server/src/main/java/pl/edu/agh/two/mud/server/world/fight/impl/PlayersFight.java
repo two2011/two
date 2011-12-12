@@ -7,6 +7,7 @@ import java.util.Random;
 import pl.edu.agh.two.mud.common.IPlayer;
 import pl.edu.agh.two.mud.common.command.UICommand;
 import pl.edu.agh.two.mud.common.command.dispatcher.Dispatcher;
+import pl.edu.agh.two.mud.common.message.MessageType;
 import pl.edu.agh.two.mud.server.IServiceRegistry;
 import pl.edu.agh.two.mud.server.Service;
 import pl.edu.agh.two.mud.server.command.SendAvailableCommands;
@@ -26,12 +27,12 @@ public class PlayersFight implements Fight {
 	public void startFight(IPlayer playerOne, IPlayer playerTwo) {
 		int whoAttacksFirst = new Random().nextInt(2);
 		switch (whoAttacksFirst) {
-		case 0:
-			switchAttackingPlayer(playerTwo, playerOne);
-			break;
-		case 1:
-			switchAttackingPlayer(playerOne, playerTwo);
-			break;
+			case 0:
+				switchAttackingPlayer(playerTwo, playerOne);
+				break;
+			case 1:
+				switchAttackingPlayer(playerOne, playerTwo);
+				break;
 		}
 
 	}
@@ -108,18 +109,18 @@ public class PlayersFight implements Fight {
 
 		Field to = null;
 		switch (direction) {
-		case N:
-			to = board.getFields()[fromYPosition - 1][fromXPosition];
-			break;
-		case S:
-			to = board.getFields()[fromYPosition + 1][fromXPosition];
-			break;
-		case W:
-			to = board.getFields()[fromYPosition][fromXPosition - 1];
-			break;
-		case E:
-			to = board.getFields()[fromYPosition][fromXPosition + 1];
-			break;
+			case N:
+				to = board.getFields()[fromYPosition - 1][fromXPosition];
+				break;
+			case S:
+				to = board.getFields()[fromYPosition + 1][fromXPosition];
+				break;
+			case W:
+				to = board.getFields()[fromYPosition][fromXPosition - 1];
+				break;
+			case E:
+				to = board.getFields()[fromYPosition][fromXPosition + 1];
+				break;
 
 		}
 
@@ -131,7 +132,7 @@ public class PlayersFight implements Fight {
 			from.removePlayer(currentPlayer);
 			to.addPlayer(currentPlayer);
 			board.setPlayersPosition(currentPlayer, to);
-			dispatcher.dispatch(new SendMessageToUserCommand(to.getFormattedFieldSummary()));
+			dispatcher.dispatch(new SendMessageToUserCommand(to.getFormattedFieldSummary(), MessageType.INFO));
 			currentPlayer.setEnemy(null);
 			enemy.setEnemy(null);
 		}

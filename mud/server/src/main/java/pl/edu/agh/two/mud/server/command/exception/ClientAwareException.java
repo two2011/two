@@ -4,7 +4,8 @@ import org.springframework.context.ApplicationContext;
 
 import pl.edu.agh.two.mud.common.command.dispatcher.Dispatcher;
 import pl.edu.agh.two.mud.common.command.exception.CommandExecutingException;
-import pl.edu.agh.two.mud.server.command.SendErrorToUserCommand;
+import pl.edu.agh.two.mud.common.message.MessageType;
+import pl.edu.agh.two.mud.server.command.SendMessageToUserCommand;
 
 public class ClientAwareException extends CommandExecutingException {
 
@@ -23,13 +24,12 @@ public class ClientAwareException extends CommandExecutingException {
 
 	@Override
 	public void handleException() {
-		ApplicationContext context = pl.edu.agh.two.mud.server.configuration.ApplicationContext
-				.getApplicationContext();
+		ApplicationContext context = pl.edu.agh.two.mud.server.configuration.ApplicationContext.getApplicationContext();
 		Dispatcher dispatcher = (Dispatcher) context.getBean(Dispatcher.class);
 
-		dispatcher.dispatch(new SendErrorToUserCommand(errorMessage));
+		dispatcher.dispatch(new SendMessageToUserCommand(errorMessage, MessageType.ERROR));
 	}
-	
+
 	public String getErrorMessage() {
 		return errorMessage;
 	}

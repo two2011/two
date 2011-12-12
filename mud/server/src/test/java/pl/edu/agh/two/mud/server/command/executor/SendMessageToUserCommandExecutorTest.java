@@ -1,7 +1,12 @@
 package pl.edu.agh.two.mud.server.command.executor;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 
@@ -9,26 +14,29 @@ import org.junit.Before;
 import org.junit.Test;
 
 import pl.edu.agh.two.mud.common.command.exception.CommandExecutingException;
+import pl.edu.agh.two.mud.common.message.MessageType;
+import pl.edu.agh.two.mud.common.message.TextMessage;
 import pl.edu.agh.two.mud.server.Service;
-import pl.edu.agh.two.mud.server.command.SendErrorToUserCommand;
-import pl.edu.agh.two.mud.server.command.executor.SendErrorToUserCommandExecutor;
+import pl.edu.agh.two.mud.server.command.SendMessageToUserCommand;
 
-public class SendErrorToUserCommandExecutorTest {
+public class SendMessageToUserCommandExecutorTest {
 
-	private static final String ERROR = "error";
+	private static final String MESSAGE = "message";
+	private static final MessageType TYPE = MessageType.INFO;
 
-	private SendErrorToUserCommandExecutor executor;
-	private SendErrorToUserCommand command;
+	private SendMessageToUserCommandExecutor executor;
+	private SendMessageToUserCommand command;
 	private Service service;
 
 	@Before
 	public void preprateTest() {
-		command = mock(SendErrorToUserCommand.class);
-		when(command.getErrorMessage()).thenReturn(ERROR);
+		command = mock(SendMessageToUserCommand.class);
+		when(command.getMessage()).thenReturn(MESSAGE);
+		when(command.getMessageType()).thenReturn(TYPE);
 
 		service = mock(Service.class);
 
-		executor = new SendErrorToUserCommandExecutor();
+		executor = new SendMessageToUserCommandExecutor();
 		executor.setService(service);
 	}
 
@@ -48,13 +56,13 @@ public class SendErrorToUserCommandExecutorTest {
 			assertEquals(e.getCause(), throwable);
 		}
 	}
-	
+
 	@Test
 	public void sendingMessage() {
 		try {
 			executor.execute(command);
 			try {
-				verify(service).writeObject(command.getErrorMessage());
+				verify(service).writeObject(new TextMessage(command.getMessage(), command.getMessageType()));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

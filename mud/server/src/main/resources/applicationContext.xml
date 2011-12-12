@@ -104,14 +104,6 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	</bean>
 
 	<bean
-		class="pl.edu.agh.two.mud.server.command.executor.SendErrorToUserCommandExecutor"
-		scope="prototype">
-		<property name="service">
-			<bean class="java.lang.Thread" factory-method="currentThread" />
-		</property>
-	</bean>
-
-	<bean
 		class="pl.edu.agh.two.mud.server.command.executor.SendMessageToUserCommandExecutor"
 		scope="prototype">
 		<property name="service">
