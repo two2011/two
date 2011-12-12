@@ -22,4 +22,9 @@ public class SendMessageToUserCommand extends Command {
 		return type;
 	}
 
+    @Override
+    public boolean equals(Object object){
+        return this.getMessage().equals(((SendMessageToUserCommand) object).getMessage()) && this.getType().equals(((SendMessageToUserCommand) object).getType());
+    }
+
 }
