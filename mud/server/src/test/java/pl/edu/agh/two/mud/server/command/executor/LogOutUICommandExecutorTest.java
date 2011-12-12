@@ -49,7 +49,6 @@ public class LogOutUICommandExecutorTest {
         Player player = createPlayer("krzyho", "correctPassword");
         board.addPlayer(player);
         when(serviceRegistry.getPlayer(service)).thenReturn(player);
-//        serviceRegistry.bindPlayerToService(service, player);
 
         // when
         executor.execute(command);
