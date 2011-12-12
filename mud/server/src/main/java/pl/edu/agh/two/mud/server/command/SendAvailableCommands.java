@@ -1,5 +1,7 @@
 package pl.edu.agh.two.mud.server.command;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 
 import pl.edu.agh.two.mud.common.IPlayer;
@@ -10,10 +12,26 @@ public class SendAvailableCommands extends Command {
 
 	private IPlayer player;
 
-	private Collection<Class<? extends UICommand>> uiCommands;
+	private Collection<Class<? extends UICommand>> uiCommandClassess;
 
-	public SendAvailableCommands(IPlayer player,
-			Collection<Class<? extends UICommand>> uiCommands) {
+	private Collection<UICommand> uiCommands = new ArrayList<UICommand>();
+
+	public SendAvailableCommands(IPlayer player, Class<? extends UICommand>... uiCommandClassess) {
+		this.player = player;
+		this.uiCommandClassess = Arrays.asList(uiCommandClassess);
+	}
+
+	public SendAvailableCommands(Collection<Class<? extends UICommand>> uiCommandClassess, IPlayer player) {
+		this.uiCommandClassess = uiCommandClassess;
+		this.player = player;
+	}
+
+	public SendAvailableCommands(IPlayer player, UICommand... uiCommands) {
+		this.player = player;
+		this.uiCommands = Arrays.asList(uiCommands);
+	}
+	
+	public SendAvailableCommands(IPlayer player, Collection<UICommand> uiCommands) {
 		this.player = player;
 		this.uiCommands = uiCommands;
 	}
@@ -22,8 +40,11 @@ public class SendAvailableCommands extends Command {
 		return player;
 	}
 
-	public Collection<Class<? extends UICommand>> getUiCommands() {
-		return uiCommands;
+	public Collection<Class<? extends UICommand>> getUICommandClassess() {
+		return uiCommandClassess;
 	}
 
+	public Collection<UICommand> getUICommands() {
+		return uiCommands;
+	}
 }

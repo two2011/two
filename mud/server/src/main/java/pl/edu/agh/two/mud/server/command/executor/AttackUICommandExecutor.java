@@ -16,12 +16,9 @@ public class AttackUICommandExecutor implements
 		CommandExecutor<AttackUICommand> {
 
 	private IServiceRegistry serviceRegistry;
-
 	private Board board;
-
 	private Fight fight;
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void execute(AttackUICommand command)
 			throws CommandExecutingException {

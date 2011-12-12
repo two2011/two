@@ -34,11 +34,16 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	<bean id="converter"
 		class="pl.edu.agh.two.mud.common.command.converter.UICommandToDefinitionConverter" />
 
+	<bean id="availableCommands"
+		class="pl.edu.agh.two.mud.server.command.util.AvailableCommands"
+		factory-method="getInstance">
+		<property name="commandProvider" ref="commandProvider" />
+	</bean>
+
 	<bean id="server" class="pl.edu.agh.two.mud.server.Server" />
 	<bean id="service" class="pl.edu.agh.two.mud.server.Service"
 		scope="prototype">
 		<property name="dispatcher" ref="dispatcher" />
-		<property name="commandProvider" ref="commandProvider" />
 		<property name="converter" ref="converter" />
 	</bean>
 	<bean id="mailer" class="pl.edu.agh.two.mud.server.mail.Mailer" />
@@ -50,7 +55,6 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 		scope="prototype">
 		<property name="dispatcher" ref="dispatcher" />
 		<property name="serviceRegistry" ref="serviceRegistry" />
-		<property name="commandProvider" ref="commandProvider" />
 		<property name="board" ref="board" />
 	</bean>
 
@@ -61,7 +65,6 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 		<property name="board" ref="board" />
 		<property name="serviceRegistry" ref="serviceRegistry" />
 		<property name="dispatcher" ref="dispatcher" />
-		<property name="commandProvider" ref="commandProvider" />
 	</bean>
 
 	<bean class="pl.edu.agh.two.mud.server.command.LogOutUICommand" />
@@ -123,8 +126,8 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 		<property name="commandProvider" ref="commandProvider" />
 	</bean>
 
-	<bean class="pl.edu.agh.two.mud.server.command.HitUiCommand" />
-	<bean class="pl.edu.agh.two.mud.server.command.executor.HitUiCommandExecutor">
+	<bean class="pl.edu.agh.two.mud.server.command.HitUICommand" />
+	<bean class="pl.edu.agh.two.mud.server.command.executor.HitUICommandExecutor">
 		<property name="serviceRegistry" ref="serviceRegistry" />
 		<property name="fight" ref="fight" />
 	</bean>

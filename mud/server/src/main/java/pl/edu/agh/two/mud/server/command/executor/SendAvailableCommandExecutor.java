@@ -28,11 +28,20 @@ public class SendAvailableCommandExecutor implements CommandExecutor<SendAvailab
 	public void execute(SendAvailableCommands command) throws CommandExecutingException {
 
 		Service service = serviceRegistry.getService(command.getPlayer());
-		Collection<ICommandDefinition> commandDefinitions = new ArrayList<ICommandDefinition>();
+		Collection<UICommand> uiCommands = null;
 
-		for (Class<? extends UICommand> uiCommandClass : command.getUiCommands()) {
-			commandDefinitions.add(converter.convertToCommandDefinition((UICommand) commandProvider
-					.getCommandById(uiCommandClass.getName())));
+		if (command.getUICommandClassess() != null) {
+			uiCommands = new ArrayList<UICommand>();
+			for (Class<? extends UICommand> uiCommandClass : command.getUICommandClassess()) {
+				uiCommands.add((UICommand) commandProvider.getCommand(uiCommandClass));
+			}
+		} else {
+			uiCommands = command.getUICommands();
+		}
+
+		Collection<ICommandDefinition> commandDefinitions = new ArrayList<ICommandDefinition>();
+		for (UICommand uiCommand : uiCommands) {
+			commandDefinitions.add(converter.convertToCommandDefinition(uiCommand));
 		}
 
 		try {

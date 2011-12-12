@@ -15,6 +15,7 @@ import pl.edu.agh.two.mud.common.command.provider.CommandProvider;
 import pl.edu.agh.two.mud.server.Service;
 import pl.edu.agh.two.mud.server.ServiceRegistry;
 import pl.edu.agh.two.mud.server.command.LogInUICommand;
+import pl.edu.agh.two.mud.server.command.util.AvailableCommands;
 import pl.edu.agh.two.mud.server.world.exception.NoPlayerWithSuchNameException;
 import pl.edu.agh.two.mud.server.world.model.Board;
 import pl.edu.agh.two.mud.server.world.model.SampleBoard;
@@ -34,12 +35,13 @@ public class LogInUICommandExecutorTest {
 		executor.setBoard(board);
 		executor.setServiceRegistry(serviceRegistry);
 		executor.setDispatcher(dispatcher);
-		executor.setCommandProvider(commandProvider);
+
+		AvailableCommands availableCommands = AvailableCommands.getInstance();
+		availableCommands.setCommandProvider(commandProvider);
 	}
 
 	@Test
-	public void shouldSuccessfullyExecuteLogInCommand()
-			throws NoPlayerWithSuchNameException {
+	public void shouldSuccessfullyExecuteLogInCommand() throws NoPlayerWithSuchNameException {
 		// given
 		LogInUICommand command = mockCommand();
 
@@ -54,8 +56,7 @@ public class LogInUICommandExecutorTest {
 	}
 
 	@Test
-	public void shouldNotLoginWithWrongPassword()
-			throws NoPlayerWithSuchNameException, IOException {
+	public void shouldNotLoginWithWrongPassword() throws NoPlayerWithSuchNameException, IOException {
 		// given
 		LogInUICommand command = mockCommand();
 

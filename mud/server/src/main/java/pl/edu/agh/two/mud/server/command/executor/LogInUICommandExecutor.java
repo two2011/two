@@ -1,18 +1,15 @@
 package pl.edu.agh.two.mud.server.command.executor;
 
 import java.io.IOException;
-import java.util.List;
 
 import pl.edu.agh.two.mud.common.IPlayer;
-import pl.edu.agh.two.mud.common.command.UICommand;
 import pl.edu.agh.two.mud.common.command.dispatcher.Dispatcher;
 import pl.edu.agh.two.mud.common.command.executor.CommandExecutor;
-import pl.edu.agh.two.mud.common.command.provider.CommandProvider;
 import pl.edu.agh.two.mud.server.IServiceRegistry;
 import pl.edu.agh.two.mud.server.Service;
 import pl.edu.agh.two.mud.server.command.LogInUICommand;
-import pl.edu.agh.two.mud.server.command.RegisterUICommand;
 import pl.edu.agh.two.mud.server.command.SendAvailableCommands;
+import pl.edu.agh.two.mud.server.command.util.AvailableCommands;
 import pl.edu.agh.two.mud.server.world.exception.NoPlayerWithSuchNameException;
 import pl.edu.agh.two.mud.server.world.model.Board;
 
@@ -21,9 +18,7 @@ public class LogInUICommandExecutor implements CommandExecutor<LogInUICommand> {
 	private Board board;
 	private IServiceRegistry serviceRegistry;
 	private Dispatcher dispatcher;
-	private CommandProvider commandProvider;
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void execute(LogInUICommand command) {
 		String login = command.getLogin();
@@ -38,16 +33,10 @@ public class LogInUICommandExecutor implements CommandExecutor<LogInUICommand> {
 					service.writeObject(player);
 					board.setPlayersPosition(player, board.getStartingField());
 					board.getStartingField().addPlayer(player);
-					service.writeObject(board.getStartingField()
-							.getFormattedFieldSummary());
-					List<Class<? extends UICommand>> commandsClasses = commandProvider
-							.convertUICommandsToClasses(commandProvider
-									.getUICommandsWithout(LogInUICommand.class,
-											RegisterUICommand.class));
+					service.writeObject(board.getStartingField().getFormattedFieldSummary());
 
-					dispatcher.dispatch(new SendAvailableCommands(player,
-							commandsClasses));
-
+					dispatcher.dispatch(new SendAvailableCommands(player, AvailableCommands.getInstance()
+							.getGameCommands()));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -82,14 +71,6 @@ public class LogInUICommandExecutor implements CommandExecutor<LogInUICommand> {
 
 	public void setDispatcher(Dispatcher dispatcher) {
 		this.dispatcher = dispatcher;
-	}
-
-	public CommandProvider getCommandProvider() {
-		return commandProvider;
-	}
-
-	public void setCommandProvider(CommandProvider commandProvider) {
-		this.commandProvider = commandProvider;
 	}
 
 }
