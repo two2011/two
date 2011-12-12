@@ -11,6 +11,7 @@ import pl.edu.agh.two.mud.client.command.DelegateToServerCommand;
 import pl.edu.agh.two.mud.common.command.Command;
 import pl.edu.agh.two.mud.common.command.IParsedCommand;
 import pl.edu.agh.two.mud.common.command.provider.CommandProvider;
+import pl.edu.agh.two.mud.common.command.util.Commands;
 
 public class ClientCommandFactoryTest {
 
@@ -36,8 +37,7 @@ public class ClientCommandFactoryTest {
 
 		Command command = factory.create(parsedCommand);
 		assertEquals(DelegateToServerCommand.class, command.getClass());
-		assertEquals(parsedCommand,
-				((DelegateToServerCommand) command).getParsedCommand());
+		assertEquals(parsedCommand, ((DelegateToServerCommand) command).getParsedCommand());
 	}
 
 	@Test
@@ -46,11 +46,10 @@ public class ClientCommandFactoryTest {
 		}
 
 		InnerCommand innerCommand = new InnerCommand();
-		String commandId = innerCommand.getClass().getName();
+		String commandId = Commands.getId(innerCommand.getClass());
 		when(parsedCommand.getCommandId()).thenReturn(commandId);
 		when(commandProvider.isCommandAvailable(commandId)).thenReturn(true);
-		when(commandProvider.getCommandById(commandId))
-				.thenReturn(innerCommand);
+		when(commandProvider.getCommandById(commandId)).thenReturn(innerCommand);
 
 		Command command = factory.create(parsedCommand);
 		assertEquals(innerCommand, command);

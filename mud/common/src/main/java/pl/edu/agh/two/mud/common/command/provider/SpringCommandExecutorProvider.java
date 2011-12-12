@@ -10,6 +10,7 @@ import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 
 import pl.edu.agh.two.mud.common.command.Command;
 import pl.edu.agh.two.mud.common.command.executor.CommandExecutor;
+import pl.edu.agh.two.mud.common.command.util.Commands;
 
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class SpringCommandExecutorProvider implements CommandExecutorProvider {
@@ -28,7 +29,7 @@ public class SpringCommandExecutorProvider implements CommandExecutorProvider {
 			throw new RuntimeException(
 					String.format(
 							"Command executor not found. Command class: %s. Make sure you've defined beans for Command and Executor in spring application context.",
-							command.getClass().getName()));
+							Commands.getId(command.getClass())));
 		}
 		CommandExecutor commandExecutor = beanFactory
 				.getBean(commandExecutorClass);

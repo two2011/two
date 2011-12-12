@@ -19,4 +19,8 @@ public class Commands {
 		});
 	}
 
+	public static String getId(Class<? extends Command> commandClass) {
+		return commandClass.getName();
+	}
+
 }

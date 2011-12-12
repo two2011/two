@@ -16,6 +16,7 @@ import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 
 import pl.edu.agh.two.mud.common.command.Command;
 import pl.edu.agh.two.mud.common.command.UICommand;
+import pl.edu.agh.two.mud.common.command.util.Commands;
 
 public class SpringCommandProvider implements CommandProvider {
 
@@ -104,7 +105,7 @@ public class SpringCommandProvider implements CommandProvider {
 
 	@Override
 	public boolean isCommandAvailable(Class<? extends Command> command) {
-		return isCommandAvailable(command.getName());
+		return isCommandAvailable(Commands.getId(command));
 	}
 
 	protected void registerCommand(String id, Class<? extends Command> commandClass) {
@@ -119,7 +120,7 @@ public class SpringCommandProvider implements CommandProvider {
 			try {
 				Class<? extends Command> commandClass = (Class<? extends Command>) Class.forName(commandBeanDefinition
 						.getBeanClassName());
-				String id = commandClass.getName();
+				String id = Commands.getId(commandClass);
 				registerCommand(id, commandClass);
 
 			} catch (ClassNotFoundException e) {
