@@ -1,6 +1,7 @@
 package pl.edu.agh.two.mud.common.message;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import pl.edu.agh.two.mud.common.command.definition.ICommandDefinition;
@@ -11,7 +12,7 @@ public class AvailableCommandsMessage implements Serializable {
 	private Collection<ICommandDefinition> commandDefinitions;
 
 	public AvailableCommandsMessage(Collection<ICommandDefinition> commandDefinitions) {
-		this.commandDefinitions = commandDefinitions;
+		this.commandDefinitions = new ArrayList<ICommandDefinition>(commandDefinitions);
 	}
 
 	public Collection<ICommandDefinition> getCommandDefinitions() {
