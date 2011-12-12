@@ -3,12 +3,11 @@ package pl.edu.agh.two.mud.server.command.executor;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,17 +15,20 @@ import org.junit.Before;
 import org.junit.Test;
 
 import pl.edu.agh.two.mud.common.IPlayer;
+import pl.edu.agh.two.mud.common.command.dispatcher.Dispatcher;
 import pl.edu.agh.two.mud.common.command.exception.CommandExecutingException;
-import pl.edu.agh.two.mud.common.command.exception.FatalException;
 import pl.edu.agh.two.mud.common.command.type.Text;
+import pl.edu.agh.two.mud.common.message.MessageType;
 import pl.edu.agh.two.mud.server.IServiceRegistry;
 import pl.edu.agh.two.mud.server.Service;
+import pl.edu.agh.two.mud.server.command.SendMessageToUserCommand;
 import pl.edu.agh.two.mud.server.command.TalkUICommand;
 import pl.edu.agh.two.mud.server.command.exception.ClientAwareException;
 import pl.edu.agh.two.mud.server.world.model.Board;
 import pl.edu.agh.two.mud.server.world.model.Field;
 
 public class TalkUICommandExecutorTest {
+	private static final String CURRENT_PLAYER_NAME = "CurrentPlayer";
 	private static final String MESSAGE = "Some message";
 
 	private TalkUICommandExecutor executor;
@@ -34,22 +36,27 @@ public class TalkUICommandExecutorTest {
 	private IServiceRegistry serviceRegistry;
 	private IPlayer currentPlayer;
 	private Service currentService;
+	private Dispatcher dispatcher;
 	private TalkUICommand command;
 
 	@Before
 	public void prepareTest() {
 		board = mock(Board.class);
 		currentService = mock(Service.class);
+
 		currentPlayer = mock(IPlayer.class);
+		when(currentPlayer.getName()).thenReturn(CURRENT_PLAYER_NAME);
+
+		dispatcher = mock(Dispatcher.class);
 
 		serviceRegistry = mock(IServiceRegistry.class);
 		when(serviceRegistry.getCurrentService()).thenReturn(currentService);
-		when(serviceRegistry.getPlayer(currentService)).thenReturn(
-				currentPlayer);
+		when(serviceRegistry.getPlayer(currentService)).thenReturn(currentPlayer);
 
 		executor = new TalkUICommandExecutor();
 		executor.setBoard(board);
 		executor.setServiceRegistry(serviceRegistry);
+		executor.setDispatcher(dispatcher);
 
 		command = mock(TalkUICommand.class);
 		when(command.getContent()).thenReturn(new Text(MESSAGE));
@@ -84,37 +91,6 @@ public class TalkUICommandExecutorTest {
 	}
 
 	@Test
-	public void sendingError() {
-		Field field = mock(Field.class);
-		IPlayer targetPlayer = mock(IPlayer.class);
-		Service targetService = mock(Service.class);
-
-		List<IPlayer> players = new ArrayList<IPlayer>();
-		players.add(currentPlayer);
-		players.add(targetPlayer);
-
-		when(board.getPlayersPosition(currentPlayer)).thenReturn(field);
-		when(field.getPlayers()).thenReturn(players);
-		when(serviceRegistry.getService(targetPlayer))
-				.thenReturn(targetService);
-		IOException exception = new IOException();
-		try {
-			doThrow(exception).when(targetService).writeObject(anyString());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		try {
-			executor.execute(command);
-			fail("Exception expected");
-		} catch (FatalException e) {
-			assertEquals(exception, e.getCause());
-		} catch (CommandExecutingException e) {
-			fail("Other exception expected");
-		}
-	}
-
-	@Test
 	public void talkNoUser() {
 		Field field = mock(Field.class);
 
@@ -131,44 +107,38 @@ public class TalkUICommandExecutorTest {
 	}
 
 	@Test
-	public void talkOneUser() {		
-		talkNUsers(1);		
+	public void talkOneUser() {
+		talkNUsers(1);
 	}
-	
+
 	@Test
-	public void talkManyUser() {		
-		talkNUsers(100);		
+	public void talkManyUser() {
+		talkNUsers(2);
 	}
 
 	private void talkNUsers(int howMany) {
 		List<IPlayer> players = new ArrayList<IPlayer>();
-		List<Service> services = new ArrayList<Service>();
-		
+
 		Field field = mock(Field.class);
 		when(board.getPlayersPosition(currentPlayer)).thenReturn(field);
 
 		players.add(currentPlayer);
 		for (int i = 0; i < howMany; i++) {
 			IPlayer targetPlayer = mock(IPlayer.class);
-			Service targetService = mock(Service.class);
-			when(serviceRegistry.getService(targetPlayer)).thenReturn(
-					targetService);
-
 			players.add(targetPlayer);
-			services.add(targetService);
 		}
 
 		when(field.getPlayers()).thenReturn(players);
-		
+
 		try {
+			// Remove self
+			players.remove(0);
+
 			executor.execute(command);
-			for (Service service : services) {
-				try {
-					verify(service).writeObject(
-							matches(String.format("^.* mowi: %s$", MESSAGE)));
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+			for (IPlayer player : players) {
+				verify(dispatcher, times(players.size())).dispatch(
+						new SendMessageToUserCommand(player, String.format("%s mowi: %s", currentPlayer.getName(),
+								MESSAGE), MessageType.INFO));
 			}
 		} catch (CommandExecutingException e) {
 			fail("Exception unexpected");

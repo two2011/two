@@ -105,12 +105,8 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
         <property name="dispatcher" ref="dispatcher"/>
 	</bean>
 
-	<bean
-		class="pl.edu.agh.two.mud.server.command.executor.SendMessageToUserCommandExecutor"
-		scope="prototype">
-		<property name="service">
-			<bean class="java.lang.Thread" factory-method="currentThread" />
-		</property>
+	<bean class="pl.edu.agh.two.mud.server.command.executor.SendMessageToUserCommandExecutor">
+		<property name="serviceRegistry" ref="serviceRegistry" />
 	</bean>
 
 	<bean

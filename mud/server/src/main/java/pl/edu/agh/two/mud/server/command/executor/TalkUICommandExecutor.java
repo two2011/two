@@ -35,7 +35,7 @@ public class TalkUICommandExecutor implements CommandExecutor<TalkUICommand> {
 		if (field != null) {
 			for (IPlayer targetPlayer : field.getPlayers()) {
 				if (targetPlayer != currentPlayer) {
-					dispatcher.dispatch(new SendMessageToUserCommand(String.format("%s mowi: %s",
+					dispatcher.dispatch(new SendMessageToUserCommand(targetPlayer, String.format("%s mowi: %s",
 							currentPlayer.getName(), content.getText()), MessageType.INFO));
 				}
 			}

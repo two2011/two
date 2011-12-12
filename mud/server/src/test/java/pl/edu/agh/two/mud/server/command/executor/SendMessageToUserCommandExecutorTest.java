@@ -13,9 +13,11 @@ import java.io.IOException;
 import org.junit.Before;
 import org.junit.Test;
 
+import pl.edu.agh.two.mud.common.IPlayer;
 import pl.edu.agh.two.mud.common.command.exception.CommandExecutingException;
 import pl.edu.agh.two.mud.common.message.MessageType;
 import pl.edu.agh.two.mud.common.message.TextMessage;
+import pl.edu.agh.two.mud.server.IServiceRegistry;
 import pl.edu.agh.two.mud.server.Service;
 import pl.edu.agh.two.mud.server.command.SendMessageToUserCommand;
 
@@ -26,7 +28,7 @@ public class SendMessageToUserCommandExecutorTest {
 
 	private SendMessageToUserCommandExecutor executor;
 	private SendMessageToUserCommand command;
-	private Service service;
+	private IServiceRegistry serviceRegistry;
 
 	@Before
 	public void preprateTest() {
@@ -34,19 +36,23 @@ public class SendMessageToUserCommandExecutorTest {
 		when(command.getMessage()).thenReturn(MESSAGE);
 		when(command.getType()).thenReturn(TYPE);
 
-		service = mock(Service.class);
+		serviceRegistry = mock(IServiceRegistry.class);
 
 		executor = new SendMessageToUserCommandExecutor();
-		executor.setService(service);
+		executor.setServiceRegistry(serviceRegistry);
 	}
 
 	@Test
 	public void errorDuringSendingMessage() {
+		Service currentService = mock(Service.class);
+
+		when(command.getPlayer()).thenReturn(null);
+		when(serviceRegistry.getCurrentService()).thenReturn(currentService);
+
 		IOException throwable = new IOException();
 		try {
-			doThrow(throwable).when(service).writeObject(anyString());
+			doThrow(throwable).when(currentService).writeObject(anyString());
 		} catch (IOException e) {
-			e.printStackTrace();
 		}
 
 		try {
@@ -58,13 +64,37 @@ public class SendMessageToUserCommandExecutorTest {
 	}
 
 	@Test
-	public void sendingMessage() {
+	public void sendingMessageToCurrentUser() {
+		Service currentService = mock(Service.class);
+
+		when(command.getPlayer()).thenReturn(null);
+		when(serviceRegistry.getCurrentService()).thenReturn(currentService);
+
+		try {
+			executor.execute(command);
+			try {
+				verify(currentService).writeObject(new TextMessage(command.getMessage(), command.getType()));
+			} catch (IOException e) {
+			}
+		} catch (CommandExecutingException e) {
+			fail("Exception unexpected");
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	public void sendingMessageToSomeUser() {
+		Service service = mock(Service.class);
+		IPlayer somePlayer = mock(IPlayer.class);
+
+		when(command.getPlayer()).thenReturn(somePlayer);
+		when(serviceRegistry.getService(somePlayer)).thenReturn(service);
+
 		try {
 			executor.execute(command);
 			try {
 				verify(service).writeObject(new TextMessage(command.getMessage(), command.getType()));
 			} catch (IOException e) {
-				e.printStackTrace();
 			}
 		} catch (CommandExecutingException e) {
 			fail("Exception unexpected");
