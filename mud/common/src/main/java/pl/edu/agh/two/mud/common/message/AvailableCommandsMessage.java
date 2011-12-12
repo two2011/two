@@ -3,6 +3,8 @@ package pl.edu.agh.two.mud.common.message;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import pl.edu.agh.two.mud.common.command.definition.ICommandDefinition;
 
@@ -28,7 +30,9 @@ public class AvailableCommandsMessage implements Serializable {
 		if (obj instanceof AvailableCommandsMessage) {
 			AvailableCommandsMessage acm = (AvailableCommandsMessage) obj;
 
-			if (commandDefinitions.equals(acm.commandDefinitions)) {
+			Set<ICommandDefinition> cd1 = new HashSet<ICommandDefinition>(commandDefinitions);
+			Set<ICommandDefinition> cd2 = new HashSet<ICommandDefinition>(acm.commandDefinitions);
+			if (cd1.equals(cd2)) {
 				return true;
 			}
 		}

@@ -14,26 +14,22 @@ public class CommandDefinition implements ICommandDefinition {
 	private Collection<String> names;
 	private String description;
 	private Map<String, ICommandParameterDefinition> parametersMap = new LinkedHashMap<String, ICommandParameterDefinition>();
-	boolean textParam;
+	Boolean textParam;
 
-	public CommandDefinition(String id, Collection<String> names,
-			String description, List<ICommandParameterDefinition> parameters,
-			boolean textParam) {
+	public CommandDefinition(String id, Collection<String> names, String description,
+			List<ICommandParameterDefinition> parameters, boolean textParam) {
 
 		if (id == null) {
 			throw new IllegalArgumentException("Parameter id must be provided");
 		}
 		if (names == null || names.size() == 0) {
-			throw new IllegalArgumentException(
-					"There must be at least one name for command");
+			throw new IllegalArgumentException("There must be at least one name for command");
 		}
 		if (description == null) {
-			throw new IllegalArgumentException(
-					"Parameter description must be provided");
+			throw new IllegalArgumentException("Parameter description must be provided");
 		}
 		if ((parameters == null || parameters.size() == 0) && textParam) {
-			throw new IllegalArgumentException(
-					"Cannot handle textParamater if there are no paramaters for command");
+			throw new IllegalArgumentException("Cannot handle textParamater if there are no paramaters for command");
 		}
 
 		this.id = id;
@@ -64,9 +60,7 @@ public class CommandDefinition implements ICommandDefinition {
 
 	@Override
 	public List<ICommandParameterDefinition> getParameters() {
-		return Collections
-				.unmodifiableList(new ArrayList<ICommandParameterDefinition>(
-						parametersMap.values()));
+		return Collections.unmodifiableList(new ArrayList<ICommandParameterDefinition>(parametersMap.values()));
 	}
 
 	@Override
@@ -82,6 +76,36 @@ public class CommandDefinition implements ICommandDefinition {
 	@Override
 	public boolean isTextParam() {
 		return textParam;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == this) {
+			return true;
+		}
+
+		if (obj instanceof CommandDefinition) {
+			CommandDefinition cd = (CommandDefinition) obj;
+
+			if (id.equals(cd.id) && names.equals(cd.names) && description.equals(cd.description)
+					&& parametersMap.equals(cd.parametersMap) && textParam.equals(cd.textParam)) {
+				return true;
+			}
+
+		}
+
+		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		int hash = 7;
+		hash = 31 * hash + (id == null ? 0 : id.hashCode());
+		hash = 31 * hash + (names == null ? 0 : names.hashCode());
+		hash = 31 * hash + (description == null ? 0 : description.hashCode());
+		hash = 31 * hash + (parametersMap == null ? 0 : parametersMap.hashCode());
+		hash = 31 * hash + (textParam == null ? 0 : textParam.hashCode());
+		return hash;
 	}
 
 }
