@@ -7,7 +7,7 @@ import pl.edu.agh.two.mud.common.command.executor.CommandExecutor;
 import pl.edu.agh.two.mud.server.IServiceRegistry;
 import pl.edu.agh.two.mud.server.Service;
 import pl.edu.agh.two.mud.server.command.LogInUICommand;
-import pl.edu.agh.two.mud.server.command.SendAvailableCommands;
+import pl.edu.agh.two.mud.server.command.SendAvailableCommandsCommand;
 import pl.edu.agh.two.mud.server.command.SendMessageToUserCommand;
 import pl.edu.agh.two.mud.server.command.util.AvailableCommands;
 import pl.edu.agh.two.mud.server.world.exception.NoPlayerWithSuchNameException;
@@ -40,7 +40,7 @@ public class LogInUICommandExecutor implements CommandExecutor<LogInUICommand> {
                     board.getStartingField().addPlayer(player);
                     service.writeObject(board.getStartingField().getFormattedFieldSummary());
 
-                    dispatcher.dispatch(new SendAvailableCommands(player, AvailableCommands.getInstance().getGameCommands()));
+                    dispatcher.dispatch(new SendAvailableCommandsCommand(player, AvailableCommands.getInstance().getGameCommands()));
                 } catch (IOException e) {
                     throw new FatalException(e);
                 }

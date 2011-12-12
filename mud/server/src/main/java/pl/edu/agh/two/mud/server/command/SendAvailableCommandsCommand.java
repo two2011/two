@@ -8,7 +8,7 @@ import pl.edu.agh.two.mud.common.IPlayer;
 import pl.edu.agh.two.mud.common.command.Command;
 import pl.edu.agh.two.mud.common.command.UICommand;
 
-public class SendAvailableCommands extends Command {
+public class SendAvailableCommandsCommand extends Command {
 
 	private IPlayer player;
 
@@ -16,22 +16,22 @@ public class SendAvailableCommands extends Command {
 
 	private Collection<UICommand> uiCommands = new ArrayList<UICommand>();
 
-	public SendAvailableCommands(IPlayer player, Class<? extends UICommand>... uiCommandClassess) {
+	public SendAvailableCommandsCommand(IPlayer player, Class<? extends UICommand>... uiCommandClassess) {
 		this.player = player;
 		this.uiCommandClassess = Arrays.asList(uiCommandClassess);
 	}
 
-	public SendAvailableCommands(Collection<Class<? extends UICommand>> uiCommandClassess, IPlayer player) {
+	public SendAvailableCommandsCommand(Collection<Class<? extends UICommand>> uiCommandClassess, IPlayer player) {
 		this.uiCommandClassess = uiCommandClassess;
 		this.player = player;
 	}
 
-	public SendAvailableCommands(IPlayer player, UICommand... uiCommands) {
+	public SendAvailableCommandsCommand(IPlayer player, UICommand... uiCommands) {
 		this.player = player;
 		this.uiCommands = Arrays.asList(uiCommands);
 	}
 	
-	public SendAvailableCommands(IPlayer player, Collection<UICommand> uiCommands) {
+	public SendAvailableCommandsCommand(IPlayer player, Collection<UICommand> uiCommands) {
 		this.player = player;
 		this.uiCommands = uiCommands;
 	}

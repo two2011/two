@@ -14,18 +14,16 @@ import pl.edu.agh.two.mud.common.command.provider.CommandProvider;
 import pl.edu.agh.two.mud.common.message.AvailableCommandsMessage;
 import pl.edu.agh.two.mud.server.IServiceRegistry;
 import pl.edu.agh.two.mud.server.Service;
-import pl.edu.agh.two.mud.server.command.SendAvailableCommands;
+import pl.edu.agh.two.mud.server.command.SendAvailableCommandsCommand;
 
-public class SendAvailableCommandExecutor implements CommandExecutor<SendAvailableCommands> {
+public class SendAvailableCommandsCommandExecutor implements CommandExecutor<SendAvailableCommandsCommand> {
 
 	private IServiceRegistry serviceRegistry;
-
 	private UICommandToDefinitionConverter converter;
-
 	private CommandProvider commandProvider;
 
 	@Override
-	public void execute(SendAvailableCommands command) throws CommandExecutingException {
+	public void execute(SendAvailableCommandsCommand command) throws CommandExecutingException {
 
 		Service service = serviceRegistry.getService(command.getPlayer());
 		Collection<UICommand> uiCommands = null;

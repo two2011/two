@@ -10,7 +10,7 @@ import pl.edu.agh.two.mud.common.command.dispatcher.Dispatcher;
 import pl.edu.agh.two.mud.common.message.MessageType;
 import pl.edu.agh.two.mud.server.IServiceRegistry;
 import pl.edu.agh.two.mud.server.Service;
-import pl.edu.agh.two.mud.server.command.SendAvailableCommands;
+import pl.edu.agh.two.mud.server.command.SendAvailableCommandsCommand;
 import pl.edu.agh.two.mud.server.command.SendMessageToUserCommand;
 import pl.edu.agh.two.mud.server.command.util.AvailableCommands;
 import pl.edu.agh.two.mud.server.world.fight.Fight;
@@ -96,7 +96,7 @@ public class PlayersFight implements Fight {
 	}
 
 	private void sendAvailableCommands(IPlayer player, Collection<UICommand> availableCommands) {
-		dispatcher.dispatch(new SendAvailableCommands(player, availableCommands));
+		dispatcher.dispatch(new SendAvailableCommandsCommand(player, availableCommands));
 
 	}
 
