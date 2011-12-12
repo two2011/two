@@ -7,6 +7,7 @@ import java.net.Socket;
 
 import org.apache.log4j.Logger;
 
+import pl.edu.agh.two.mud.client.command.registry.CommandRegistrationException;
 import pl.edu.agh.two.mud.client.command.registry.ICommandDefinitionRegistry;
 import pl.edu.agh.two.mud.client.ui.MainWindow;
 import pl.edu.agh.two.mud.common.IPlayer;
@@ -44,12 +45,12 @@ public class Connection extends Thread {
 
 	@Override
 	public void run() {
-		while (true) {
-			try {
-				Object object = in.readObject();
+		try {
+			while (true) {
+				Object object;
+				object = in.readObject();
 
 				// Message handling
-				// TODO Should be more generic !
 				if (object instanceof AvailableCommandsMessage) {
 					AvailableCommandsMessage command = (AvailableCommandsMessage) object;
 
@@ -57,15 +58,25 @@ public class Connection extends Thread {
 					commandDefinitionRegistry.clearExternalCommands();
 
 					// Register internal commands
+
 					for (UICommand uiCommand : commandProvider.getUICommands()) {
-						commandDefinitionRegistry.registerCommandDefinition(converter
-								.convertToCommandDefinition(uiCommand));
+						try {
+							commandDefinitionRegistry.registerCommandDefinition(converter
+									.convertToCommandDefinition(uiCommand));
+						} catch (CommandRegistrationException e) {
+							logger.error("Cannot register internal command", e);
+						}
 					}
 
 					// Register external commands
 					for (ICommandDefinition commandDefinition : command.getCommandDefinitions()) {
-						commandDefinitionRegistry.registerCommandDefinition(commandDefinition);
+						try {
+							commandDefinitionRegistry.registerCommandDefinition(commandDefinition);
+						} catch (CommandRegistrationException e) {
+							logger.error("Cannot register  external command", e);
+						}
 					}
+
 				} else if (object instanceof IPlayer) {
 					mainWindow.getPlayerPanel().updateHero((IPlayer) object);
 				} else if (object instanceof String) {
@@ -74,10 +85,11 @@ public class Connection extends Thread {
 					mainWindow.getPlayerPanel().updateHero(null);
 				}
 
-			} catch (Exception e) {
-				logger.error("Error during reading message from server", e);
-				e.printStackTrace();
 			}
+		} catch (IOException e) {
+			logger.fatal("Fatal exception while reading from socket", e);
+		} catch (ClassNotFoundException e) {
+			logger.fatal("Cannot deserialize class obtained from socket", e);
 		}
 	}
 
