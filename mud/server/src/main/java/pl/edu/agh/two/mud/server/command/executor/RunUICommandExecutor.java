@@ -6,20 +6,20 @@ import pl.edu.agh.two.mud.common.command.exception.FatalException;
 import pl.edu.agh.two.mud.common.command.executor.CommandExecutor;
 import pl.edu.agh.two.mud.server.IServiceRegistry;
 import pl.edu.agh.two.mud.server.Service;
-import pl.edu.agh.two.mud.server.command.RunCommand;
+import pl.edu.agh.two.mud.server.command.RunUICommand;
 import pl.edu.agh.two.mud.server.command.exception.ClientAwareException;
 import pl.edu.agh.two.mud.server.world.fight.Fight;
 import pl.edu.agh.two.mud.server.world.model.Board;
 import pl.edu.agh.two.mud.server.world.model.Direction;
 import pl.edu.agh.two.mud.server.world.model.Field;
 
-public class RunCommandExecutor implements CommandExecutor<RunCommand> {
+public class RunUICommandExecutor implements CommandExecutor<RunUICommand> {
 	private IServiceRegistry serviceRegistry;
 	private Fight fight;
 	private Board board;
 
 	@Override
-	public void execute(RunCommand command) throws CommandExecutingException {
+	public void execute(RunUICommand command) throws CommandExecutingException {
 		Service currentService = serviceRegistry.getCurrentService();
 		IPlayer currentPlayer = serviceRegistry.getPlayer(currentService);
 

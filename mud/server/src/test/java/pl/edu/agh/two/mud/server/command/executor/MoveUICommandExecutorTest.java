@@ -5,8 +5,8 @@ import org.junit.Test;
 import pl.edu.agh.two.mud.common.Player;
 import pl.edu.agh.two.mud.server.Service;
 import pl.edu.agh.two.mud.server.ServiceRegistry;
-import pl.edu.agh.two.mud.server.command.MoveCommand;
-import pl.edu.agh.two.mud.server.command.executor.MoveCommandExecutor;
+import pl.edu.agh.two.mud.server.command.MoveUICommand;
+import pl.edu.agh.two.mud.server.command.executor.MoveUICommandExecutor;
 import pl.edu.agh.two.mud.server.world.model.Board;
 import pl.edu.agh.two.mud.server.world.model.Field;
 import pl.edu.agh.two.mud.server.world.model.SampleBoard;
@@ -16,8 +16,8 @@ import java.io.IOException;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
-public class MoveCommandExecutorTest {
-    private final MoveCommandExecutor executor = new MoveCommandExecutor();
+public class MoveUICommandExecutorTest {
+    private final MoveUICommandExecutor executor = new MoveUICommandExecutor();
     private Board board;
     private final ServiceRegistry serviceRegistry = mock(ServiceRegistry.class);
     private final Service service = mock(Service.class);
@@ -33,7 +33,7 @@ public class MoveCommandExecutorTest {
     @Test
     public void shouldNotExecuteForNotLoggedInPlayer() throws IOException {
         // given
-        MoveCommand command = prepareValidMoveNorthCommand();
+        MoveUICommand command = prepareValidMoveNorthCommand();
 
         // when
         executor.execute(command);
@@ -45,7 +45,7 @@ public class MoveCommandExecutorTest {
     @Test
     public void shouldNotChangeFieldWhenInvalidDirection() throws IOException {
         // given
-        MoveCommand command = prepareInvalidMoveCommand();
+        MoveUICommand command = prepareInvalidMoveCommand();
         when(serviceRegistry.getPlayer(service)).thenReturn(new Player());
 
         // when
@@ -58,7 +58,7 @@ public class MoveCommandExecutorTest {
     @Test
     public void shouldNotChangeFieldWhenDirectionNotPossible() throws IOException {
         // given
-        MoveCommand command = prepareValidMoveNorthCommand();
+        MoveUICommand command = prepareValidMoveNorthCommand();
         Player player = new Player();
         when(serviceRegistry.getPlayer(service)).thenReturn(player);
         board.addPlayer(player);
@@ -73,7 +73,7 @@ public class MoveCommandExecutorTest {
     @Test
     public void shouldChangeField() throws IOException {
         // given
-        MoveCommand command = prepareValidMoveEastCommand();
+        MoveUICommand command = prepareValidMoveEastCommand();
         Player player = new Player();
         when(serviceRegistry.getPlayer(service)).thenReturn(player);
         board.addPlayer(player);
@@ -89,15 +89,15 @@ public class MoveCommandExecutorTest {
         verify(service).writeObject(newPlayersPosition.getFormattedFieldSummary());
     }
 
-    private MoveCommand prepareValidMoveEastCommand() {
-        return new MoveCommand().withDirection("e");
+    private MoveUICommand prepareValidMoveEastCommand() {
+        return new MoveUICommand().withDirection("e");
     }
 
-    private MoveCommand prepareValidMoveNorthCommand() {
-        return new MoveCommand().withDirection("n");
+    private MoveUICommand prepareValidMoveNorthCommand() {
+        return new MoveUICommand().withDirection("n");
     }
 
-    private MoveCommand prepareInvalidMoveCommand() {
-        return new MoveCommand().withDirection("c");
+    private MoveUICommand prepareInvalidMoveCommand() {
+        return new MoveUICommand().withDirection("c");
     }
 }

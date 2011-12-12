@@ -6,18 +6,18 @@ import javax.mail.MessagingException;
 
 import pl.edu.agh.two.mud.common.Player;
 import pl.edu.agh.two.mud.common.command.executor.CommandExecutor;
-import pl.edu.agh.two.mud.server.command.RegisterCommand;
+import pl.edu.agh.two.mud.server.command.RegisterUICommand;
 import pl.edu.agh.two.mud.server.mail.Mailer;
 import pl.edu.agh.two.mud.server.world.model.Board;
 
-public class RegisterCommandExecutor implements
-		CommandExecutor<RegisterCommand> {
+public class RegisterUICommandExecutor implements
+		CommandExecutor<RegisterUICommand> {
 
 	private Board board;
 	private Mailer mailer;
 
 	@Override
-	public void execute(RegisterCommand command) {
+	public void execute(RegisterUICommand command) {
 		Player player = new Player();
 		try {
 			String password = generatePassword();

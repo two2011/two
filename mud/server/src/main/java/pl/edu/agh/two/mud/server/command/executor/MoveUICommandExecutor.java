@@ -4,20 +4,20 @@ import pl.edu.agh.two.mud.common.IPlayer;
 import pl.edu.agh.two.mud.common.command.executor.CommandExecutor;
 import pl.edu.agh.two.mud.server.IServiceRegistry;
 import pl.edu.agh.two.mud.server.Service;
-import pl.edu.agh.two.mud.server.command.MoveCommand;
+import pl.edu.agh.two.mud.server.command.MoveUICommand;
 import pl.edu.agh.two.mud.server.world.model.Board;
 import pl.edu.agh.two.mud.server.world.model.Direction;
 import pl.edu.agh.two.mud.server.world.model.Field;
 
 import java.io.IOException;
 
-public class MoveCommandExecutor implements CommandExecutor<MoveCommand> {
+public class MoveUICommandExecutor implements CommandExecutor<MoveUICommand> {
 
     private Board board;
     private IServiceRegistry serviceRegistry;
 
     @Override
-    public void execute(MoveCommand command) {
+    public void execute(MoveUICommand command) {
 
         Service service = serviceRegistry.getCurrentService();
         IPlayer player = serviceRegistry.getPlayer(service);

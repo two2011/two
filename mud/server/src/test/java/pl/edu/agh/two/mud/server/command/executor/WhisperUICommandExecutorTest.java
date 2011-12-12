@@ -21,23 +21,23 @@ import pl.edu.agh.two.mud.common.command.exception.FatalException;
 import pl.edu.agh.two.mud.common.command.type.Text;
 import pl.edu.agh.two.mud.server.IServiceRegistry;
 import pl.edu.agh.two.mud.server.Service;
-import pl.edu.agh.two.mud.server.command.WhisperCommand;
+import pl.edu.agh.two.mud.server.command.WhisperUICommand;
 import pl.edu.agh.two.mud.server.command.exception.ClientAwareException;
 import pl.edu.agh.two.mud.server.world.exception.NoPlayerWithSuchNameException;
 import pl.edu.agh.two.mud.server.world.model.Board;
 import pl.edu.agh.two.mud.server.world.model.Field;
 
-public class WhisperCommandExecutorTest {
+public class WhisperUICommandExecutorTest {
 
 	private static final String MESSAGE = "Some message";
 	private static final String TARGET_USER = "user";
 
-	private WhisperCommandExecutor executor;
+	private WhisperUICommandExecutor executor;
 	private Board board;
 	private IServiceRegistry serviceRegistry;
 	private IPlayer currentPlayer;
 	private Service currentService;
-	private WhisperCommand command;
+	private WhisperUICommand command;
 
 	@Before
 	public void prepareTest() {
@@ -50,11 +50,11 @@ public class WhisperCommandExecutorTest {
 		when(serviceRegistry.getPlayer(currentService)).thenReturn(
 				currentPlayer);
 
-		executor = new WhisperCommandExecutor();
+		executor = new WhisperUICommandExecutor();
 		executor.setBoard(board);
 		executor.setServiceRegistry(serviceRegistry);
 
-		command = mock(WhisperCommand.class);
+		command = mock(WhisperUICommand.class);
 		when(command.getContent()).thenReturn(new Text(MESSAGE));
 		when(command.getTarget()).thenReturn(TARGET_USER);
 	}

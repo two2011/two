@@ -4,27 +4,26 @@ import pl.edu.agh.two.mud.common.command.UICommand;
 import pl.edu.agh.two.mud.common.command.annotation.Alias;
 import pl.edu.agh.two.mud.common.command.annotation.OrderedParam;
 
-@Alias({ "login", "log", "l" })
-public class LogInCommand extends UICommand {
+@Alias({"rejestruj", "rej"})
+public class RegisterUICommand extends UICommand {
 
 	@OrderedParam(1)
-	private String name;
+	private String login;
 
 	@OrderedParam(2)
-	private String password;
+	private String email;
 
 	@Override
 	public String getDescription() {
-		return "Komenda logowania. Jej uzycie spowoduje zalogowanie sie na wybrana postac.\n"
-				+ "\t login[log][l] <login> <password>";
+		return "rejestruj <login> <email>";
 	}
 
 	public String getLogin() {
-		return name;
+		return login;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getEmail() {
+		return email;
 	}
 
 }

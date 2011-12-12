@@ -14,13 +14,13 @@ import pl.edu.agh.two.mud.common.command.dispatcher.Dispatcher;
 import pl.edu.agh.two.mud.common.command.provider.CommandProvider;
 import pl.edu.agh.two.mud.server.Service;
 import pl.edu.agh.two.mud.server.ServiceRegistry;
-import pl.edu.agh.two.mud.server.command.LogInCommand;
+import pl.edu.agh.two.mud.server.command.LogInUICommand;
 import pl.edu.agh.two.mud.server.world.exception.NoPlayerWithSuchNameException;
 import pl.edu.agh.two.mud.server.world.model.Board;
 import pl.edu.agh.two.mud.server.world.model.SampleBoard;
 
-public class LogInCommandExecutorTest {
-	LogInCommandExecutor executor = new LogInCommandExecutor();
+public class LogInUICommandExecutorTest {
+	LogInUICommandExecutor executor = new LogInUICommandExecutor();
 	Board board;
 	ServiceRegistry serviceRegistry = mock(ServiceRegistry.class);
 	Service service = mock(Service.class);
@@ -41,7 +41,7 @@ public class LogInCommandExecutorTest {
 	public void shouldSuccessfullyExecuteLogInCommand()
 			throws NoPlayerWithSuchNameException {
 		// given
-		LogInCommand command = mockCommand();
+		LogInUICommand command = mockCommand();
 
 		Player player = createPlayer("krzyho", "correctPassword");
 		board.addPlayer(player);
@@ -57,7 +57,7 @@ public class LogInCommandExecutorTest {
 	public void shouldNotLoginWithWrongPassword()
 			throws NoPlayerWithSuchNameException, IOException {
 		// given
-		LogInCommand command = mockCommand();
+		LogInUICommand command = mockCommand();
 
 		Player player = createPlayer("krzyho", "wrongPassword");
 		board.addPlayer(player);
@@ -72,7 +72,7 @@ public class LogInCommandExecutorTest {
 	@Test
 	public void shouldNotLoginWhenNoPlayerRegistered() throws IOException {
 		// given
-		LogInCommand command = mockCommand();
+		LogInUICommand command = mockCommand();
 
 		// when
 		executor.execute(command);
@@ -81,8 +81,8 @@ public class LogInCommandExecutorTest {
 		verify(service).writeObject("Nie ma takiego gracza");
 	}
 
-	private LogInCommand mockCommand() {
-		LogInCommand command = mock(LogInCommand.class);
+	private LogInUICommand mockCommand() {
+		LogInUICommand command = mock(LogInUICommand.class);
 		when(command.getLogin()).thenReturn("krzyho");
 		when(command.getPassword()).thenReturn("correctPassword");
 		return command;

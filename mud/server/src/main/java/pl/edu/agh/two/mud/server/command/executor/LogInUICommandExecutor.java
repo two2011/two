@@ -10,13 +10,13 @@ import pl.edu.agh.two.mud.common.command.executor.CommandExecutor;
 import pl.edu.agh.two.mud.common.command.provider.CommandProvider;
 import pl.edu.agh.two.mud.server.IServiceRegistry;
 import pl.edu.agh.two.mud.server.Service;
-import pl.edu.agh.two.mud.server.command.LogInCommand;
-import pl.edu.agh.two.mud.server.command.RegisterCommand;
+import pl.edu.agh.two.mud.server.command.LogInUICommand;
+import pl.edu.agh.two.mud.server.command.RegisterUICommand;
 import pl.edu.agh.two.mud.server.command.SendAvailableCommands;
 import pl.edu.agh.two.mud.server.world.exception.NoPlayerWithSuchNameException;
 import pl.edu.agh.two.mud.server.world.model.Board;
 
-public class LogInCommandExecutor implements CommandExecutor<LogInCommand> {
+public class LogInUICommandExecutor implements CommandExecutor<LogInUICommand> {
 
 	private Board board;
 	private IServiceRegistry serviceRegistry;
@@ -25,7 +25,7 @@ public class LogInCommandExecutor implements CommandExecutor<LogInCommand> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void execute(LogInCommand command) {
+	public void execute(LogInUICommand command) {
 		String login = command.getLogin();
 		String password = command.getPassword();
 		Service service = serviceRegistry.getCurrentService();
@@ -42,8 +42,8 @@ public class LogInCommandExecutor implements CommandExecutor<LogInCommand> {
 							.getFormattedFieldSummary());
 					List<Class<? extends UICommand>> commandsClasses = commandProvider
 							.convertUICommandsToClasses(commandProvider
-									.getUICommandsWithout(LogInCommand.class,
-											RegisterCommand.class));
+									.getUICommandsWithout(LogInUICommand.class,
+											RegisterUICommand.class));
 
 					dispatcher.dispatch(new SendAvailableCommands(player,
 							commandsClasses));

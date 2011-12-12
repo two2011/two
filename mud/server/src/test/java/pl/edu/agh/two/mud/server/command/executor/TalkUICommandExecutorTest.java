@@ -21,20 +21,20 @@ import pl.edu.agh.two.mud.common.command.exception.FatalException;
 import pl.edu.agh.two.mud.common.command.type.Text;
 import pl.edu.agh.two.mud.server.IServiceRegistry;
 import pl.edu.agh.two.mud.server.Service;
-import pl.edu.agh.two.mud.server.command.TalkCommand;
+import pl.edu.agh.two.mud.server.command.TalkUICommand;
 import pl.edu.agh.two.mud.server.command.exception.ClientAwareException;
 import pl.edu.agh.two.mud.server.world.model.Board;
 import pl.edu.agh.two.mud.server.world.model.Field;
 
-public class TalkCommandExecutorTest {
+public class TalkUICommandExecutorTest {
 	private static final String MESSAGE = "Some message";
 
-	private TalkCommandExecutor executor;
+	private TalkUICommandExecutor executor;
 	private Board board;
 	private IServiceRegistry serviceRegistry;
 	private IPlayer currentPlayer;
 	private Service currentService;
-	private TalkCommand command;
+	private TalkUICommand command;
 
 	@Before
 	public void prepareTest() {
@@ -47,11 +47,11 @@ public class TalkCommandExecutorTest {
 		when(serviceRegistry.getPlayer(currentService)).thenReturn(
 				currentPlayer);
 
-		executor = new TalkCommandExecutor();
+		executor = new TalkUICommandExecutor();
 		executor.setBoard(board);
 		executor.setServiceRegistry(serviceRegistry);
 
-		command = mock(TalkCommand.class);
+		command = mock(TalkUICommand.class);
 		when(command.getContent()).thenReturn(new Text(MESSAGE));
 	}
 

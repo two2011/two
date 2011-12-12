@@ -11,10 +11,10 @@ import pl.edu.agh.two.mud.common.command.dispatcher.Dispatcher;
 import pl.edu.agh.two.mud.common.command.provider.CommandProvider;
 import pl.edu.agh.two.mud.server.IServiceRegistry;
 import pl.edu.agh.two.mud.server.Service;
-import pl.edu.agh.two.mud.server.command.HitCommand;
-import pl.edu.agh.two.mud.server.command.LogInCommand;
-import pl.edu.agh.two.mud.server.command.RegisterCommand;
-import pl.edu.agh.two.mud.server.command.RunCommand;
+import pl.edu.agh.two.mud.server.command.HitUICommand;
+import pl.edu.agh.two.mud.server.command.LogInUICommand;
+import pl.edu.agh.two.mud.server.command.RegisterUICommand;
+import pl.edu.agh.two.mud.server.command.RunUICommand;
 import pl.edu.agh.two.mud.server.command.SendAvailableCommands;
 import pl.edu.agh.two.mud.server.command.SendMessageToUserCommand;
 import pl.edu.agh.two.mud.server.world.fight.Fight;
@@ -99,11 +99,11 @@ public class PlayersFight implements Fight {
 	
 	public void switchAttackingPlayer(IPlayer from, IPlayer to) {
 		sendAvailableCommands(from, new Class[] {});
-		sendAvailableCommands(to, HitCommand.class, RunCommand.class);
+		sendAvailableCommands(to, HitUICommand.class, RunUICommand.class);
 	}
 	
 	public void unlockAllCommands(IPlayer player){
-		List<Class<? extends UICommand>> availableCommands = commandProvider.convertUICommandsToClasses(commandProvider.getUICommandsWithout(LogInCommand.class, RegisterCommand.class));
+		List<Class<? extends UICommand>> availableCommands = commandProvider.convertUICommandsToClasses(commandProvider.getUICommandsWithout(LogInUICommand.class, RegisterUICommand.class));
 		sendAvailableCommands(player, availableCommands);
 	}
 

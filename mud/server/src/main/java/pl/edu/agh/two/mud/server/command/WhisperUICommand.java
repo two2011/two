@@ -5,16 +5,23 @@ import pl.edu.agh.two.mud.common.command.annotation.Alias;
 import pl.edu.agh.two.mud.common.command.annotation.OrderedParam;
 import pl.edu.agh.two.mud.common.command.type.Text;
 
-@Alias({ "mow", "m" })
-public class TalkCommand extends UICommand {
+@Alias({ "szepcz", "sz" })
+public class WhisperUICommand extends UICommand {
 
 	@OrderedParam(1)
+	private String target;
+
+	@OrderedParam(2)
 	private Text content;
 
 	@Override
 	public String getDescription() {
-		return "Komenda mowienia - przesyla wiadomosc do wszystkich graczy bedacego na tym samym polu\n"
-				+ "\t mow[m] <tresc>";
+		return "Komenda szeptania - przesya wiadomosc do wybranego gracza bedacego na tym samym polu\n"
+				+ "\t szepcz[sz] <user> <tresc>";
+	}
+
+	public String getTarget() {
+		return target;
 	}
 
 	public Text getContent() {

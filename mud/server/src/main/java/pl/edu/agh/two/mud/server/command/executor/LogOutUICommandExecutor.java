@@ -8,13 +8,13 @@ import pl.edu.agh.two.mud.common.command.dispatcher.Dispatcher;
 import pl.edu.agh.two.mud.common.command.executor.CommandExecutor;
 import pl.edu.agh.two.mud.server.IServiceRegistry;
 import pl.edu.agh.two.mud.server.Service;
-import pl.edu.agh.two.mud.server.command.LogInCommand;
-import pl.edu.agh.two.mud.server.command.LogOutCommand;
-import pl.edu.agh.two.mud.server.command.RegisterCommand;
+import pl.edu.agh.two.mud.server.command.LogInUICommand;
+import pl.edu.agh.two.mud.server.command.LogOutUICommand;
+import pl.edu.agh.two.mud.server.command.RegisterUICommand;
 import pl.edu.agh.two.mud.server.command.SendAvailableCommands;
 import pl.edu.agh.two.mud.server.world.model.Board;
 
-public class LogOutCommandExecutor implements CommandExecutor<LogOutCommand> {
+public class LogOutUICommandExecutor implements CommandExecutor<LogOutUICommand> {
 
 	private Board board;
 	private IServiceRegistry serviceRegistry;
@@ -22,7 +22,7 @@ public class LogOutCommandExecutor implements CommandExecutor<LogOutCommand> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void execute(LogOutCommand command) {
+	public void execute(LogOutUICommand command) {
 		Service service = serviceRegistry.getCurrentService();
 		IPlayer currentPlayer = serviceRegistry.getPlayer(service);
 
@@ -32,7 +32,7 @@ public class LogOutCommandExecutor implements CommandExecutor<LogOutCommand> {
 				service.writeObject("Zegnaj, " + currentPlayer.getName());
 				getDispatcher().dispatch(
 						new SendAvailableCommands(currentPlayer, Arrays.asList(
-								LogInCommand.class, RegisterCommand.class)));
+								LogInUICommand.class, RegisterUICommand.class)));
 				board.getPlayersPosition(currentPlayer).removePlayer(
 						currentPlayer);
 				board.removePlayer(currentPlayer);
