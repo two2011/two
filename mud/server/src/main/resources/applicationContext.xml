@@ -79,6 +79,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 		class="pl.edu.agh.two.mud.server.command.executor.RegisterUICommandExecutor">
 		<property name="board" ref="board" />
 		<property name="mailer" ref="mailer" />
+		<property name="dispatcher" ref="dispatcher" />
 	</bean>
 
 	<bean class="pl.edu.agh.two.mud.server.command.WhisperUICommand" />
