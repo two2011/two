@@ -35,6 +35,34 @@
             <version>10.0.1</version>
         </dependency>
     </dependencies>
+	
+  <build>
+	<plugins>
+	  <plugin>
+		<groupId>org.codehaus.mojo</groupId>
+		<artifactId>cobertura-maven-plugin</artifactId>
+		<version>2.5.1</version>
+		<configuration>
+		  <instrumentation>
+			<excludes>
+				<exclude>pl/edu/agh/two/mud/client/command/*.class</exclude>
+				<exclude>pl/edu/agh/two/mud/client/command/exception/*.class</exclude>
+				<exclude>pl/edu/agh/two/mud/client/configuration/ApplicationContext.class</exclude>
+				<exclude>pl/edu/agh/two/mud/client/ui/**/*.class</exclude>
+			</excludes>
+		  </instrumentation>
+		</configuration>
+		<executions>
+		  <execution>
+			<goals>
+			  <goal>clean</goal>
+			</goals>
+		  </execution>
+		</executions>
+	  </plugin>
+	</plugins>
+  </build>
+	
     <profiles>
         <profile>
             <id>standalone</id>
