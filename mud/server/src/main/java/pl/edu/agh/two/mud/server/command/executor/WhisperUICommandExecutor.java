@@ -15,16 +15,14 @@ import pl.edu.agh.two.mud.server.world.exception.NoPlayerWithSuchNameException;
 import pl.edu.agh.two.mud.server.world.model.Board;
 import pl.edu.agh.two.mud.server.world.model.Field;
 
-public class WhisperUICommandExecutor implements
-		CommandExecutor<WhisperUICommand> {
+public class WhisperUICommandExecutor implements CommandExecutor<WhisperUICommand> {
 
 	private Board board;
 	private IServiceRegistry serviceRegistry;
 	private Dispatcher dispatcher;
 
 	@Override
-	public void execute(WhisperUICommand command)
-			throws CommandExecutingException {
+	public void execute(WhisperUICommand command) throws CommandExecutingException {
 		Service currentService = serviceRegistry.getCurrentService();
 		IPlayer currentPlayer = serviceRegistry.getPlayer(currentService);
 
@@ -36,19 +34,15 @@ public class WhisperUICommandExecutor implements
 		try {
 			Field field = board.getPlayersPosition(currentPlayer);
 			if (field != null) {
-				IPlayer targetPlayer = field.getPlayerByName(command
-						.getTarget());
+				IPlayer targetPlayer = field.getPlayerByName(command.getTarget());
 
-				dispatcher.dispatch(new SendMessageToUserCommand(targetPlayer,
-						String.format("%s szepcze: %s",
-								currentPlayer.getName(), content.getText()),
-						MessageType.INFO));
+				dispatcher.dispatch(new SendMessageToUserCommand(targetPlayer, String.format("%s szepcze: %s",
+						currentPlayer.getName(), content.getText()), MessageType.INFO));
 			} else {
 				throw new ClientAwareException("Nieznany blad.");
 			}
 		} catch (NoPlayerWithSuchNameException e) {
-			throw new ClientAwareException(e,
-					"Nie ma takiego gracza na tym polu.");
+			throw new ClientAwareException(e, "Nie ma takiego gracza na tym polu.");
 		}
 	}
 
@@ -58,6 +52,10 @@ public class WhisperUICommandExecutor implements
 
 	public void setServiceRegistry(IServiceRegistry serviceRegistry) {
 		this.serviceRegistry = serviceRegistry;
+	}
+
+	public void setDispatcher(Dispatcher dispatcher) {
+		this.dispatcher = dispatcher;
 	}
 
 }
