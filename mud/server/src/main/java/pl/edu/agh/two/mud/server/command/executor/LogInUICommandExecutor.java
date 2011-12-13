@@ -1,5 +1,6 @@
 package pl.edu.agh.two.mud.server.command.executor;
 
+import static pl.edu.agh.two.mud.common.message.MessageType.ERROR;
 import static pl.edu.agh.two.mud.common.message.MessageType.INFO;
 
 import java.io.IOException;
@@ -34,7 +35,8 @@ public class LogInUICommandExecutor implements CommandExecutor<LogInUICommand> {
 			IPlayer player = board.getPlayerByName(login);
 
 			if (serviceRegistry.getService(player) != null) {
-				dispatcher.dispatch(new SendMessageToUserCommand("Nie mozna zalogowac sie na ta postac. Ktos inny nia gra", INFO));
+				throw new ClientAwareException(
+						"Nie mozna zalogowac sie na ta postac. Ktos inny nia gra");
 			}
 
 			if (player.getPassword().equals(password)) {
@@ -57,11 +59,11 @@ public class LogInUICommandExecutor implements CommandExecutor<LogInUICommand> {
 					throw new FatalException(e);
 				}
 			} else {
-				dispatcher.dispatch(new SendMessageToUserCommand("Zle haslo!", INFO));
+				throw new ClientAwareException("Zle haslo!");
 			}
 		} catch (NoPlayerWithSuchNameException e) {
 			dispatcher.dispatch(new SendMessageToUserCommand(
-					"Nie ma takiego gracza!", INFO));
+					"Nie ma takiego gracza!", ERROR));
 		}
 
 	}
