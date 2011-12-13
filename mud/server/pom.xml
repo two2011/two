@@ -38,7 +38,8 @@
 			<excludes>					
 			  <exclude>pl/edu/agh/two/mud/server/command/*.class</exclude>
 			  <exclude>pl/edu/agh/two/mud/server/command/util/AvailableCommands.class</exclude>
-			  <exclude>pl/edu/agh/two/mud/server/command/configuration/ApplicationContext.class</exclude>
+			  <exclude>pl/edu/agh/two/mud/server/configuration/ApplicationContext.class</exclude>
+			  <exclude>pl/edu/agh/two/mud/server/world/exception/*.class</exclude>
 			</excludes>
 		  </instrumentation>
 		</configuration>
