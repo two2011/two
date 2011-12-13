@@ -4,7 +4,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static pl.edu.agh.two.mud.common.message.MessageType.ERROR;
-import static pl.edu.agh.two.mud.common.message.MessageType.INFO;
 
 import java.io.IOException;
 
