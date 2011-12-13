@@ -24,42 +24,35 @@ public class CommandParser implements ICommandParser {
 	}
 
 	@Override
-	public IParsedCommand parse(String command) throws UnknownCommandException,
-			InvalidCommandParametersException {
+	public IParsedCommand parse(String command) throws UnknownCommandException, InvalidCommandParametersException {
 		if (command == null) {
 			throw new IllegalArgumentException("Cannot parse null command");
 		}
 
 		// Splitting command
-		List<String> splittedCommand = new ArrayList<String>(
-				Arrays.asList(command.trim().split(" ")));
+		List<String> splittedCommand = new ArrayList<String>(Arrays.asList(command.trim().split(" ")));
 		String commandName = splittedCommand.get(0);
 
 		// Obtain command definition
-		ICommandDefinition definition = commandDefinitionRegistry
-				.getCommandDefinitionByName(commandName);
+		ICommandDefinition definition = commandDefinitionRegistry.getCommandDefinitionByName(commandName);
 		if (definition == null) {
 			throw new UnknownCommandException(commandName);
 		}
 
-		List<ICommandParameterDefinition> parameterDefinitions = definition
-				.getParameters();
+		List<ICommandParameterDefinition> parameterDefinitions = definition.getParameters();
 
 		if (splittedCommand.size() - 1 < parameterDefinitions.size()
-				|| (splittedCommand.size() - 1 > parameterDefinitions.size() && !definition
-						.isTextParam())) {
+				|| (splittedCommand.size() - 1 > parameterDefinitions.size() && !definition.isTextParam())) {
 			// Not enough or too many parameters parameters.
-			throw new InvalidCommandParametersException(commandName,
-					definition, null);
+			throw new InvalidCommandParametersException(commandName, definition, null);
 		} else if (splittedCommand.size() - 1 > parameterDefinitions.size()) {
 			// Additional parameters should be merged to last required
 			// parameters
 
 			StringBuilder lastParamater = new StringBuilder();
-			for (int i = parameterDefinitions.size() - 2; i <= splittedCommand
-					.size(); i++) {
-				lastParamater.append(splittedCommand
-						.remove(parameterDefinitions.size()));
+			int howMany = splittedCommand.size() - 1;
+			for (int i = parameterDefinitions.size() - 1; i < howMany; i++) {
+				lastParamater.append(splittedCommand.remove(parameterDefinitions.size()));
 				lastParamater.append(" ");
 			}
 			lastParamater.deleteCharAt(lastParamater.length() - 1);
@@ -73,11 +66,9 @@ public class CommandParser implements ICommandParser {
 		for (ICommandParameterDefinition parameterDefinition : parameterDefinitions) {
 			String value = splittedCommand.get(i++);
 			if (parameterDefinition.getRegExp() != null) {
-				Pattern pattern = Pattern.compile(parameterDefinition
-						.getRegExp());
+				Pattern pattern = Pattern.compile(parameterDefinition.getRegExp());
 				if (!pattern.matcher(value).find()) {
-					throw new InvalidCommandParametersException(commandName,
-							definition, parameterDefinition.getName());
+					throw new InvalidCommandParametersException(commandName, definition, parameterDefinition.getName());
 				}
 			}
 
