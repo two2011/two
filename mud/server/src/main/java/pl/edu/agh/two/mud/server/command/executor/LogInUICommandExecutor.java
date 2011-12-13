@@ -9,6 +9,7 @@ import pl.edu.agh.two.mud.server.Service;
 import pl.edu.agh.two.mud.server.command.LogInUICommand;
 import pl.edu.agh.two.mud.server.command.SendAvailableCommandsCommand;
 import pl.edu.agh.two.mud.server.command.SendMessageToUserCommand;
+import pl.edu.agh.two.mud.server.command.exception.ClientAwareException;
 import pl.edu.agh.two.mud.server.command.util.AvailableCommands;
 import pl.edu.agh.two.mud.server.world.exception.NoPlayerWithSuchNameException;
 import pl.edu.agh.two.mud.server.world.model.Board;
@@ -20,49 +21,64 @@ import static pl.edu.agh.two.mud.common.message.MessageType.INFO;
 
 public class LogInUICommandExecutor implements CommandExecutor<LogInUICommand> {
 
-    private Board board;
-    private IServiceRegistry serviceRegistry;
-    private Dispatcher dispatcher;
+	private Board board;
+	private IServiceRegistry serviceRegistry;
+	private Dispatcher dispatcher;
 
-    @Override
-    public void execute(LogInUICommand command) throws FatalException {
-        String login = command.getLogin();
-        String password = command.getPassword();
-        Service service = serviceRegistry.getCurrentService();
-        try {
-            IPlayer player = board.getPlayerByName(login);
-            if (player.getPassword().equals(password)) {
-                serviceRegistry.bindPlayerToService(service, player);
-                try {
-                    dispatcher.dispatch(new SendMessageToUserCommand("Witaj, " + login, INFO));
-                    service.writeObject(player);
-                    board.setPlayersPosition(player, board.getStartingField());
-                    board.getStartingField().addPlayer(player);
-                    service.writeObject(board.getStartingField().getFormattedFieldSummary());
+	@Override
+	public void execute(LogInUICommand command) throws FatalException,
+			ClientAwareException {
+		String login = command.getLogin();
+		String password = command.getPassword();
+		Service service = serviceRegistry.getCurrentService();
+		try {
+			IPlayer player = board.getPlayerByName(login);
 
-                    dispatcher.dispatch(new SendAvailableCommandsCommand(player, AvailableCommands.getInstance().getGameCommands()));
-                } catch (IOException e) {
-                    throw new FatalException(e);
-                }
-            } else {
-                dispatcher.dispatch(new SendMessageToUserCommand("Zle haslo!", INFO));
-            }
-        } catch (NoPlayerWithSuchNameException e) {
-            dispatcher.dispatch(new SendMessageToUserCommand("Nie ma takiego gracza!", ERROR));
-        }
+			if (serviceRegistry.getService(player) != null) {
+				throw new ClientAwareException(
+						"Nie mozna zalogowac sie na ta postac. Ktos inny nia gra");
+			}
 
-    }
+			if (player.getPassword().equals(password)) {
+				serviceRegistry.bindPlayerToService(service, player);
+				try {
+					dispatcher.dispatch(new SendMessageToUserCommand("Witaj, "
+							+ login, INFO));
+					service.writeObject(player);
+					board.setPlayersPosition(player, board.getStartingField());
+					board.getStartingField().addPlayer(player);
 
-    public void setBoard(Board board) {
-        this.board = board;
-    }
+					dispatcher.dispatch(new SendMessageToUserCommand(board
+							.getStartingField().getFormattedFieldSummary(),
+							INFO));
 
-    public void setServiceRegistry(IServiceRegistry serviceRegistry) {
-        this.serviceRegistry = serviceRegistry;
-    }
+					dispatcher.dispatch(new SendAvailableCommandsCommand(
+							player, AvailableCommands.getInstance()
+									.getGameCommands()));
+				} catch (IOException e) {
+					throw new FatalException(e);
+				}
+			} else {
+				dispatcher.dispatch(new SendMessageToUserCommand("Zle haslo!",
+						INFO));
+			}
+		} catch (NoPlayerWithSuchNameException e) {
+			dispatcher.dispatch(new SendMessageToUserCommand(
+					"Nie ma takiego gracza!", ERROR));
+		}
 
-    public void setDispatcher(Dispatcher dispatcher) {
-        this.dispatcher = dispatcher;
-    }
+	}
+
+	public void setBoard(Board board) {
+		this.board = board;
+	}
+
+	public void setServiceRegistry(IServiceRegistry serviceRegistry) {
+		this.serviceRegistry = serviceRegistry;
+	}
+
+	public void setDispatcher(Dispatcher dispatcher) {
+		this.dispatcher = dispatcher;
+	}
 
 }

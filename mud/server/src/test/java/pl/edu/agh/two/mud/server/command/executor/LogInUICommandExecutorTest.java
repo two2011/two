@@ -1,7 +1,16 @@
 package pl.edu.agh.two.mud.server.command.executor;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static pl.edu.agh.two.mud.common.message.MessageType.ERROR;
+import static pl.edu.agh.two.mud.common.message.MessageType.INFO;
+
+import java.io.IOException;
+
 import org.junit.Before;
 import org.junit.Test;
+
 import pl.edu.agh.two.mud.common.Player;
 import pl.edu.agh.two.mud.common.command.dispatcher.Dispatcher;
 import pl.edu.agh.two.mud.common.command.exception.FatalException;
@@ -10,16 +19,11 @@ import pl.edu.agh.two.mud.server.Service;
 import pl.edu.agh.two.mud.server.ServiceRegistry;
 import pl.edu.agh.two.mud.server.command.LogInUICommand;
 import pl.edu.agh.two.mud.server.command.SendMessageToUserCommand;
+import pl.edu.agh.two.mud.server.command.exception.ClientAwareException;
 import pl.edu.agh.two.mud.server.command.util.AvailableCommands;
 import pl.edu.agh.two.mud.server.world.exception.NoPlayerWithSuchNameException;
 import pl.edu.agh.two.mud.server.world.model.Board;
 import pl.edu.agh.two.mud.server.world.model.SampleBoard;
-
-import java.io.IOException;
-
-import static org.mockito.Mockito.*;
-import static pl.edu.agh.two.mud.common.message.MessageType.ERROR;
-import static pl.edu.agh.two.mud.common.message.MessageType.INFO;
 
 public class LogInUICommandExecutorTest {
     LogInUICommandExecutor executor = new LogInUICommandExecutor();
@@ -42,7 +46,7 @@ public class LogInUICommandExecutorTest {
     }
 
     @Test
-    public void shouldSuccessfullyExecuteLogInCommand() throws NoPlayerWithSuchNameException, FatalException {
+    public void shouldSuccessfullyExecuteLogInCommand() throws NoPlayerWithSuchNameException, FatalException, ClientAwareException {
         // given
         LogInUICommand command = mockCommand();
 
@@ -57,7 +61,7 @@ public class LogInUICommandExecutorTest {
     }
 
     @Test
-    public void shouldNotLoginWithWrongPassword() throws NoPlayerWithSuchNameException, IOException, FatalException {
+    public void shouldNotLoginWithWrongPassword() throws NoPlayerWithSuchNameException, IOException, FatalException, ClientAwareException {
         // given
         LogInUICommand command = mockCommand();
 
@@ -72,7 +76,8 @@ public class LogInUICommandExecutorTest {
     }
 
     @Test
-    public void shouldNotLoginWhenNoPlayerRegistered() throws IOException, FatalException {
+	public void shouldNotLoginWhenNoPlayerRegistered() throws IOException,
+			FatalException, ClientAwareException {
         // given
         LogInUICommand command = mockCommand();
 
