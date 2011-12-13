@@ -9,7 +9,7 @@ import pl.edu.agh.two.mud.common.command.annotation.Alias;
 import pl.edu.agh.two.mud.common.command.annotation.OrderedParam;
 import pl.edu.agh.two.mud.server.world.model.Direction;
 
-@Alias({"run"})
+@Alias({"wycofaj", "w"})
 public class RunUICommand extends UICommand {
 
 	@OrderedParam(1)
@@ -17,7 +17,8 @@ public class RunUICommand extends UICommand {
 	
 	@Override
 	public String getDescription() {
-		return "Uciekaj";
+		return "Wycofaj sie - proba ucieczki z pola walki\n"
+				+ "\t wycofaj[w] <n|s|e|w>";
 	}
 	
 	public Direction getDirection() {
