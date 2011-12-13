@@ -72,4 +72,14 @@ public class AvailableCommands {
 	public Collection<UICommand> getFightOpponentTurnCommands() {
 		return new ArrayList<UICommand>();
 	}
+	
+	/**
+	 * Returns collection of commands that should be available when you are in
+	 * fight and it is your's opponent turn.
+	 * 
+	 * @return Collection of commands
+	 */
+	public Collection<UICommand> getDeadPlayerCommands() {
+		return new ArrayList<UICommand>();
+	}
 }
