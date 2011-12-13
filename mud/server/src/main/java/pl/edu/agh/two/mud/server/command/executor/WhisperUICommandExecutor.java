@@ -1,36 +1,36 @@
 package pl.edu.agh.two.mud.server.command.executor;
 
-import java.io.IOException;
-
-import org.apache.log4j.Logger;
-
 import pl.edu.agh.two.mud.common.IPlayer;
+import pl.edu.agh.two.mud.common.command.dispatcher.Dispatcher;
 import pl.edu.agh.two.mud.common.command.exception.CommandExecutingException;
-import pl.edu.agh.two.mud.common.command.exception.FatalException;
 import pl.edu.agh.two.mud.common.command.executor.CommandExecutor;
 import pl.edu.agh.two.mud.common.command.type.Text;
+import pl.edu.agh.two.mud.common.message.MessageType;
 import pl.edu.agh.two.mud.server.IServiceRegistry;
 import pl.edu.agh.two.mud.server.Service;
+import pl.edu.agh.two.mud.server.command.SendMessageToUserCommand;
 import pl.edu.agh.two.mud.server.command.WhisperUICommand;
 import pl.edu.agh.two.mud.server.command.exception.ClientAwareException;
 import pl.edu.agh.two.mud.server.world.exception.NoPlayerWithSuchNameException;
 import pl.edu.agh.two.mud.server.world.model.Board;
 import pl.edu.agh.two.mud.server.world.model.Field;
 
-public class WhisperUICommandExecutor implements CommandExecutor<WhisperUICommand> {
+public class WhisperUICommandExecutor implements
+		CommandExecutor<WhisperUICommand> {
 
 	private Board board;
 	private IServiceRegistry serviceRegistry;
+	private Dispatcher dispatcher;
 
 	@Override
 	public void execute(WhisperUICommand command)
 			throws CommandExecutingException {
 		Service currentService = serviceRegistry.getCurrentService();
 		IPlayer currentPlayer = serviceRegistry.getPlayer(currentService);
-		
+
 		if (currentPlayer == null) {
 			throw new ClientAwareException("Jestes niezalogowany.");
-		}		
+		}
 		Text content = command.getContent();
 
 		try {
@@ -39,18 +39,10 @@ public class WhisperUICommandExecutor implements CommandExecutor<WhisperUIComman
 				IPlayer targetPlayer = field.getPlayerByName(command
 						.getTarget());
 
-				// TODO [ksobon] There should be a command for sending message
-				// to user ! Otherwise IOException need to be handled
-				// appropriately !
-				try {
-					serviceRegistry.getService(targetPlayer)
-							.writeObject(
-									String.format("%s szepcze: %s",
-											currentPlayer.getName(),
-											content.getText()));
-				} catch (IOException e) {
-					throw new FatalException(e, Logger.getLogger(getClass()));
-				}
+				dispatcher.dispatch(new SendMessageToUserCommand(targetPlayer,
+						String.format("%s szepcze: %s",
+								currentPlayer.getName(), content.getText()),
+						MessageType.INFO));
 			} else {
 				throw new ClientAwareException("Nieznany blad.");
 			}

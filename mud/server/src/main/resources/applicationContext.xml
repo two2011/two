@@ -69,9 +69,15 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	<bean class="pl.edu.agh.two.mud.server.command.LogOutUICommand" />
 	<bean
 		class="pl.edu.agh.two.mud.server.command.executor.LogOutUICommandExecutor">
-		<property name="board" ref="board" />
 		<property name="serviceRegistry" ref="serviceRegistry" />
 		<property name="dispatcher" ref="dispatcher" />
+	</bean>
+
+	<bean class="pl.edu.agh.two.mud.server.command.LogOutCommand" />
+	<bean
+		class="pl.edu.agh.two.mud.server.command.executor.LogOutCommandExecutor">
+		<property name="board" ref="board" />
+		<property name="serviceRegistry" ref="serviceRegistry" />
 	</bean>
 
 	<bean class="pl.edu.agh.two.mud.server.command.RegisterUICommand" />
@@ -102,15 +108,16 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 		class="pl.edu.agh.two.mud.server.command.executor.MoveUICommandExecutor">
 		<property name="board" ref="board" />
 		<property name="serviceRegistry" ref="serviceRegistry" />
-        <property name="dispatcher" ref="dispatcher"/>
+		<property name="dispatcher" ref="dispatcher" />
 	</bean>
 
-	<bean class="pl.edu.agh.two.mud.server.command.executor.SendMessageToUserCommandExecutor">
+	<bean
+		class="pl.edu.agh.two.mud.server.command.executor.SendMessageToUserCommandExecutor">
 		<property name="serviceRegistry" ref="serviceRegistry" />
 	</bean>
 
 	<bean
-	class="pl.edu.agh.two.mud.server.command.executor.SendAvailableCommandsCommandExecutor">
+		class="pl.edu.agh.two.mud.server.command.executor.SendAvailableCommandsCommandExecutor">
 		<property name="converter" ref="converter" />
 		<property name="serviceRegistry" ref="serviceRegistry" />
 		<property name="commandProvider" ref="commandProvider" />

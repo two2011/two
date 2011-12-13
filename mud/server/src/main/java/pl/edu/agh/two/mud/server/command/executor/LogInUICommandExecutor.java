@@ -1,5 +1,6 @@
 package pl.edu.agh.two.mud.server.command.executor;
 
+import static pl.edu.agh.two.mud.common.message.MessageType.ERROR;
 import static pl.edu.agh.two.mud.common.message.MessageType.INFO;
 
 import java.io.IOException;
@@ -61,7 +62,8 @@ public class LogInUICommandExecutor implements CommandExecutor<LogInUICommand> {
 				throw new ClientAwareException("Zle haslo!");
 			}
 		} catch (NoPlayerWithSuchNameException e) {
-			throw new ClientAwareException("Nie ma takiego gracza!");
+			dispatcher.dispatch(new SendMessageToUserCommand(
+					"Nie ma takiego gracza!", ERROR));
 		}
 
 	}

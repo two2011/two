@@ -1,62 +1,57 @@
 package pl.edu.agh.two.mud.server.command.executor;
 
+import static pl.edu.agh.two.mud.common.message.MessageType.INFO;
+
+import java.io.IOException;
+
 import pl.edu.agh.two.mud.common.IPlayer;
 import pl.edu.agh.two.mud.common.command.dispatcher.Dispatcher;
 import pl.edu.agh.two.mud.common.command.exception.FatalException;
 import pl.edu.agh.two.mud.common.command.executor.CommandExecutor;
 import pl.edu.agh.two.mud.server.IServiceRegistry;
 import pl.edu.agh.two.mud.server.Service;
+import pl.edu.agh.two.mud.server.command.LogOutCommand;
 import pl.edu.agh.two.mud.server.command.LogOutUICommand;
 import pl.edu.agh.two.mud.server.command.SendAvailableCommandsCommand;
 import pl.edu.agh.two.mud.server.command.SendMessageToUserCommand;
 import pl.edu.agh.two.mud.server.command.util.AvailableCommands;
-import pl.edu.agh.two.mud.server.world.model.Board;
 
-import java.io.IOException;
+public class LogOutUICommandExecutor implements
+		CommandExecutor<LogOutUICommand> {
 
-import static pl.edu.agh.two.mud.common.message.MessageType.INFO;
+	private IServiceRegistry serviceRegistry;
+	private Dispatcher dispatcher;
 
-public class LogOutUICommandExecutor implements CommandExecutor<LogOutUICommand> {
+	@Override
+	public void execute(LogOutUICommand command) throws FatalException {
+		Service service = serviceRegistry.getCurrentService();
+		IPlayer currentPlayer = serviceRegistry.getPlayer(service);
 
-    private Board board;
-    private IServiceRegistry serviceRegistry;
-    private Dispatcher dispatcher;
+		if (currentPlayer != null) {
+			try {
+				dispatcher.dispatch(new LogOutCommand());
+				dispatcher.dispatch(new SendMessageToUserCommand("Zegnaj, "
+						+ currentPlayer.getName(), INFO));
+				dispatcher.dispatch(new SendAvailableCommandsCommand(
+						currentPlayer, AvailableCommands.getInstance()
+								.getUnloggedCommands()));
+				service.writeObject((IPlayer) null);
+			} catch (IOException e) {
+				throw new FatalException(e);
+			}
+		} else {
+			dispatcher.dispatch(new SendMessageToUserCommand(
+					"Nie jestes zalogowany!", INFO));
+		}
 
-    @Override
-    public void execute(LogOutUICommand command) throws FatalException {
-        Service service = serviceRegistry.getCurrentService();
-        IPlayer currentPlayer = serviceRegistry.getPlayer(service);
+	}
 
-        if (currentPlayer != null) {            
-            try {
-                dispatcher.dispatch(new SendMessageToUserCommand("Zegnaj, " + currentPlayer.getName(), INFO));
-                dispatcher.dispatch(new SendAvailableCommandsCommand(currentPlayer, AvailableCommands.getInstance().getUnloggedCommands()));
-                
-                serviceRegistry.unbindPlayer(currentPlayer);
-                
-                board.getPlayersPosition(currentPlayer).removePlayer(currentPlayer);
-                board.removePlayer(currentPlayer);
-                
-                service.writeObject((IPlayer) null);
-            } catch (IOException e) {
-                throw new FatalException(e);
-            }
-        } else {
-            dispatcher.dispatch(new SendMessageToUserCommand("Nie jestes zalogowany!", INFO));
-        }
+	public void setServiceRegistry(IServiceRegistry serviceRegistry) {
+		this.serviceRegistry = serviceRegistry;
+	}
 
-    }
-
-    public void setBoard(Board board) {
-        this.board = board;
-    }
-
-    public void setServiceRegistry(IServiceRegistry serviceRegistry) {
-        this.serviceRegistry = serviceRegistry;
-    }
-
-    public void setDispatcher(Dispatcher dispatcher) {
-        this.dispatcher = dispatcher;
-    }
+	public void setDispatcher(Dispatcher dispatcher) {
+		this.dispatcher = dispatcher;
+	}
 
 }

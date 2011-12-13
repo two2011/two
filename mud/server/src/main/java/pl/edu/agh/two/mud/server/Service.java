@@ -16,10 +16,12 @@ import pl.edu.agh.two.mud.common.command.converter.UICommandToDefinitionConverte
 import pl.edu.agh.two.mud.common.command.definition.ICommandDefinition;
 import pl.edu.agh.two.mud.common.command.dispatcher.Dispatcher;
 import pl.edu.agh.two.mud.common.message.AvailableCommandsMessage;
+import pl.edu.agh.two.mud.server.command.LogOutCommand;
 import pl.edu.agh.two.mud.server.command.util.AvailableCommands;
 
 public class Service extends Thread {
 
+	private static final String LOG_OUT_COMMAND_BEAN_NAME = "logOutCommand";
 	private Socket clientSocket;
 	private SocketAddress clientAddress;
 	private Logger logger = Logger.getLogger(Service.class);
@@ -38,12 +40,13 @@ public class Service extends Thread {
 
 	@Override
 	public void run() {
-
 		try {
 			// Send commands defined by server to clients
 			List<ICommandDefinition> commandsToSend = new ArrayList<ICommandDefinition>();
-			for (UICommand command : AvailableCommands.getInstance().getUnloggedCommands()) {
-				commandsToSend.add(converter.convertToCommandDefinition(command));
+			for (UICommand command : AvailableCommands.getInstance()
+					.getUnloggedCommands()) {
+				commandsToSend.add(converter
+						.convertToCommandDefinition(command));
 			}
 
 			writeObject(new AvailableCommandsMessage(commandsToSend));
@@ -57,10 +60,12 @@ public class Service extends Thread {
 		}
 
 		try {
+			dispatcher.dispatch(new LogOutCommand());
 			logger.info(clientAddress + " - shutting down client connection");
 			clientSocket.close();
 		} catch (IOException e) {
-			logger.error(clientAddress + " - closing client socket error: " + e.getMessage());
+			logger.error(clientAddress + " - closing client socket error: "
+					+ e.getMessage());
 		}
 	}
 
