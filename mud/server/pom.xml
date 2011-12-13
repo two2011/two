@@ -27,6 +27,53 @@
     	<version>1.4</version>
 	</dependency>
   </dependencies>
+  <build>
+	<plugins>
+	  <plugin>
+		<groupId>org.codehaus.mojo</groupId>
+		<artifactId>cobertura-maven-plugin</artifactId>
+		<version>2.5.1</version>
+		<configuration>
+		  <instrumentation>
+			<excludes>					
+			  <exclude>pl/edu/agh/two/mud/server/command/*.class</exclude>
+			  <exclude>pl/edu/agh/two/mud/server/command/util/AvailableCommands.class</exclude>
+			  <exclude>pl/edu/agh/two/mud/server/command/configuration/ApplicationContext.class</exclude>
+			</excludes>
+		  </instrumentation>
+		</configuration>
+		<executions>
+		  <execution>
+			<goals>
+			  <goal>clean</goal>
+			</goals>
+		  </execution>
+		</executions>
+	  </plugin>
+	</plugins>
+  </build>
+<!--  <reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<formats>
+						<format>xml</format>
+						<format>html</format>
+					</formats>
+					<instrumentation>
+						<excludes>
+							<exclude>pl/edu/agh/two/mud/server/command/**/*Command.class</exclude>
+							<exclude>pl/edu/agh/two/mud/server/command/util/AvailableCommands.class</exclude>
+							<exclude>pl/edu/agh/two/mud/server/command/configuration/ApplicationContext.class</exclude>
+						</excludes>
+					</instrumentation>
+				</configuration>
+			</plugin>
+		</plugins>
+	</reporting>-->
   <profiles>
 		<profile>
 			<id>standalone</id>
