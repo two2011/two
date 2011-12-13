@@ -113,7 +113,7 @@ public class TalkUICommandExecutorTest {
 
 	@Test
 	public void talkManyUser() {
-		talkNUsers(2);
+		talkNUsers(10);
 	}
 
 	private void talkNUsers(int howMany) {
@@ -131,12 +131,9 @@ public class TalkUICommandExecutorTest {
 		when(field.getPlayers()).thenReturn(players);
 
 		try {
-			// Remove self
-			players.remove(0);
-
 			executor.execute(command);
 			for (IPlayer player : players) {
-				verify(dispatcher, times(players.size())).dispatch(
+				verify(dispatcher, times(players.size() - 1)).dispatch(
 						new SendMessageToUserCommand(player, String.format("%s mowi: %s", currentPlayer.getName(),
 								MESSAGE), MessageType.INFO));
 			}
