@@ -58,11 +58,13 @@ public class PlayersFight implements Fight {
 		try {
 			enemyService.writeObject(enemy);
 
+			dispatcher.dispatch(new SendMessageToUserCommand(playerWhoHits, String.format(
+					"Zadales przeciwnikowi %d pkt obrazen.", damage), MessageType.INFO));
+			dispatcher.dispatch(new SendMessageToUserCommand(enemy, String.format("Zadano ci %d pkt obrazen.", damage),
+					MessageType.INFO));
+
 			if (enemy.isAlive()) {
-				dispatcher.dispatch(new SendMessageToUserCommand(playerWhoHits, String.format(
-						"Zadales przeciwnikowi %d pkt obrazen.", damage), MessageType.INFO));
-				dispatcher.dispatch(new SendMessageToUserCommand(enemy, String.format(
-						"Krwawisz! Zadano ci %d pkt obrazen.", damage), MessageType.INFO));
+				dispatcher.dispatch(new SendMessageToUserCommand(enemy, "Krwawisz!", MessageType.INFO));
 
 				switchAttackingPlayer(playerWhoHits, enemy);
 			} else {
