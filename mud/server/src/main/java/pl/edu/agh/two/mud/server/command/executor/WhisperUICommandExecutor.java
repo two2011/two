@@ -60,4 +60,12 @@ public class WhisperUICommandExecutor implements
 		this.serviceRegistry = serviceRegistry;
 	}
 
+	public Dispatcher getDispatcher() {
+		return dispatcher;
+	}
+
+	public void setDispatcher(Dispatcher dispatcher) {
+		this.dispatcher = dispatcher;
+	}
+
 }
