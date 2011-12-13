@@ -8,6 +8,8 @@ import static pl.edu.agh.two.mud.common.message.MessageType.INFO;
 
 import java.io.IOException;
 
+import junit.framework.Assert;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -26,79 +28,85 @@ import pl.edu.agh.two.mud.server.world.model.Board;
 import pl.edu.agh.two.mud.server.world.model.SampleBoard;
 
 public class LogInUICommandExecutorTest {
-    LogInUICommandExecutor executor = new LogInUICommandExecutor();
-    Board board;
-    ServiceRegistry serviceRegistry = mock(ServiceRegistry.class);
-    Service service = mock(Service.class);
-    Dispatcher dispatcher = mock(Dispatcher.class);
-    CommandProvider commandProvider = mock(CommandProvider.class);
+	LogInUICommandExecutor executor = new LogInUICommandExecutor();
+	Board board;
+	ServiceRegistry serviceRegistry = mock(ServiceRegistry.class);
+	Service service = mock(Service.class);
+	Dispatcher dispatcher = mock(Dispatcher.class);
+	CommandProvider commandProvider = mock(CommandProvider.class);
 
-    @Before
-    public void before() {
-        board = new SampleBoard();
-        when(serviceRegistry.getCurrentService()).thenReturn(service);
-        executor.setBoard(board);
-        executor.setServiceRegistry(serviceRegistry);
-        executor.setDispatcher(dispatcher);
+	@Before
+	public void before() {
+		board = new SampleBoard();
+		when(serviceRegistry.getCurrentService()).thenReturn(service);
+		executor.setBoard(board);
+		executor.setServiceRegistry(serviceRegistry);
+		executor.setDispatcher(dispatcher);
 
-        AvailableCommands availableCommands = AvailableCommands.getInstance();
-        availableCommands.setCommandProvider(commandProvider);
-    }
+		AvailableCommands availableCommands = AvailableCommands.getInstance();
+		availableCommands.setCommandProvider(commandProvider);
+	}
 
-    @Test
-    public void shouldSuccessfullyExecuteLogInCommand() throws NoPlayerWithSuchNameException, FatalException, ClientAwareException {
-        // given
-        LogInUICommand command = mockCommand();
+	@Test
+	public void shouldSuccessfullyExecuteLogInCommand()
+			throws NoPlayerWithSuchNameException, FatalException,
+			ClientAwareException {
+		// given
+		LogInUICommand command = mockCommand();
 
-        Player player = createPlayer("krzyho", "correctPassword");
-        board.addPlayer(player);
+		Player player = createPlayer("krzyho", "correctPassword");
+		board.addPlayer(player);
 
-        // when
-        executor.execute(command);
+		// when
+		executor.execute(command);
 
-        // then
-        verify(serviceRegistry).bindPlayerToService(service, player);
-    }
+		// then
+		verify(serviceRegistry).bindPlayerToService(service, player);
+	}
 
-    @Test
-    public void shouldNotLoginWithWrongPassword() throws NoPlayerWithSuchNameException, IOException, FatalException, ClientAwareException {
-        // given
-        LogInUICommand command = mockCommand();
+	@Test
+	public void shouldNotLoginWithWrongPassword()
+			throws NoPlayerWithSuchNameException, IOException, FatalException,
+			ClientAwareException {
+		// given
+		LogInUICommand command = mockCommand();
 
-        Player player = createPlayer("krzyho", "wrongPassword");
-        board.addPlayer(player);
+		Player player = createPlayer("krzyho", "wrongPassword");
+		board.addPlayer(player);
 
-        // when
-        executor.execute(command);
+		try {
+			executor.execute(command);
+			Assert.assertTrue(false);
+		} catch (ClientAwareException e) {
 
-        // then
-        verify(dispatcher).dispatch(new SendMessageToUserCommand("Zle haslo!", INFO));
-    }
+		}
+	}
 
-    @Test
+	@Test
 	public void shouldNotLoginWhenNoPlayerRegistered() throws IOException,
 			FatalException, ClientAwareException {
-        // given
-        LogInUICommand command = mockCommand();
+		// given
+		LogInUICommand command = mockCommand();
 
-        // when
-        executor.execute(command);
+		// when
+		executor.execute(command);
 
-        // then
-        verify(dispatcher).dispatch(new SendMessageToUserCommand("Nie ma takiego gracza!", ERROR));
-    }
+		// then
+		verify(dispatcher).dispatch(
+				new SendMessageToUserCommand("Nie ma takiego gracza!", ERROR));
+	}
 
-    private LogInUICommand mockCommand() {
-        LogInUICommand command = mock(LogInUICommand.class);
-        when(command.getLogin()).thenReturn("krzyho");
-        when(command.getPassword()).thenReturn("correctPassword");
-        return command;
-    }
+	private LogInUICommand mockCommand() {
+		LogInUICommand command = mock(LogInUICommand.class);
+		when(command.getLogin()).thenReturn("krzyho");
+		when(command.getPassword()).thenReturn("correctPassword");
+		return command;
+	}
 
-    private Player createPlayer(String name, String password) {
-        Player player = new Player();
-        player.setName(name);
-        player.setPassword(password);
-        return player;
-    }
+	private Player createPlayer(String name, String password) {
+		Player player = new Player();
+		player.setName(name);
+		player.setPassword(password);
+		return player;
+	}
 }
