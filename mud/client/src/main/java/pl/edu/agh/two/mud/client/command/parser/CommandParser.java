@@ -51,8 +51,7 @@ public class CommandParser implements ICommandParser {
 			// Not enough or too many parameters parameters.
 			throw new InvalidCommandParametersException(commandName,
 					definition, null);
-		} else if (splittedCommand.size() - 1 > parameterDefinitions.size()
-				&& definition.isTextParam()) {
+		} else if (splittedCommand.size() - 1 > parameterDefinitions.size()) {
 			// Additional parameters should be merged to last required
 			// parameters
 
@@ -63,10 +62,8 @@ public class CommandParser implements ICommandParser {
 						.remove(parameterDefinitions.size()));
 				lastParamater.append(" ");
 			}
-			if (lastParamater.length() > 0) {
-				lastParamater.deleteCharAt(lastParamater.length() - 1);
-				splittedCommand.add(lastParamater.toString());
-			}
+			lastParamater.deleteCharAt(lastParamater.length() - 1);
+			splittedCommand.add(lastParamater.toString());
 		}
 
 		Map<String, String> valuesMap = new HashMap<String, String>();

@@ -68,6 +68,21 @@ public class DisplayCommandsUICommandExecutorTest {
 		verify(console, only()).appendTextToConsole(
 				startsWith("Dostepne komendy:"));
 	}
+	
+	@Test
+	public void displayOneCommandWithSingleName() {
+		ICommandDefinition commandDefinition = mock(ICommandDefinition.class);
+		when(commandDefinition.getDescription()).thenReturn("description");
+		when(commandDefinition.getNames()).thenReturn(
+				Arrays.asList(new String[] { "name1" }));
+
+		when(commandDefinitionRegistry.getCommandDefinitions()).thenReturn(
+				Arrays.asList(new ICommandDefinition[] { commandDefinition }));
+
+		executor.execute(new DisplayCommandsUICommand());
+		verify(console, only()).appendTextToConsole(
+				startsWith("Dostepne komendy:"));
+	}
 
 	@Test
 	public void displayMoreThanOneCommand() {

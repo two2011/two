@@ -2,7 +2,7 @@ package pl.edu.agh.two.mud.client.command.registry;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -164,6 +164,21 @@ public class CommandDefinitionRegistryTest {
 			fail("Exception expected");
 		} catch (CommandRegistrationException e) {
 		}
+	}
+	
+	@Test
+	public void clearingRegistry() {
+		try {
+			commandDefinitionRegistry.registerCommandDefinition(commandDefinition1);
+			
+			commandDefinitionRegistry.clearExternalCommands();
+			assertEquals(0, commandDefinitionRegistry.getCommandDefinitions().size());
+			
+		} catch (CommandRegistrationException e) {
+			e.printStackTrace();
+			fail("Unexpected exception");
+		}
+		
 	}
 
 }
