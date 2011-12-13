@@ -1,5 +1,9 @@
 package pl.edu.agh.two.mud.server.command.executor;
 
+import static pl.edu.agh.two.mud.common.message.MessageType.INFO;
+
+import java.io.IOException;
+
 import pl.edu.agh.two.mud.common.IPlayer;
 import pl.edu.agh.two.mud.common.command.dispatcher.Dispatcher;
 import pl.edu.agh.two.mud.common.command.exception.FatalException;
@@ -13,11 +17,6 @@ import pl.edu.agh.two.mud.server.command.exception.ClientAwareException;
 import pl.edu.agh.two.mud.server.command.util.AvailableCommands;
 import pl.edu.agh.two.mud.server.world.exception.NoPlayerWithSuchNameException;
 import pl.edu.agh.two.mud.server.world.model.Board;
-
-import java.io.IOException;
-
-import static pl.edu.agh.two.mud.common.message.MessageType.ERROR;
-import static pl.edu.agh.two.mud.common.message.MessageType.INFO;
 
 public class LogInUICommandExecutor implements CommandExecutor<LogInUICommand> {
 
@@ -59,12 +58,10 @@ public class LogInUICommandExecutor implements CommandExecutor<LogInUICommand> {
 					throw new FatalException(e);
 				}
 			} else {
-				dispatcher.dispatch(new SendMessageToUserCommand("Zle haslo!",
-						INFO));
+				throw new ClientAwareException("Zle haslo!");
 			}
 		} catch (NoPlayerWithSuchNameException e) {
-			dispatcher.dispatch(new SendMessageToUserCommand(
-					"Nie ma takiego gracza!", ERROR));
+			throw new ClientAwareException("Nie ma takiego gracza!");
 		}
 
 	}
