@@ -4,13 +4,13 @@ import org.springframework.context.support.*;
 
 public class ApplicationContext {
 
-	private static ClassPathXmlApplicationContext applicationContext;
+	private static org.springframework.context.ApplicationContext applicationContext;
 
 	public static Object getBean(String bean) {
 		return applicationContext.getBean(bean);
 	}
 
-	public static ClassPathXmlApplicationContext getApplicationContext() {
+	public static org.springframework.context.ApplicationContext getApplicationContext() {
 		return applicationContext;
 	}
 
