@@ -113,7 +113,7 @@ public class PlayersFight implements Fight {
 
 	private void endFight(IPlayer player1, IPlayer player2) {
 		playersFightEnd(player1);
-		playersFightEnd(player1);
+		playersFightEnd(player2);
 	}
 
 	private void playersFightEnd(IPlayer player) {

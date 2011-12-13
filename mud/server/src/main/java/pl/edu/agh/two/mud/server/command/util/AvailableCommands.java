@@ -1,14 +1,17 @@
 package pl.edu.agh.two.mud.server.command.util;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import pl.edu.agh.two.mud.common.command.UICommand;
 import pl.edu.agh.two.mud.common.command.provider.CommandProvider;
 import pl.edu.agh.two.mud.server.command.HitUICommand;
 import pl.edu.agh.two.mud.server.command.LogInUICommand;
+import pl.edu.agh.two.mud.server.command.LogOutUICommand;
+import pl.edu.agh.two.mud.server.command.RefreshUICommand;
 import pl.edu.agh.two.mud.server.command.RegisterUICommand;
 import pl.edu.agh.two.mud.server.command.RunUICommand;
+import pl.edu.agh.two.mud.server.command.TalkUICommand;
+import pl.edu.agh.two.mud.server.command.WhisperUICommand;
 
 @SuppressWarnings("unchecked")
 public class AvailableCommands {
@@ -60,7 +63,8 @@ public class AvailableCommands {
 	 * @return Collection of commands
 	 */
 	public Collection<UICommand> getFightYouTurnCommands() {
-		return commandProvider.getUICommands(HitUICommand.class, RunUICommand.class);
+		return commandProvider.getUICommands(HitUICommand.class, RunUICommand.class, RefreshUICommand.class,
+				TalkUICommand.class, WhisperUICommand.class);
 	}
 
 	/**
@@ -70,9 +74,9 @@ public class AvailableCommands {
 	 * @return Collection of commands
 	 */
 	public Collection<UICommand> getFightOpponentTurnCommands() {
-		return new ArrayList<UICommand>();
+		return commandProvider.getUICommands(RefreshUICommand.class, TalkUICommand.class, WhisperUICommand.class);
 	}
-	
+
 	/**
 	 * Returns collection of commands that should be available when you are in
 	 * fight and it is your's opponent turn.
@@ -80,6 +84,7 @@ public class AvailableCommands {
 	 * @return Collection of commands
 	 */
 	public Collection<UICommand> getDeadPlayerCommands() {
-		return new ArrayList<UICommand>();
+		return commandProvider.getUICommands(RefreshUICommand.class, TalkUICommand.class, WhisperUICommand.class,
+				LogOutUICommand.class);
 	}
 }
