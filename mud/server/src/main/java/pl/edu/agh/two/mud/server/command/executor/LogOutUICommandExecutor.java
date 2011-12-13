@@ -27,13 +27,16 @@ public class LogOutUICommandExecutor implements CommandExecutor<LogOutUICommand>
         Service service = serviceRegistry.getCurrentService();
         IPlayer currentPlayer = serviceRegistry.getPlayer(service);
 
-        if (currentPlayer != null) {
-            serviceRegistry.unbindPlayer(currentPlayer);
+        if (currentPlayer != null) {            
             try {
                 dispatcher.dispatch(new SendMessageToUserCommand("Zegnaj, " + currentPlayer.getName(), INFO));
                 dispatcher.dispatch(new SendAvailableCommandsCommand(currentPlayer, AvailableCommands.getInstance().getUnloggedCommands()));
+                
+                serviceRegistry.unbindPlayer(currentPlayer);
+                
                 board.getPlayersPosition(currentPlayer).removePlayer(currentPlayer);
                 board.removePlayer(currentPlayer);
+                
                 service.writeObject((IPlayer) null);
             } catch (IOException e) {
                 throw new FatalException(e);

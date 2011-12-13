@@ -20,13 +20,15 @@ public class MoveUICommand extends UICommand {
     }
 
     public Direction getDirection() {
-        if (direction.equals("n")) {
+    	String uDirection = direction.toUpperCase();
+    	
+        if (uDirection.equals("N")) {
             return N;
-        } else if (direction.equals("s")) {
+        } else if (uDirection.equals("S")) {
             return S;
-        } else if (direction.equals("e")) {
+        } else if (uDirection.equals("E")) {
             return E;
-        } else if (direction.equals("w")) {
+        } else if (uDirection.equals("W")) {
             return W;
         }
         return null;
