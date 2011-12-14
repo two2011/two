@@ -11,7 +11,7 @@ public class ClientCommandFactory extends ReflexiveCommandFactory {
 	public Command create(IParsedCommand parsedCommand) {
 		// Check whether command is local (defined for client) or external
 		// (obtained from server)
-		if (commandProvider.isCommandAvailable(parsedCommand.getCommandId())) {
+		if (getCommandProvider().isCommandAvailable(parsedCommand.getCommandId())) {
 			return super.create(parsedCommand);
 		}
 

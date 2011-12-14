@@ -84,4 +84,8 @@ public class ReflexiveCommandFactory implements CommandFactory {
 		this.commandProvider = commandProvider;
 	}
 	
+	protected CommandProvider getCommandProvider() {
+		return commandProvider;
+	}
+	
 }
