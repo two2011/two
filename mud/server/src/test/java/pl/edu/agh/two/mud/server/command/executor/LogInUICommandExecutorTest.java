@@ -1,17 +1,7 @@
 package pl.edu.agh.two.mud.server.command.executor;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static pl.edu.agh.two.mud.common.message.MessageType.ERROR;
-
-import java.io.IOException;
-
-import junit.framework.Assert;
-
 import org.junit.Before;
 import org.junit.Test;
-
 import pl.edu.agh.two.mud.common.Player;
 import pl.edu.agh.two.mud.common.command.dispatcher.Dispatcher;
 import pl.edu.agh.two.mud.common.command.exception.FatalException;
@@ -26,86 +16,115 @@ import pl.edu.agh.two.mud.server.world.exception.NoPlayerWithSuchNameException;
 import pl.edu.agh.two.mud.server.world.model.Board;
 import pl.edu.agh.two.mud.server.world.model.SampleBoard;
 
+import java.io.IOException;
+
+import static org.mockito.Mockito.*;
+import static pl.edu.agh.two.mud.common.message.MessageType.ERROR;
+
 public class LogInUICommandExecutorTest {
-	LogInUICommandExecutor executor = new LogInUICommandExecutor();
-	Board board;
-	ServiceRegistry serviceRegistry = mock(ServiceRegistry.class);
-	Service service = mock(Service.class);
-	Dispatcher dispatcher = mock(Dispatcher.class);
-	CommandProvider commandProvider = mock(CommandProvider.class);
+    LogInUICommandExecutor executor = new LogInUICommandExecutor();
+    Board board;
+    ServiceRegistry serviceRegistry = mock(ServiceRegistry.class);
+    Service service = mock(Service.class);
+    Dispatcher dispatcher = mock(Dispatcher.class);
+    CommandProvider commandProvider = mock(CommandProvider.class);
 
-	@Before
-	public void before() {
-		board = new SampleBoard();
-		when(serviceRegistry.getCurrentService()).thenReturn(service);
-		executor.setBoard(board);
-		executor.setServiceRegistry(serviceRegistry);
-		executor.setDispatcher(dispatcher);
+    @Before
+    public void before() {
+        board = new SampleBoard();
+        when(serviceRegistry.getCurrentService()).thenReturn(service);
+        executor.setBoard(board);
+        executor.setServiceRegistry(serviceRegistry);
+        executor.setDispatcher(dispatcher);
 
-		AvailableCommands availableCommands = AvailableCommands.getInstance();
-		availableCommands.setCommandProvider(commandProvider);
-	}
+        AvailableCommands availableCommands = AvailableCommands.getInstance();
+        availableCommands.setCommandProvider(commandProvider);
+    }
 
-	@Test
-	public void shouldSuccessfullyExecuteLogInCommand()
-			throws NoPlayerWithSuchNameException, FatalException,
-			ClientAwareException {
-		// given
-		LogInUICommand command = mockCommand();
+    @Test
+    public void shouldSuccessfullyExecuteLogInCommand()
+            throws NoPlayerWithSuchNameException, FatalException,
+            ClientAwareException {
+        // given
+        Player player = createPlayer("krzyho", "correctPassword");
+        board.addPlayer(player);
 
-		Player player = createPlayer("krzyho", "correctPassword");
-		board.addPlayer(player);
+        // when
+        executor.execute(mockCommand());
 
-		// when
-		executor.execute(command);
+        // then
+        verify(serviceRegistry).bindPlayerToService(service, player);
+    }
 
-		// then
-		verify(serviceRegistry).bindPlayerToService(service, player);
-	}
+    @Test(expected = ClientAwareException.class)
+    public void shouldNotLoginWhenPlayerIsUsed() throws FatalException, ClientAwareException {
+        // given
+        Player player = createPlayer("krzyho", "correctPassword");
+        board.addPlayer(player);
+        when(serviceRegistry.getService(player)).thenReturn(service);
 
-	@Test
-	public void shouldNotLoginWithWrongPassword()
-			throws NoPlayerWithSuchNameException, IOException, FatalException,
-			ClientAwareException {
-		// given
-		LogInUICommand command = mockCommand();
+        // when
+        executor.execute(mockCommand());
 
-		Player player = createPlayer("krzyho", "wrongPassword");
-		board.addPlayer(player);
+        // then
+        // should throw exception
+    }
 
-		try {
-			executor.execute(command);
-			Assert.assertTrue(false);
-		} catch (ClientAwareException e) {
+    @Test(expected = ClientAwareException.class)
+    public void shouldNotLoginWithWrongPassword()
+            throws NoPlayerWithSuchNameException, IOException, FatalException,
+            ClientAwareException {
+        // given
 
-		}
-	}
+        Player player = createPlayer("krzyho", "wrongPassword");
+        board.addPlayer(player);
 
-	@Test
-	public void shouldNotLoginWhenNoPlayerRegistered() throws IOException,
-			FatalException, ClientAwareException {
-		// given
-		LogInUICommand command = mockCommand();
+        // when
+        executor.execute(mockCommand());
 
-		// when
-		executor.execute(command);
+        // then
+        // should throw exception
+    }
 
-		// then
-		verify(dispatcher).dispatch(
-				new SendMessageToUserCommand("Nie ma takiego gracza!", ERROR));
-	}
+    @Test
+    public void shouldNotLoginWhenNoPlayerRegistered() throws IOException,
+            FatalException, ClientAwareException {
+        // given
+        LogInUICommand command = mockCommand();
 
-	private LogInUICommand mockCommand() {
-		LogInUICommand command = mock(LogInUICommand.class);
-		when(command.getLogin()).thenReturn("krzyho");
-		when(command.getPassword()).thenReturn("correctPassword");
-		return command;
-	}
+        // when
+        executor.execute(command);
 
-	private Player createPlayer(String name, String password) {
-		Player player = new Player();
-		player.setName(name);
-		player.setPassword(password);
-		return player;
-	}
+        // then
+        verify(dispatcher).dispatch(
+                new SendMessageToUserCommand("Nie ma takiego gracza!", ERROR));
+    }
+
+    @Test(expected = FatalException.class)
+    public void shouldThrowFatalExceptionOnIOException() throws FatalException, ClientAwareException, IOException {
+        // given
+        Player player = createPlayer("krzyho", "correctPassword");
+        board.addPlayer(player);
+        doThrow(new IOException()).when(service).writeObject(anyString());
+
+        // when
+        executor.execute(mockCommand());
+
+        // then
+        // should throw FatalException
+    }
+
+    private LogInUICommand mockCommand() {
+        LogInUICommand command = mock(LogInUICommand.class);
+        when(command.getLogin()).thenReturn("krzyho");
+        when(command.getPassword()).thenReturn("correctPassword");
+        return command;
+    }
+
+    private Player createPlayer(String name, String password) {
+        Player player = new Player();
+        player.setName(name);
+        player.setPassword(password);
+        return player;
+    }
 }

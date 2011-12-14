@@ -17,7 +17,7 @@ public class MoveUICommand extends UICommand {
 
 	@Override
 	public String getDescription() {
-		return "Komenda przejscia na inne pole. Jej uzycie spowoduje przejscie na inne pole.\n" + "\t idz [n|s|e|w]";
+		return "Komenda przejscia na inne pole. Jej uzycie spowoduje przejscie na inne pole.\n" + "\t idz[i] <n|s|e|w>";
 	}
 
 	public MoveUICommand() {
