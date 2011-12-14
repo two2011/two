@@ -22,7 +22,7 @@ public class RegisterUICommandExecutor implements
 
 	private static final String MESSAGE_ON_EXISTING_LOGIN = "Podany login juz istnieje";
 
-	private static final String MESSAGE_ON_SUCCESS = "Konto zostalo utworzone. Dane dostepowe zostaly wyslane na podany adres.";
+	private static final String MESSAGE_ON_SUCCESS = "Konto zostalo utworzone. Dane dostepowe zostaly wyslane na adres: ";
 
 	private Board board;
 
@@ -45,9 +45,10 @@ public class RegisterUICommandExecutor implements
 				player.setPassword(password);
 				board.addPlayer(player);
 				dispatcher.dispatch(new SendMessageToUserCommand(
-						MESSAGE_ON_SUCCESS, MessageType.INFO));
+						MESSAGE_ON_SUCCESS + command.getEmail(),
+						MessageType.INFO));
 			} catch (MessagingException e1) {
-				throw new ClientAwareException(MESSAGE_ON_WRONG_ADDRESS);
+				throw new ClientAwareException(e1, MESSAGE_ON_WRONG_ADDRESS);
 			}
 		}
 
