@@ -29,12 +29,12 @@ public class LogOutUICommandExecutor implements
 
 		if (currentPlayer != null) {
 			try {
-				dispatcher.dispatch(new LogOutCommand());
 				dispatcher.dispatch(new SendMessageToUserCommand("Zegnaj, "
 						+ currentPlayer.getName(), INFO));
 				dispatcher.dispatch(new SendAvailableCommandsCommand(
 						currentPlayer, AvailableCommands.getInstance()
 								.getUnloggedCommands()));
+				dispatcher.dispatch(new LogOutCommand());
 				service.writeObject((IPlayer) null);
 			} catch (IOException e) {
 				throw new FatalException(e);
