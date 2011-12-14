@@ -7,9 +7,9 @@
 	<packaging>pom</packaging>
 	<name>agh-mud</name>
 	<modules>
-		<module>client</module>
-		<module>server</module>
 		<module>common</module>
+		<module>client</module>
+		<module>server</module>		
 	</modules>
 	<build>
 		<plugins>
