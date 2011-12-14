@@ -44,8 +44,8 @@ public class ConsoleController implements ICommandLineListener {
 			console.appendTextToConsole(String.format(
 					"Komenda \"%s\" zostala niepoprawnie uzyta.",
 					e.getCommandName()));
-		} catch (Throwable t) {
-			log.error("Unexpected error during command parsing", t);
+		} catch (RuntimeException e) {
+			log.error("Unexpected error during command parsing", e);
 		}
 	}
 }
