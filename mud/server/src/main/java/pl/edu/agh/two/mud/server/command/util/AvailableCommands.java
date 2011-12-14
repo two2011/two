@@ -14,7 +14,7 @@ import pl.edu.agh.two.mud.server.command.TalkUICommand;
 import pl.edu.agh.two.mud.server.command.WhisperUICommand;
 
 @SuppressWarnings("unchecked")
-public class AvailableCommands {
+public final class AvailableCommands {
 
 	private static AvailableCommands instance = null;
 

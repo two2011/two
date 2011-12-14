@@ -22,8 +22,7 @@ import pl.edu.agh.two.mud.common.command.type.Text;
 
 public class UICommandToDefinitionConverter {
 
-	public ICommandDefinition convertToCommandDefinition(
-			UICommand command) {
+	public ICommandDefinition convertToCommandDefinition(UICommand command) {
 		Class<? extends Command> clazz = command.getClass();
 
 		String id = command.getId();
@@ -33,29 +32,24 @@ public class UICommandToDefinitionConverter {
 
 		Alias alias = clazz.getAnnotation(Alias.class);
 		if (alias == null || alias.value().length == 0) {
-			throw new IllegalArgumentException(
-					"There should be at least one alias");
+			throw new IllegalArgumentException("There should be at least one alias");
 		}
 		Collection<String> names = Arrays.asList(alias.value());
 
 		Map<OrderedParam, Field> paramAnnotationMap = new LinkedHashMap<OrderedParam, Field>();
 		for (Field field : clazz.getDeclaredFields()) {
 			OrderedParam orderedParam = field.getAnnotation(OrderedParam.class);
-			if (orderedParam != null) {
-				if (paramAnnotationMap.put(orderedParam, field) != null) {
-					throw new IllegalArgumentException(
-							"There are two paramaters with the same order number !");
-				}
+			if (orderedParam != null && paramAnnotationMap.put(orderedParam, field) != null) {
+				throw new IllegalArgumentException("There are two paramaters with the same order number !");
 			}
 		}
 
 		// Sort ordered parameters
-		List<OrderedParam> orderedParams = new ArrayList<OrderedParam>(
-				paramAnnotationMap.keySet());
+		List<OrderedParam> orderedParams = new ArrayList<OrderedParam>(paramAnnotationMap.keySet());
 		Collections.sort(orderedParams, new Comparator<OrderedParam>() {
 			@Override
 			public int compare(OrderedParam o1, OrderedParam o2) {
-				return new Integer(o1.value()).compareTo(new Integer(o2.value()));
+				return Integer.valueOf(o1.value()).compareTo(Integer.valueOf(o2.value()));
 			}
 		});
 
@@ -65,12 +59,10 @@ public class UICommandToDefinitionConverter {
 			Field field = paramAnnotationMap.get(orderedParam);
 			Class<?> type = field.getType();
 
-			parameters.add(new CommandParameterDefinition(field.getName(),
-					getRegExp(type)));
+			parameters.add(new CommandParameterDefinition(field.getName(), getRegExp(type)));
 
 			if (textField) {
-				throw new IllegalArgumentException(
-						"Parameter of Text type must be the last parameter of command !");
+				throw new IllegalArgumentException("Parameter of Text type must be the last parameter of command !");
 			}
 
 			if (Text.class.equals(type)) {
@@ -78,8 +70,7 @@ public class UICommandToDefinitionConverter {
 			}
 		}
 
-		return new CommandDefinition(id, names, command.getDescription(),
-				parameters, textField);
+		return new CommandDefinition(id, names, command.getDescription(), parameters, textField);
 	}
 
 	private String getRegExp(Class<?> type) {
@@ -90,8 +81,7 @@ public class UICommandToDefinitionConverter {
 		} else if (Integer.class.equals(type) || int.class.equals(type)) {
 			result = "^[0-9]*$";
 		} else {
-			throw new IllegalArgumentException(String.format(
-					"Type \"%s\" is not supported as parameter type.",
+			throw new IllegalArgumentException(String.format("Type \"%s\" is not supported as parameter type.",
 					type.getName()));
 		}
 

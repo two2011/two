@@ -14,7 +14,7 @@ public class CommandDefinition implements ICommandDefinition {
 	private Collection<String> names;
 	private String description;
 	private Map<String, ICommandParameterDefinition> parametersMap = new LinkedHashMap<String, ICommandParameterDefinition>();
-	Boolean textParam;
+	private Boolean textParam;
 
 	public CommandDefinition(String id, Collection<String> names, String description,
 			List<ICommandParameterDefinition> parameters, boolean textParam) {

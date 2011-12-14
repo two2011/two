@@ -7,7 +7,10 @@ import pl.edu.agh.two.mud.common.command.Command;
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
 
-public class Commands {
+public final class Commands {
+	
+	private Commands() {		
+	}
 
 	public static Collection<Class<? extends Command>> toClasses(Collection<Command> commands) {
 

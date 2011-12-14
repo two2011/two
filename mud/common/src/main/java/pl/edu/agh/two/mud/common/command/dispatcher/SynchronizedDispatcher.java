@@ -1,5 +1,7 @@
 package pl.edu.agh.two.mud.common.command.dispatcher;
 
+import org.apache.log4j.Logger;
+
 import pl.edu.agh.two.mud.common.command.Command;
 import pl.edu.agh.two.mud.common.command.IParsedCommand;
 import pl.edu.agh.two.mud.common.command.exception.CommandExecutingException;
@@ -10,6 +12,8 @@ import pl.edu.agh.two.mud.common.command.provider.CommandExecutorProvider;
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class SynchronizedDispatcher implements Dispatcher {
 
+	private static Logger logger = Logger.getLogger(SynchronizedDispatcher.class);
+	
 	private CommandFactory commandFactory;
 	private CommandExecutorProvider commandExecutorProvider;
 
@@ -27,9 +31,8 @@ public class SynchronizedDispatcher implements Dispatcher {
 		} catch (CommandExecutingException e) {
 			try {
 				e.handleException();
-			} catch (Throwable t) {
-				System.out.println("Something goes really badly !");
-				t.printStackTrace();
+			} catch (RuntimeException re) {
+				logger.fatal("Something goes really badly !", re);
 			}
 		}
 	}

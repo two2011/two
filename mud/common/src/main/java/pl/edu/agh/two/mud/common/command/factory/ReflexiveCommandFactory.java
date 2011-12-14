@@ -12,7 +12,7 @@ import pl.edu.agh.two.mud.common.command.type.*;
 
 public class ReflexiveCommandFactory implements CommandFactory {
 
-	protected CommandProvider commandProvider;
+	private CommandProvider commandProvider;
 	private Logger logger = Logger.getLogger(getClass());
 
 	@Override
