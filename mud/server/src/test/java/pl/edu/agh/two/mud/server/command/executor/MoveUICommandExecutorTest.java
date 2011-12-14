@@ -93,23 +93,7 @@ public class MoveUICommandExecutorTest {
 
         Field newPlayersPosition = board.getPlayersPosition(player);
         assertThat(newPlayersPosition).isNotEqualTo(board.getStartingField());
-        verify(service).writeObject(newPlayersPosition.getFormattedFieldSummary());
-    }
-
-    @Test(expected = FatalException.class)
-    public void shouldThrowFatalExceptionOnIOException() throws FatalException, ClientAwareException, IOException {
-        // given
-        MoveUICommand command = prepareValidMoveEastCommand();
-        Player player = mock(Player.class);
-        board.addPlayer(player);
-        when(serviceRegistry.getPlayer(service)).thenReturn(player);
-        doThrow(new IOException()).when(service).writeObject(anyString());
-
-        // when
-        executor.execute(command);
-
-        // then
-        // should throw FatalException
+        verify(dispatcher).dispatch(new SendMessageToUserCommand(newPlayersPosition.getFormattedFieldSummary(), MessageType.INFO));
     }
 
     private MoveUICommand prepareValidMoveEastCommand() {
