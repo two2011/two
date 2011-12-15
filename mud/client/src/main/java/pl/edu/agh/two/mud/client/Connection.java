@@ -11,7 +11,7 @@ import pl.edu.agh.two.mud.client.command.registry.CommandRegistrationException;
 import pl.edu.agh.two.mud.client.command.registry.ICommandDefinitionRegistry;
 import pl.edu.agh.two.mud.client.ui.Console;
 import pl.edu.agh.two.mud.client.ui.MainWindow;
-import pl.edu.agh.two.mud.common.IPlayer;
+import pl.edu.agh.two.mud.common.*;
 import pl.edu.agh.two.mud.common.command.UICommand;
 import pl.edu.agh.two.mud.common.command.converter.UICommandToDefinitionConverter;
 import pl.edu.agh.two.mud.common.command.definition.ICommandDefinition;
@@ -81,6 +81,8 @@ public class Connection extends Thread {
 
 				} else if (object instanceof IPlayer) {
 					mainWindow.getPlayerPanel().updateHero((IPlayer) object);
+				}else if(object instanceof UpdateData) {
+					mainWindow.getPlayerPanel().updateHeroData((UpdateData) object);
 				} else if (object instanceof TextMessage) {
 					TextMessage textMessage = (TextMessage) object;
 					Console console = mainWindow.getMainConsole();
