@@ -10,11 +10,14 @@ public class BoardDrawer {
 		StringBuilder text = new StringBuilder();
 		for(Field[] row: fields) {
 			for(Field field: row) {
-				if(field == null)
+				if(field == null) {
 					text.append('.');
-				else
+				}
+				else {
 					text.append('#');
+				}
 			}
+			text.append("\n");
 		}
 		return text.toString();
 	}
