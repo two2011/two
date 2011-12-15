@@ -260,7 +260,7 @@ public class PlayerPanel extends JPanel {
 			return;
 		}
 		
-		health.setText(updateData.getHealth() + SLASH + updateData.getMaxHealth());
+		health.setText(updateData.getHealthPoints() + SLASH + updateData.getMaxHealthPoints());
 		repaint();
 	}
 

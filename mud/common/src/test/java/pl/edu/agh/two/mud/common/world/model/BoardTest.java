@@ -1,12 +1,16 @@
-package pl.edu.agh.two.mud.server.world.model;
+package pl.edu.agh.two.mud.common.world.model;
 
 import org.junit.Test;
+
+import pl.edu.agh.two.mud.common.world.model.Board;
+import pl.edu.agh.two.mud.common.world.model.Direction;
+import pl.edu.agh.two.mud.common.world.model.Field;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.fest.assertions.Assertions.assertThat;
-import static pl.edu.agh.two.mud.server.world.model.Direction.*;
+import static pl.edu.agh.two.mud.common.world.model.Direction.*;
 
 public class BoardTest {
 

@@ -2,7 +2,7 @@ package pl.edu.agh.two.mud.server.world.fight;
 
 import pl.edu.agh.two.mud.common.ICreature;
 import pl.edu.agh.two.mud.common.command.exception.FatalException;
-import pl.edu.agh.two.mud.server.world.model.Direction;
+import pl.edu.agh.two.mud.common.world.model.Direction;
 
 public interface Fight {
 	

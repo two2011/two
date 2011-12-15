@@ -12,6 +12,7 @@ import pl.edu.agh.two.mud.common.command.UICommand;
 import pl.edu.agh.two.mud.common.command.dispatcher.Dispatcher;
 import pl.edu.agh.two.mud.common.command.exception.FatalException;
 import pl.edu.agh.two.mud.common.message.MessageType;
+import pl.edu.agh.two.mud.common.world.model.Direction;
 import pl.edu.agh.two.mud.server.IServiceRegistry;
 import pl.edu.agh.two.mud.server.Service;
 import pl.edu.agh.two.mud.server.command.MoveUICommand;
@@ -19,7 +20,6 @@ import pl.edu.agh.two.mud.server.command.SendAvailableCommandsCommand;
 import pl.edu.agh.two.mud.server.command.SendMessageToUserCommand;
 import pl.edu.agh.two.mud.server.command.util.AvailableCommands;
 import pl.edu.agh.two.mud.server.world.fight.Fight;
-import pl.edu.agh.two.mud.server.world.model.Direction;
 
 public class PlayersFight implements Fight {
 	private Dispatcher dispatcher;
@@ -70,7 +70,10 @@ public class PlayersFight implements Fight {
 
 				switchAttackingPlayer(playerWhoHits, enemy);
 			} else {
-				dispatcher.dispatch(new SendMessageToUserCommand(playerWhoHits, "Wygrales!", MessageType.INFO));
+                int expToAdd = enemy.getLevel() * 100;
+                playerWhoHits.addExperience(expToAdd);
+                dispatcher.dispatch(new SendMessageToUserCommand(playerWhoHits, String.format(
+                        "Wygrales! Zdobyles %d pkt doswiadczenia.", expToAdd), MessageType.INFO));
 				dispatcher.dispatch(new SendMessageToUserCommand(enemy, "Zginales!", MessageType.INFO));
 
 				endFight(playerWhoHits, enemy);

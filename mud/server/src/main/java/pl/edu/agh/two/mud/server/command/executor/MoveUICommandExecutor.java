@@ -5,9 +5,9 @@ import pl.edu.agh.two.mud.common.command.dispatcher.*;
 import pl.edu.agh.two.mud.common.command.exception.*;
 import pl.edu.agh.two.mud.common.command.executor.*;
 import pl.edu.agh.two.mud.common.message.*;
+import pl.edu.agh.two.mud.common.world.model.*;
 import pl.edu.agh.two.mud.server.*;
 import pl.edu.agh.two.mud.server.command.*;
-import pl.edu.agh.two.mud.server.world.model.*;
 
 public class MoveUICommandExecutor implements CommandExecutor<MoveUICommand> {
 

@@ -1,14 +1,16 @@
-package pl.edu.agh.two.mud.server.world.model;
+package pl.edu.agh.two.mud.common.world.model;
 
 import org.junit.Test;
 import pl.edu.agh.two.mud.common.Player;
+import pl.edu.agh.two.mud.common.world.model.Board;
+import pl.edu.agh.two.mud.common.world.model.Field;
 
 import static java.util.Arrays.asList;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static pl.edu.agh.two.mud.server.world.model.Direction.E;
-import static pl.edu.agh.two.mud.server.world.model.Direction.N;
+import static pl.edu.agh.two.mud.common.world.model.Direction.E;
+import static pl.edu.agh.two.mud.common.world.model.Direction.N;
 
 public class FieldTest {
 
