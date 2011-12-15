@@ -39,18 +39,20 @@ public class AttackUICommandExecutor implements
 							String.format("Przeciwnik %s nie znajduje sie na Twoim polu", command.getPlayer()), INFO));
 				}
 				
-				if (currentPlayer.equals(enemy)) {
+				else if (currentPlayer.equals(enemy)) {
 					dispatcher.dispatch(new SendMessageToUserCommand("Nie mozesz atakowac sam siebie", INFO));
 				}
 
-				if (enemy.isInFight()) {
+				else if (enemy.isInFight()) {
 					dispatcher.dispatch(new SendMessageToUserCommand(String.format("Przeciwnik %s aktualnie walczy", command.getPlayer()), INFO));
 				}
 
-				currentPlayer.setEnemy(enemy);
-				enemy.setEnemy(currentPlayer);
-
-				fight.startFight(currentPlayer, enemy);
+				else {
+					currentPlayer.setEnemy(enemy);
+					enemy.setEnemy(currentPlayer);
+	
+					fight.startFight(currentPlayer, enemy);
+				}
 
 			} else {
 				dispatcher.dispatch(new SendMessageToUserCommand("Nieznany blad.", INFO));
