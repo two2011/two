@@ -4,6 +4,8 @@ import java.io.*;
 
 public class Player implements IPlayer, Serializable {
 
+    private static final int NEXT_LEVEL_STEP = 1000;
+
     private static final long serialVersionUID = 6035858257763542932L;
 
     private String name;
@@ -163,14 +165,18 @@ public class Player implements IPlayer, Serializable {
     public void addExperience(int exp) {
         int oldExp = experience;
         this.experience += exp;
-        if ((experience / 1000) > (oldExp / 1000)) {
-            this.level += 1;
-            this.maxHealthPoints += 10;
-            this.strength += 1;
-            this.agililty += 1;
-            this.power += 1;
-            this.healthPoints = this.maxHealthPoints;
+        if ((experience / NEXT_LEVEL_STEP) > (oldExp / NEXT_LEVEL_STEP)) {
+            advance();
         }
+    }
+
+    private void advance() {
+        this.level += 1;
+        this.maxHealthPoints += 10;
+        this.strength += 1;
+        this.agililty += 1;
+        this.power += 1;
+        this.healthPoints = this.maxHealthPoints;
     }
 
 }
