@@ -8,6 +8,7 @@ public class BoardDrawer {
 	public String drawBoard(Board board) {
 		Field[][] fields = board.getFields();
 		StringBuilder text = new StringBuilder();
+		text.append("\n");
 		for(Field[] row: fields) {
 			for(Field field: row) {
 				if(field == null) {
