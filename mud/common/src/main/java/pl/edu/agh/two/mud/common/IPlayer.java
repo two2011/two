@@ -54,4 +54,7 @@ public interface IPlayer {
 	
 	UpdateData createUpdateData();
 
+
+    public abstract void addExperience(int exp);
+
 }
