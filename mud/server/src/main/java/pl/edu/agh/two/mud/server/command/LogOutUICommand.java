@@ -8,7 +8,8 @@ public class LogOutUICommand extends UICommand {
 
 	@Override
 	public String getDescription() {
-		return "Komenda wylogowania. Jej uzycie spowoduje wylogowanie sie.";
+		return "Komenda wylogowania. Jej uzycie spowoduje wylogowanie sie.\n"
+				+ "\t logout[lout]";
 	}
 
 }
