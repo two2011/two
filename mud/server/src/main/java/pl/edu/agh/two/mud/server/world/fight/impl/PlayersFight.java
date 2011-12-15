@@ -6,6 +6,7 @@ import java.util.Random;
 
 import org.apache.log4j.Logger;
 
+import pl.edu.agh.two.mud.common.ICreature;
 import pl.edu.agh.two.mud.common.IPlayer;
 import pl.edu.agh.two.mud.common.command.UICommand;
 import pl.edu.agh.two.mud.common.command.dispatcher.Dispatcher;
@@ -24,10 +25,13 @@ public class PlayersFight implements Fight {
 	private Dispatcher dispatcher;
 	private IServiceRegistry serviceRegistry;
 	private Random random;
-	
+
 	@Override
-	public void startFight(IPlayer playerOne, IPlayer playerTwo) {
-		dispatcher.dispatch(new SendMessageToUserCommand(String.format("Zaatkowales gracza %s", playerTwo.getName()),
+	public void startFight(ICreature creatureOne, ICreature creatureTwo) {
+		IPlayer playerOne = (IPlayer) creatureOne;
+		IPlayer playerTwo = (IPlayer) creatureTwo;
+
+		dispatcher.dispatch(new SendMessageToUserCommand(String.format("Zaatkowales gracza %s", playerOne.getName()),
 				MessageType.INFO));
 		dispatcher.dispatch(new SendMessageToUserCommand(playerTwo, String.format(
 				"Zostales zaatakowany przez gracza %s", playerOne.getName()), MessageType.INFO));
@@ -35,17 +39,19 @@ public class PlayersFight implements Fight {
 		int whoAttacksFirst = random.nextInt(2);
 		switch (whoAttacksFirst) {
 			case 0:
-				switchAttackingPlayer(playerTwo, playerOne);
+				switchAttackingPlayer(creatureTwo, creatureOne);
 				break;
 			case 1:
-				switchAttackingPlayer(playerOne, playerTwo);
+				switchAttackingPlayer(creatureOne, creatureTwo);
 				break;
 		}
 
 	}
 
 	@Override
-	public void hit(IPlayer playerWhoHits) throws FatalException {
+	public void hit(ICreature creatureWhoHits) throws FatalException {
+		IPlayer playerWhoHits = (IPlayer)creatureWhoHits;
+		
 		IPlayer enemy = playerWhoHits.getEnemy();
 		int damage = random.nextInt(4) + 1;
 		enemy.subtractHealthPoints(damage);
@@ -75,7 +81,8 @@ public class PlayersFight implements Fight {
 	}
 
 	@Override
-	public void runFromFight(IPlayer currentPlayer, Direction direction) {
+	public void runFromFight(ICreature currentCreature, Direction direction) {
+		IPlayer currentPlayer = (IPlayer)currentCreature;
 		IPlayer enemy = currentPlayer.getEnemy();
 		boolean canRun = random.nextInt(2) > 0.5;
 		if (!canRun) {
@@ -93,12 +100,15 @@ public class PlayersFight implements Fight {
 		}
 	}
 
-	public void switchAttackingPlayer(IPlayer from, IPlayer to) {
-		dispatcher.dispatch(new SendMessageToUserCommand(from, "Tura przeciwnika", MessageType.INFO));
-		dispatcher.dispatch(new SendMessageToUserCommand(to, "Twoja tura", MessageType.INFO));
+	public void switchAttackingPlayer(ICreature from, ICreature to) {
+		IPlayer playerFrom = (IPlayer)from;
+		IPlayer playerTo = (IPlayer)to;
+		
+		dispatcher.dispatch(new SendMessageToUserCommand(playerFrom, "Tura przeciwnika", MessageType.INFO));
+		dispatcher.dispatch(new SendMessageToUserCommand(playerTo, "Twoja tura", MessageType.INFO));
 
-		sendAvailableCommands(from, AvailableCommands.getInstance().getFightOpponentTurnCommands());
-		sendAvailableCommands(to, AvailableCommands.getInstance().getFightYouTurnCommands());
+		sendAvailableCommands(playerFrom, AvailableCommands.getInstance().getFightOpponentTurnCommands());
+		sendAvailableCommands(playerTo, AvailableCommands.getInstance().getFightYouTurnCommands());
 	}
 
 	private void endFight(IPlayer player1, IPlayer player2) {
@@ -119,7 +129,7 @@ public class PlayersFight implements Fight {
 	private void sendAvailableCommands(IPlayer player, Collection<UICommand> availableCommands) {
 		dispatcher.dispatch(new SendAvailableCommandsCommand(player, availableCommands));
 	}
-	
+
 	public void setServiceRegistry(IServiceRegistry serviceRegistry) {
 		this.serviceRegistry = serviceRegistry;
 	}
@@ -127,7 +137,7 @@ public class PlayersFight implements Fight {
 	public void setDispatcher(Dispatcher dispatcher) {
 		this.dispatcher = dispatcher;
 	}
-	
+
 	public void setRandom(Random random) {
 		this.random = random;
 	}
