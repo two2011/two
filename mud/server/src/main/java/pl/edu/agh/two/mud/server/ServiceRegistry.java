@@ -7,7 +7,7 @@ import pl.edu.agh.two.mud.common.IPlayer;
 
 public class ServiceRegistry implements IServiceRegistry {
 
-	public Map<Service, IPlayer> map = new ConcurrentHashMap<Service, IPlayer>();
+	private Map<Service, IPlayer> map = new ConcurrentHashMap<Service, IPlayer>();
 
 	@Override
 	public Service getService(IPlayer player) {

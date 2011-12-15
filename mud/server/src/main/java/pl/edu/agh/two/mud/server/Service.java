@@ -21,7 +21,6 @@ import pl.edu.agh.two.mud.server.command.util.AvailableCommands;
 
 public class Service extends Thread {
 
-	private static final String LOG_OUT_COMMAND_BEAN_NAME = "logOutCommand";
 	private Socket clientSocket;
 	private SocketAddress clientAddress;
 	private Logger logger = Logger.getLogger(Service.class);
