@@ -23,7 +23,8 @@ import pl.edu.agh.two.mud.server.world.model.Direction;
 public class PlayersFight implements Fight {
 	private Dispatcher dispatcher;
 	private IServiceRegistry serviceRegistry;
-
+	private Random random;
+	
 	@Override
 	public void startFight(IPlayer playerOne, IPlayer playerTwo) {
 		dispatcher.dispatch(new SendMessageToUserCommand(String.format("Zaatkowales gracza %s", playerTwo.getName()),
@@ -31,7 +32,7 @@ public class PlayersFight implements Fight {
 		dispatcher.dispatch(new SendMessageToUserCommand(playerTwo, String.format(
 				"Zostales zaatakowany przez gracza %s", playerOne.getName()), MessageType.INFO));
 
-		int whoAttacksFirst = new Random().nextInt(2);
+		int whoAttacksFirst = random.nextInt(2);
 		switch (whoAttacksFirst) {
 			case 0:
 				switchAttackingPlayer(playerTwo, playerOne);
@@ -44,14 +45,9 @@ public class PlayersFight implements Fight {
 	}
 
 	@Override
-	public IPlayer getCurrentlyAttackingPlayer() {
-		return null;
-	}
-
-	@Override
 	public void hit(IPlayer playerWhoHits) throws FatalException {
 		IPlayer enemy = playerWhoHits.getEnemy();
-		int damage = new Random().nextInt(4) + 1;
+		int damage = random.nextInt(4) + 1;
 		enemy.subtractHealthPoints(damage);
 		Service enemyService = serviceRegistry.getService(enemy);
 
@@ -81,7 +77,7 @@ public class PlayersFight implements Fight {
 	@Override
 	public void runFromFight(IPlayer currentPlayer, Direction direction) {
 		IPlayer enemy = currentPlayer.getEnemy();
-		boolean canRun = Math.random() > 0.5;
+		boolean canRun = random.nextInt(2) > 0.5;
 		if (!canRun) {
 			dispatcher.dispatch(new SendMessageToUserCommand("Nie udalo Ci sie uciec", MessageType.INFO));
 			dispatcher.dispatch(new SendMessageToUserCommand(enemy, "Przeciwnik probowal uciec lecz mu sie nie udalo",
@@ -105,14 +101,6 @@ public class PlayersFight implements Fight {
 		sendAvailableCommands(to, AvailableCommands.getInstance().getFightYouTurnCommands());
 	}
 
-	public void setServiceRegistry(IServiceRegistry serviceRegistry) {
-		this.serviceRegistry = serviceRegistry;
-	}
-
-	public void setDispatcher(Dispatcher dispatcher) {
-		this.dispatcher = dispatcher;
-	}
-
 	private void endFight(IPlayer player1, IPlayer player2) {
 		playersFightEnd(player1);
 		playersFightEnd(player2);
@@ -130,6 +118,17 @@ public class PlayersFight implements Fight {
 
 	private void sendAvailableCommands(IPlayer player, Collection<UICommand> availableCommands) {
 		dispatcher.dispatch(new SendAvailableCommandsCommand(player, availableCommands));
+	}
+	
+	public void setServiceRegistry(IServiceRegistry serviceRegistry) {
+		this.serviceRegistry = serviceRegistry;
+	}
 
+	public void setDispatcher(Dispatcher dispatcher) {
+		this.dispatcher = dispatcher;
+	}
+	
+	public void setRandom(Random random) {
+		this.random = random;
 	}
 }

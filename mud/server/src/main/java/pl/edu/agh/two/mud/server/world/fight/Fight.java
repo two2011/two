@@ -7,7 +7,6 @@ import pl.edu.agh.two.mud.server.world.model.Direction;
 public interface Fight {
 	
 	public void startFight(IPlayer playerOne, IPlayer playetTwo);
-	public IPlayer getCurrentlyAttackingPlayer();
 	public void hit(IPlayer player) throws FatalException;
 	public void switchAttackingPlayer(IPlayer from, IPlayer to);
 	

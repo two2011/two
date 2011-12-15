@@ -3,6 +3,7 @@ package pl.edu.agh.two.mud.server.command;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 
 import pl.edu.agh.two.mud.common.IPlayer;
 import pl.edu.agh.two.mud.common.command.Command;
@@ -30,7 +31,7 @@ public class SendAvailableCommandsCommand extends Command {
 		this.player = player;
 		this.uiCommands = Arrays.asList(uiCommands);
 	}
-	
+
 	public SendAvailableCommandsCommand(IPlayer player, Collection<UICommand> uiCommands) {
 		this.player = player;
 		this.uiCommands = uiCommands;
@@ -46,5 +47,36 @@ public class SendAvailableCommandsCommand extends Command {
 
 	public Collection<UICommand> getUICommands() {
 		return uiCommands;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == this) {
+			return true;
+		}
+
+		if (obj instanceof SendAvailableCommandsCommand) {
+			SendAvailableCommandsCommand sacc = (SendAvailableCommandsCommand) obj;
+
+			if ((player == null && sacc.player == null) || (player != null && player.equals(sacc.player))) {
+				if (uiCommandClassess != null && sacc.uiCommandClassess != null) {
+					return new HashSet<Class<? extends UICommand>>(uiCommandClassess)
+							.equals(new HashSet<Class<? extends UICommand>>(sacc.uiCommandClassess));
+				} else if (uiCommands != null && sacc.uiCommands != null) {
+					return new HashSet<UICommand>(uiCommands).equals(new HashSet<UICommand>(sacc.uiCommands));
+				}
+			}
+		}
+
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 7;
+		hash = 31 * hash + (player == null ? 0 : player.hashCode());
+		hash = 31 * hash + (uiCommandClassess == null ? 0 : uiCommandClassess.hashCode());
+		hash = 31 * hash + (uiCommands == null ? 0 : uiCommands.hashCode());
+		return hash;
 	}
 }

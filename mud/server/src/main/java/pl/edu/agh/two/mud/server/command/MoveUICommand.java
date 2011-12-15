@@ -46,4 +46,25 @@ public class MoveUICommand extends UICommand {
 		this.direction = direction;
 		return this;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == this) {
+			return true;
+		}
+
+		if (obj instanceof MoveUICommand) {
+			MoveUICommand muic = (MoveUICommand) obj;
+			if (direction.equals(muic.direction)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return direction.hashCode();
+	}
 }

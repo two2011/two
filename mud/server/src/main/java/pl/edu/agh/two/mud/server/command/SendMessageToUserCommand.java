@@ -61,7 +61,8 @@ public class SendMessageToUserCommand extends Command {
 
 		if (object instanceof SendMessageToUserCommand) {
 			SendMessageToUserCommand smtc = (SendMessageToUserCommand) object;
-			if (message.equals(smtc.message) && type.equals(smtc.type)) {
+			if (((player == null && smtc.player == null) || (player != null && player.equals(smtc.player)))
+					&& message.equals(smtc.message) && type.equals(smtc.type)) {
 				return true;
 			}
 		}
@@ -72,6 +73,7 @@ public class SendMessageToUserCommand extends Command {
 	@Override
 	public int hashCode() {
 		int hash = 7;
+		hash = 31 * hash + (player == null ? 0 : player.hashCode());
 		hash = 31 * hash + (message == null ? 0 : message.hashCode());
 		hash = 31 * hash + (type == null ? 0 : type.hashCode());
 		return hash;

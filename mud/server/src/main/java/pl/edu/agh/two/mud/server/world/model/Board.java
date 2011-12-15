@@ -1,6 +1,7 @@
 package pl.edu.agh.two.mud.server.world.model;
 
 import pl.edu.agh.two.mud.common.IPlayer;
+import pl.edu.agh.two.mud.common.Player;
 import pl.edu.agh.two.mud.server.world.exception.NoPlayerWithSuchNameException;
 
 import java.util.*;
@@ -16,6 +17,19 @@ public class Board {
     private Field startingField;
     private int xAxisSize;
     private int yAxisSize;
+    
+    public Board() {
+    	Player iso = new Player();
+    	iso.setName("iso");
+    	iso.setPassword("iso");
+    	
+    	Player ktos = new Player();
+    	ktos.setName("ktos");
+    	ktos.setPassword("ktos");
+    	
+		addPlayer(iso);
+		addPlayer(ktos);
+	}
 
     public String getName() {
         return name;
