@@ -64,8 +64,10 @@ public class PlayersFight implements Fight {
 
                 switchAttackingPlayer(playerWhoHits, enemy);
             } else {
-                playerWhoHits.addExperience(enemy.getLevel() * 100);
-                dispatcher.dispatch(new SendMessageToUserCommand(playerWhoHits, "Wygrales!", MessageType.INFO));
+                int expToAdd = enemy.getLevel() * 100;
+                playerWhoHits.addExperience(expToAdd);
+                dispatcher.dispatch(new SendMessageToUserCommand(playerWhoHits, String.format(
+                        "Wygrales! Zdobyles %d pkt doswiadczenia.", expToAdd), MessageType.INFO));
                 dispatcher.dispatch(new SendMessageToUserCommand(enemy, "Zginales!", MessageType.INFO));
 
                 endFight(playerWhoHits, enemy);
