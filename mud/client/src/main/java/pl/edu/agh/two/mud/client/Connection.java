@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 
 import pl.edu.agh.two.mud.client.command.registry.CommandRegistrationException;
 import pl.edu.agh.two.mud.client.command.registry.ICommandDefinitionRegistry;
+import pl.edu.agh.two.mud.client.ui.BoardDrawer;
 import pl.edu.agh.two.mud.client.ui.Console;
 import pl.edu.agh.two.mud.client.ui.MainWindow;
 import pl.edu.agh.two.mud.common.*;
@@ -18,6 +19,7 @@ import pl.edu.agh.two.mud.common.command.definition.ICommandDefinition;
 import pl.edu.agh.two.mud.common.command.provider.CommandProvider;
 import pl.edu.agh.two.mud.common.message.AvailableCommandsMessage;
 import pl.edu.agh.two.mud.common.message.TextMessage;
+import pl.edu.agh.two.mud.common.world.model.Board;
 
 public class Connection extends Thread {
 
@@ -30,6 +32,7 @@ public class Connection extends Thread {
 	private CommandProvider commandProvider;
 	private UICommandToDefinitionConverter converter;
 	private MainWindow mainWindow;
+	private final BoardDrawer boardDrawer = new BoardDrawer();
 
 	public void connect(String host, int port) throws IOException {
 		socket = new Socket(host, port);
@@ -94,6 +97,10 @@ public class Connection extends Thread {
 							console.appendTextToConsole(textMessage.getContent());
 							break;
 					}
+				} else if(object instanceof Board) {
+					String asciiBoard = boardDrawer.drawBoard((Board) object);
+					Console console = mainWindow.getMainConsole();
+					console.appendTextToConsole(asciiBoard);
 				} else if (object instanceof String) {
 					mainWindow.getMainConsole().appendTextToConsole((String) object);
 				} else if (object == null) {

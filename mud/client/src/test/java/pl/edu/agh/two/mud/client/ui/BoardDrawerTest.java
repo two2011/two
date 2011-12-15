@@ -33,7 +33,7 @@ public class BoardDrawerTest {
 	@Test
 	public void shouldReturnCorrectBoardMap() {
 		String actual = boardDrawer.drawBoard(board);
-		String expected = ".##\n###\n#..\n";
+		String expected = "\n.##\n###\n#..\n";
 		assertEquals(expected, actual);
 	}
 
