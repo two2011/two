@@ -56,11 +56,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 		<property name="dispatcher" ref="dispatcher" />
 		<property name="serviceRegistry" ref="serviceRegistry" />
 		<property name="random">
-			<bean class="java.util.Random">
-				<constructor-arg>
-					<bean class="java.util.Date"></bean>
-				</constructor-arg>
-			</bean>
+			<bean class="java.util.Random" scope="prototype" />
 		</property>
 	</bean>
 
