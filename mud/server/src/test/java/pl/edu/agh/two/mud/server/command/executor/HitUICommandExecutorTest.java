@@ -36,7 +36,7 @@ public class HitUICommandExecutorTest {
 		executor.execute(null);
 
 		// THEN
-		verify(fight, timeout(1)).hit(player);
+		verify(fight, times(1)).hit(player);
 
 	}
 	
