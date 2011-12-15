@@ -158,7 +158,8 @@ public class Player implements IPlayer, Serializable {
 
     @Override
     public UpdateData createUpdateData() {
-        return new UpdateData(healthPoints, maxHealthPoints);
+        return new UpdateData(strength, power, agililty, gold, experience, level, healthPoints,
+                maxHealthPoints);
     }
 
     @Override
