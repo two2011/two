@@ -3,10 +3,10 @@ package pl.edu.agh.two.mud.server.command.executor;
 import pl.edu.agh.two.mud.common.IPlayer;
 import pl.edu.agh.two.mud.common.command.exception.CommandExecutingException;
 import pl.edu.agh.two.mud.common.command.executor.CommandExecutor;
+import pl.edu.agh.two.mud.common.world.model.Board;
 import pl.edu.agh.two.mud.server.IServiceRegistry;
 import pl.edu.agh.two.mud.server.Service;
 import pl.edu.agh.two.mud.server.command.LogOutCommand;
-import pl.edu.agh.two.mud.server.world.model.Board;
 
 public class LogOutCommandExecutor implements CommandExecutor<LogOutCommand> {
 

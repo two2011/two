@@ -8,12 +8,12 @@ import pl.edu.agh.two.mud.common.Player;
 import pl.edu.agh.two.mud.common.command.dispatcher.Dispatcher;
 import pl.edu.agh.two.mud.common.command.executor.CommandExecutor;
 import pl.edu.agh.two.mud.common.message.MessageType;
+import pl.edu.agh.two.mud.common.world.exception.NoPlayerWithSuchNameException;
+import pl.edu.agh.two.mud.common.world.model.Board;
 import pl.edu.agh.two.mud.server.command.RegisterUICommand;
 import pl.edu.agh.two.mud.server.command.SendMessageToUserCommand;
 import pl.edu.agh.two.mud.server.command.exception.ClientAwareException;
 import pl.edu.agh.two.mud.server.mail.Mailer;
-import pl.edu.agh.two.mud.server.world.exception.NoPlayerWithSuchNameException;
-import pl.edu.agh.two.mud.server.world.model.Board;
 
 public class RegisterUICommandExecutor implements
 		CommandExecutor<RegisterUICommand> {

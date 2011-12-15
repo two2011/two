@@ -12,14 +12,14 @@ import pl.edu.agh.two.mud.common.IPlayer;
 import pl.edu.agh.two.mud.common.command.dispatcher.Dispatcher;
 import pl.edu.agh.two.mud.common.command.exception.CommandExecutingException;
 import pl.edu.agh.two.mud.common.message.MessageType;
+import pl.edu.agh.two.mud.common.world.exception.NoPlayerWithSuchNameException;
+import pl.edu.agh.two.mud.common.world.model.Board;
+import pl.edu.agh.two.mud.common.world.model.Field;
 import pl.edu.agh.two.mud.server.Service;
 import pl.edu.agh.two.mud.server.ServiceRegistry;
 import pl.edu.agh.two.mud.server.command.AttackUICommand;
 import pl.edu.agh.two.mud.server.command.SendMessageToUserCommand;
-import pl.edu.agh.two.mud.server.world.exception.NoPlayerWithSuchNameException;
 import pl.edu.agh.two.mud.server.world.fight.Fight;
-import pl.edu.agh.two.mud.server.world.model.Board;
-import pl.edu.agh.two.mud.server.world.model.Field;
 
 
 public class AttackUICommandExecutorTest {

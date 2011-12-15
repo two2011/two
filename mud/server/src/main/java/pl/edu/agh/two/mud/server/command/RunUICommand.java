@@ -1,13 +1,13 @@
 package pl.edu.agh.two.mud.server.command;
 
-import static pl.edu.agh.two.mud.server.world.model.Direction.E;
-import static pl.edu.agh.two.mud.server.world.model.Direction.N;
-import static pl.edu.agh.two.mud.server.world.model.Direction.S;
-import static pl.edu.agh.two.mud.server.world.model.Direction.W;
+import static pl.edu.agh.two.mud.common.world.model.Direction.E;
+import static pl.edu.agh.two.mud.common.world.model.Direction.N;
+import static pl.edu.agh.two.mud.common.world.model.Direction.S;
+import static pl.edu.agh.two.mud.common.world.model.Direction.W;
 import pl.edu.agh.two.mud.common.command.UICommand;
 import pl.edu.agh.two.mud.common.command.annotation.Alias;
 import pl.edu.agh.two.mud.common.command.annotation.OrderedParam;
-import pl.edu.agh.two.mud.server.world.model.Direction;
+import pl.edu.agh.two.mud.common.world.model.Direction;
 
 @Alias({"wycofaj", "w"})
 public class RunUICommand extends UICommand {

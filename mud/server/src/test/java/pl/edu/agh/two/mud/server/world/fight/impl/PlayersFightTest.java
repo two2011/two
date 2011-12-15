@@ -23,6 +23,7 @@ import pl.edu.agh.two.mud.common.command.dispatcher.Dispatcher;
 import pl.edu.agh.two.mud.common.command.exception.FatalException;
 import pl.edu.agh.two.mud.common.command.provider.CommandProvider;
 import pl.edu.agh.two.mud.common.message.MessageType;
+import pl.edu.agh.two.mud.common.world.model.Direction;
 import pl.edu.agh.two.mud.server.IServiceRegistry;
 import pl.edu.agh.two.mud.server.Service;
 import pl.edu.agh.two.mud.server.command.HitUICommand;
@@ -37,7 +38,6 @@ import pl.edu.agh.two.mud.server.command.SendMessageToUserCommand;
 import pl.edu.agh.two.mud.server.command.TalkUICommand;
 import pl.edu.agh.two.mud.server.command.WhisperUICommand;
 import pl.edu.agh.two.mud.server.command.util.AvailableCommands;
-import pl.edu.agh.two.mud.server.world.model.Direction;
 
 import com.google.common.collect.ImmutableList.Builder;
 
