@@ -11,7 +11,6 @@ import pl.edu.agh.two.mud.server.command.SendAvailableCommandsCommand;
 import pl.edu.agh.two.mud.server.command.SendMessageToUserCommand;
 import pl.edu.agh.two.mud.server.command.util.AvailableCommands;
 import pl.edu.agh.two.mud.server.world.fight.Fight;
-import pl.edu.agh.two.mud.server.world.model.Direction;
 
 public class CreaturePlayerFight implements Fight {
 
@@ -58,7 +57,7 @@ public class CreaturePlayerFight implements Fight {
 	}
 
 	@Override
-	public void runFromFight(ICreature creature, Direction direction) {
+	public void runFromFight(ICreature creature, pl.edu.agh.two.mud.common.world.model.Direction direction) {
 
 	}
 
