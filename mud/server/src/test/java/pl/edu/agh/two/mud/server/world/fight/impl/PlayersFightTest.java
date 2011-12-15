@@ -1,9 +1,11 @@
 package pl.edu.agh.two.mud.server.world.fight.impl;
 
+import static org.fest.assertions.Assertions.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
+import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -252,5 +254,24 @@ public class PlayersFightTest {
 			verify(dispatcher).dispatch(new SendAvailableCommandsCommand(player, deadPlayerCommands));
 		}
 	}
+	
+	@Test
+    public void shouldAddExperienceToPlayerWhoWonFight() throws Exception {
+        // GIVEN
+	    Service service = mock(Service.class);
+        player1 = mock(IPlayer.class);
+        player2 = mock(IPlayer.class);
+        when(player1.getEnemy()).thenReturn(player2);
+        when(player2.isAlive()).thenReturn(false);
+        when(player2.getLevel()).thenReturn(1);
+        when(serviceRegistry.getService(player2)).thenReturn(service);
+
+        // WHEN
+        fight.hit(player1);
+
+        // THEN
+        verify(player1, times(1)).addExperience(100);
+
+    }
 
 }

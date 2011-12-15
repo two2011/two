@@ -21,114 +21,115 @@ import pl.edu.agh.two.mud.server.world.fight.Fight;
 import pl.edu.agh.two.mud.server.world.model.Direction;
 
 public class PlayersFight implements Fight {
-	private Dispatcher dispatcher;
-	private IServiceRegistry serviceRegistry;
-	private Random random;
-	
-	@Override
-	public void startFight(IPlayer playerOne, IPlayer playerTwo) {
-		dispatcher.dispatch(new SendMessageToUserCommand(String.format("Zaatkowales gracza %s", playerTwo.getName()),
-				MessageType.INFO));
-		dispatcher.dispatch(new SendMessageToUserCommand(playerTwo, String.format(
-				"Zostales zaatakowany przez gracza %s", playerOne.getName()), MessageType.INFO));
+    private Dispatcher dispatcher;
+    private IServiceRegistry serviceRegistry;
+    private Random random;
 
-		int whoAttacksFirst = random.nextInt(2);
-		switch (whoAttacksFirst) {
-			case 0:
-				switchAttackingPlayer(playerTwo, playerOne);
-				break;
-			case 1:
-				switchAttackingPlayer(playerOne, playerTwo);
-				break;
-		}
+    @Override
+    public void startFight(IPlayer playerOne, IPlayer playerTwo) {
+        dispatcher.dispatch(new SendMessageToUserCommand(String.format("Zaatkowales gracza %s", playerTwo.getName()),
+                MessageType.INFO));
+        dispatcher.dispatch(new SendMessageToUserCommand(playerTwo, String.format(
+                "Zostales zaatakowany przez gracza %s", playerOne.getName()), MessageType.INFO));
 
-	}
+        int whoAttacksFirst = random.nextInt(2);
+        switch (whoAttacksFirst) {
+        case 0:
+            switchAttackingPlayer(playerTwo, playerOne);
+            break;
+        case 1:
+            switchAttackingPlayer(playerOne, playerTwo);
+            break;
+        }
 
-	@Override
-	public void hit(IPlayer playerWhoHits) throws FatalException {
-		IPlayer enemy = playerWhoHits.getEnemy();
-		int damage = random.nextInt(4) + 1;
-		enemy.subtractHealthPoints(damage);
-		Service enemyService = serviceRegistry.getService(enemy);
+    }
 
-		try {
-			enemyService.writeObject(enemy.createUpdateData());
+    @Override
+    public void hit(IPlayer playerWhoHits) throws FatalException {
+        IPlayer enemy = playerWhoHits.getEnemy();
+        int damage = random.nextInt(4) + 1;
+        enemy.subtractHealthPoints(damage);
+        Service enemyService = serviceRegistry.getService(enemy);
 
-			dispatcher.dispatch(new SendMessageToUserCommand(playerWhoHits, String.format(
-					"Zadales przeciwnikowi %d pkt obrazen.", damage), MessageType.INFO));
-			dispatcher.dispatch(new SendMessageToUserCommand(enemy, String.format("Zadano ci %d pkt obrazen.", damage),
-					MessageType.INFO));
+        try {
+            enemyService.writeObject(enemy.createUpdateData());
 
-			if (enemy.isAlive()) {
-				dispatcher.dispatch(new SendMessageToUserCommand(enemy, "Krwawisz!", MessageType.INFO));
+            dispatcher.dispatch(new SendMessageToUserCommand(playerWhoHits, String.format(
+                    "Zadales przeciwnikowi %d pkt obrazen.", damage), MessageType.INFO));
+            dispatcher.dispatch(new SendMessageToUserCommand(enemy, String.format("Zadano ci %d pkt obrazen.", damage),
+                    MessageType.INFO));
 
-				switchAttackingPlayer(playerWhoHits, enemy);
-			} else {
-				dispatcher.dispatch(new SendMessageToUserCommand(playerWhoHits, "Wygrales!", MessageType.INFO));
-				dispatcher.dispatch(new SendMessageToUserCommand(enemy, "Zginales!", MessageType.INFO));
+            if (enemy.isAlive()) {
+                dispatcher.dispatch(new SendMessageToUserCommand(enemy, "Krwawisz!", MessageType.INFO));
 
-				endFight(playerWhoHits, enemy);
-			}
-		} catch (IOException e) {
-			throw new FatalException(e, Logger.getLogger(getClass()));
-		}
-	}
+                switchAttackingPlayer(playerWhoHits, enemy);
+            } else {
+                playerWhoHits.addExperience(enemy.getLevel() * 100);
+                dispatcher.dispatch(new SendMessageToUserCommand(playerWhoHits, "Wygrales!", MessageType.INFO));
+                dispatcher.dispatch(new SendMessageToUserCommand(enemy, "Zginales!", MessageType.INFO));
 
-	@Override
-	public void runFromFight(IPlayer currentPlayer, Direction direction) {
-		IPlayer enemy = currentPlayer.getEnemy();
-		boolean canRun = random.nextInt(2) > 0.5;
-		if (!canRun) {
-			dispatcher.dispatch(new SendMessageToUserCommand("Nie udalo Ci sie uciec", MessageType.INFO));
-			dispatcher.dispatch(new SendMessageToUserCommand(enemy, "Przeciwnik probowal uciec lecz mu sie nie udalo",
-					MessageType.INFO));
+                endFight(playerWhoHits, enemy);
+            }
+        } catch (IOException e) {
+            throw new FatalException(e, Logger.getLogger(getClass()));
+        }
+    }
 
-			switchAttackingPlayer(currentPlayer, enemy);
-		} else {
-			dispatcher.dispatch(new SendMessageToUserCommand("Udalo Ci sie uciec", MessageType.INFO));
-			dispatcher.dispatch(new SendMessageToUserCommand(enemy, "Przeciwnikowi udalo sie uciec", MessageType.INFO));
+    @Override
+    public void runFromFight(IPlayer currentPlayer, Direction direction) {
+        IPlayer enemy = currentPlayer.getEnemy();
+        boolean canRun = random.nextInt(2) > 0.5;
+        if (!canRun) {
+            dispatcher.dispatch(new SendMessageToUserCommand("Nie udalo Ci sie uciec", MessageType.INFO));
+            dispatcher.dispatch(new SendMessageToUserCommand(enemy, "Przeciwnik probowal uciec lecz mu sie nie udalo",
+                    MessageType.INFO));
 
-			dispatcher.dispatch(new MoveUICommand(direction));
-			endFight(currentPlayer, enemy);
-		}
-	}
+            switchAttackingPlayer(currentPlayer, enemy);
+        } else {
+            dispatcher.dispatch(new SendMessageToUserCommand("Udalo Ci sie uciec", MessageType.INFO));
+            dispatcher.dispatch(new SendMessageToUserCommand(enemy, "Przeciwnikowi udalo sie uciec", MessageType.INFO));
 
-	public void switchAttackingPlayer(IPlayer from, IPlayer to) {
-		dispatcher.dispatch(new SendMessageToUserCommand(from, "Tura przeciwnika", MessageType.INFO));
-		dispatcher.dispatch(new SendMessageToUserCommand(to, "Twoja tura", MessageType.INFO));
+            dispatcher.dispatch(new MoveUICommand(direction));
+            endFight(currentPlayer, enemy);
+        }
+    }
 
-		sendAvailableCommands(from, AvailableCommands.getInstance().getFightOpponentTurnCommands());
-		sendAvailableCommands(to, AvailableCommands.getInstance().getFightYouTurnCommands());
-	}
+    public void switchAttackingPlayer(IPlayer from, IPlayer to) {
+        dispatcher.dispatch(new SendMessageToUserCommand(from, "Tura przeciwnika", MessageType.INFO));
+        dispatcher.dispatch(new SendMessageToUserCommand(to, "Twoja tura", MessageType.INFO));
 
-	private void endFight(IPlayer player1, IPlayer player2) {
-		playersFightEnd(player1);
-		playersFightEnd(player2);
-	}
+        sendAvailableCommands(from, AvailableCommands.getInstance().getFightOpponentTurnCommands());
+        sendAvailableCommands(to, AvailableCommands.getInstance().getFightYouTurnCommands());
+    }
 
-	private void playersFightEnd(IPlayer player) {
-		player.setEnemy(null);
+    private void endFight(IPlayer player1, IPlayer player2) {
+        playersFightEnd(player1);
+        playersFightEnd(player2);
+    }
 
-		if (player.isAlive()) {
-			sendAvailableCommands(player, AvailableCommands.getInstance().getGameCommands());
-		} else {
-			sendAvailableCommands(player, AvailableCommands.getInstance().getDeadPlayerCommands());
-		}
-	}
+    private void playersFightEnd(IPlayer player) {
+        player.setEnemy(null);
 
-	private void sendAvailableCommands(IPlayer player, Collection<UICommand> availableCommands) {
-		dispatcher.dispatch(new SendAvailableCommandsCommand(player, availableCommands));
-	}
-	
-	public void setServiceRegistry(IServiceRegistry serviceRegistry) {
-		this.serviceRegistry = serviceRegistry;
-	}
+        if (player.isAlive()) {
+            sendAvailableCommands(player, AvailableCommands.getInstance().getGameCommands());
+        } else {
+            sendAvailableCommands(player, AvailableCommands.getInstance().getDeadPlayerCommands());
+        }
+    }
 
-	public void setDispatcher(Dispatcher dispatcher) {
-		this.dispatcher = dispatcher;
-	}
-	
-	public void setRandom(Random random) {
-		this.random = random;
-	}
+    private void sendAvailableCommands(IPlayer player, Collection<UICommand> availableCommands) {
+        dispatcher.dispatch(new SendAvailableCommandsCommand(player, availableCommands));
+    }
+
+    public void setServiceRegistry(IServiceRegistry serviceRegistry) {
+        this.serviceRegistry = serviceRegistry;
+    }
+
+    public void setDispatcher(Dispatcher dispatcher) {
+        this.dispatcher = dispatcher;
+    }
+
+    public void setRandom(Random random) {
+        this.random = random;
+    }
 }
