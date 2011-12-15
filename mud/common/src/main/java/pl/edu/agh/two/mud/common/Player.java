@@ -161,7 +161,16 @@ public class Player implements IPlayer, Serializable {
 
     @Override
     public void addExperience(int exp) {
+        int oldExp = experience;
         this.experience += exp;
+        if ((experience / 1000) > (oldExp / 1000)) {
+            this.level += 1;
+            this.maxHealthPoints += 10;
+            this.strength += 1;
+            this.agililty += 1;
+            this.power += 1;
+            this.healthPoints = this.maxHealthPoints;
+        }
     }
 
 }
