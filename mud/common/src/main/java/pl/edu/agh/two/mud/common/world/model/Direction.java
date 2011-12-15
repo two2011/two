@@ -1,4 +1,4 @@
-package pl.edu.agh.two.mud.server.world.model;
+package pl.edu.agh.two.mud.common.world.model;
 
 public enum Direction {
     N,

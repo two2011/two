@@ -6,15 +6,15 @@ import pl.edu.agh.two.mud.common.Player;
 import pl.edu.agh.two.mud.common.command.dispatcher.Dispatcher;
 import pl.edu.agh.two.mud.common.command.exception.FatalException;
 import pl.edu.agh.two.mud.common.command.provider.CommandProvider;
+import pl.edu.agh.two.mud.common.world.exception.NoPlayerWithSuchNameException;
+import pl.edu.agh.two.mud.common.world.model.Board;
+import pl.edu.agh.two.mud.common.world.model.SampleBoard;
 import pl.edu.agh.two.mud.server.Service;
 import pl.edu.agh.two.mud.server.ServiceRegistry;
 import pl.edu.agh.two.mud.server.command.LogInUICommand;
 import pl.edu.agh.two.mud.server.command.SendMessageToUserCommand;
 import pl.edu.agh.two.mud.server.command.exception.ClientAwareException;
 import pl.edu.agh.two.mud.server.command.util.AvailableCommands;
-import pl.edu.agh.two.mud.server.world.exception.NoPlayerWithSuchNameException;
-import pl.edu.agh.two.mud.server.world.model.Board;
-import pl.edu.agh.two.mud.server.world.model.SampleBoard;
 
 import java.io.IOException;
 

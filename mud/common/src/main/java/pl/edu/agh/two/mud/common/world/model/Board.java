@@ -1,4 +1,4 @@
-package pl.edu.agh.two.mud.server.world.model;
+package pl.edu.agh.two.mud.common.world.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import pl.edu.agh.two.mud.common.IPlayer;
-import pl.edu.agh.two.mud.server.world.exception.NoPlayerWithSuchNameException;
+import pl.edu.agh.two.mud.common.world.exception.NoPlayerWithSuchNameException;
 
 public class Board {
 

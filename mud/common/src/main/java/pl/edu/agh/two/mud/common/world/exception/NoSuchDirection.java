@@ -1,4 +1,4 @@
-package pl.edu.agh.two.mud.server.world.exception;
+package pl.edu.agh.two.mud.common.world.exception;
 
 public class NoSuchDirection extends Throwable {
 

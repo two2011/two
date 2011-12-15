@@ -1,8 +1,8 @@
-package pl.edu.agh.two.mud.server.world.model;
+package pl.edu.agh.two.mud.common.world.model;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import pl.edu.agh.two.mud.common.IPlayer;
-import pl.edu.agh.two.mud.server.world.exception.NoPlayerWithSuchNameException;
+import pl.edu.agh.two.mud.common.world.exception.NoPlayerWithSuchNameException;
 
 import java.util.ArrayList;
 import java.util.List;

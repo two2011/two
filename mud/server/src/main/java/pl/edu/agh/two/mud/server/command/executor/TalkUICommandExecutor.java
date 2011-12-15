@@ -6,13 +6,13 @@ import pl.edu.agh.two.mud.common.command.exception.CommandExecutingException;
 import pl.edu.agh.two.mud.common.command.executor.CommandExecutor;
 import pl.edu.agh.two.mud.common.command.type.Text;
 import pl.edu.agh.two.mud.common.message.MessageType;
+import pl.edu.agh.two.mud.common.world.model.Board;
+import pl.edu.agh.two.mud.common.world.model.Field;
 import pl.edu.agh.two.mud.server.IServiceRegistry;
 import pl.edu.agh.two.mud.server.Service;
 import pl.edu.agh.two.mud.server.command.SendMessageToUserCommand;
 import pl.edu.agh.two.mud.server.command.TalkUICommand;
 import pl.edu.agh.two.mud.server.command.exception.ClientAwareException;
-import pl.edu.agh.two.mud.server.world.model.Board;
-import pl.edu.agh.two.mud.server.world.model.Field;
 
 public class TalkUICommandExecutor implements CommandExecutor<TalkUICommand> {
 
