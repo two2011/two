@@ -7,7 +7,9 @@ import pl.edu.agh.two.mud.common.IPlayer;
 import pl.edu.agh.two.mud.common.command.dispatcher.Dispatcher;
 import pl.edu.agh.two.mud.common.command.exception.FatalException;
 import pl.edu.agh.two.mud.common.message.MessageType;
+import pl.edu.agh.two.mud.server.command.SendAvailableCommandsCommand;
 import pl.edu.agh.two.mud.server.command.SendMessageToUserCommand;
+import pl.edu.agh.two.mud.server.command.util.AvailableCommands;
 import pl.edu.agh.two.mud.server.world.fight.Fight;
 import pl.edu.agh.two.mud.server.world.model.Direction;
 
@@ -18,8 +20,16 @@ public class CreaturePlayerFight implements Fight {
 
 	@Override
 	public void startFight(ICreature creatureOne, ICreature creatureTwo) {
-		IPlayer player = (IPlayer) creatureOne;
+		IPlayer player = null;
 		ICreature monster = creatureTwo;
+
+		if (creatureOne instanceof IPlayer) {
+			player = (IPlayer) creatureOne;
+			monster = creatureTwo;
+		} else {
+			player = (IPlayer) creatureTwo;
+			monster = creatureOne;
+		}
 
 		int whoAttacksFirst = random.nextInt(2);
 		switch (whoAttacksFirst) {
@@ -29,6 +39,8 @@ public class CreaturePlayerFight implements Fight {
 				dispatcher.dispatch(new SendMessageToUserCommand(player, String.format("Zaatakowa³ Ciê potwór %s",
 						monster.getName()), MessageType.INFO));
 				dispatcher.dispatch(new SendMessageToUserCommand(player, "Twoja tura", MessageType.INFO));
+				dispatcher.dispatch(new SendAvailableCommandsCommand(player, AvailableCommands.getInstance()
+						.getFightYouTurnCommands()));
 
 				break;
 		}
