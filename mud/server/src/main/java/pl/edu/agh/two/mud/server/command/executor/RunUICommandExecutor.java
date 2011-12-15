@@ -36,7 +36,7 @@ public class RunUICommandExecutor implements CommandExecutor<RunUICommand> {
 				fight.runFromFight(currentPlayer, direction);
 			}
 		} else {
-			throw new FatalException(new RuntimeException());
+			throw new FatalException(new RuntimeException("Nie znaleziono aktualnego gracza!"));
 		}
 
 	}

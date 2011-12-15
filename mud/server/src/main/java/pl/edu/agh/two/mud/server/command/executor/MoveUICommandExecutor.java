@@ -1,19 +1,13 @@
 package pl.edu.agh.two.mud.server.command.executor;
 
-import pl.edu.agh.two.mud.common.IPlayer;
-import pl.edu.agh.two.mud.common.command.dispatcher.Dispatcher;
-import pl.edu.agh.two.mud.common.command.exception.FatalException;
-import pl.edu.agh.two.mud.common.command.executor.CommandExecutor;
-import pl.edu.agh.two.mud.common.message.MessageType;
-import pl.edu.agh.two.mud.server.IServiceRegistry;
-import pl.edu.agh.two.mud.server.Service;
-import pl.edu.agh.two.mud.server.command.MoveUICommand;
-import pl.edu.agh.two.mud.server.command.SendMessageToUserCommand;
-import pl.edu.agh.two.mud.server.world.model.Board;
-import pl.edu.agh.two.mud.server.world.model.Direction;
-import pl.edu.agh.two.mud.server.world.model.Field;
-
-import java.io.IOException;
+import pl.edu.agh.two.mud.common.*;
+import pl.edu.agh.two.mud.common.command.dispatcher.*;
+import pl.edu.agh.two.mud.common.command.exception.*;
+import pl.edu.agh.two.mud.common.command.executor.*;
+import pl.edu.agh.two.mud.common.message.*;
+import pl.edu.agh.two.mud.server.*;
+import pl.edu.agh.two.mud.server.command.*;
+import pl.edu.agh.two.mud.server.world.model.*;
 
 public class MoveUICommandExecutor implements CommandExecutor<MoveUICommand> {
 
@@ -56,12 +50,7 @@ public class MoveUICommandExecutor implements CommandExecutor<MoveUICommand> {
                 from.removePlayer(player);
                 to.addPlayer(player);
                 board.setPlayersPosition(player, to);
-
-                try {
-                    service.writeObject(to.getFormattedFieldSummary());
-                } catch (IOException e) {
-                    throw new FatalException(e);
-                }
+                dispatcher.dispatch(new SendMessageToUserCommand(to.getFormattedFieldSummary(), MessageType.INFO));
             }
         } else {
             dispatcher.dispatch(new SendMessageToUserCommand("Nie mozesz uzyc teraz tej komendy!", MessageType.INFO));

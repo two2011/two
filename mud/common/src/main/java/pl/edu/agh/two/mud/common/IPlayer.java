@@ -51,5 +51,7 @@ public interface IPlayer {
 	void setMaxHealthPoints(int maxHealthPoints);
 	
 	public boolean isAlive();
+	
+	UpdateData createUpdateData();
 
 }

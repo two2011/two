@@ -56,7 +56,7 @@ public class PlayersFight implements Fight {
 		Service enemyService = serviceRegistry.getService(enemy);
 
 		try {
-			enemyService.writeObject(enemy);
+			enemyService.writeObject(enemy.createUpdateData());
 
 			dispatcher.dispatch(new SendMessageToUserCommand(playerWhoHits, String.format(
 					"Zadales przeciwnikowi %d pkt obrazen.", damage), MessageType.INFO));

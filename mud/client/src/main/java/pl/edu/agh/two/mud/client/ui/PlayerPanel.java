@@ -8,8 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 import net.miginfocom.swing.MigLayout;
-import pl.edu.agh.two.mud.common.IPlayer;
-import pl.edu.agh.two.mud.common.Player;
+import pl.edu.agh.two.mud.common.*;
 
 public class PlayerPanel extends JPanel {
 
@@ -253,6 +252,16 @@ public class PlayerPanel extends JPanel {
 		// updating health
 		health.setText(player.getHealthPoints() + SLASH
 				+ player.getMaxHealthPoints());
+		repaint();
+	}
+
+	public void updateHeroData(UpdateData updateData) {
+		if(updateData==null) {
+			return;
+		}
+		
+		health.setText(updateData.getHealth() + SLASH + updateData.getMaxHealth());
+		repaint();
 	}
 
 }

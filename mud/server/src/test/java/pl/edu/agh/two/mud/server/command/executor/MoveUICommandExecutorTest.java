@@ -8,8 +8,10 @@ import pl.edu.agh.two.mud.common.command.exception.FatalException;
 import pl.edu.agh.two.mud.common.message.MessageType;
 import pl.edu.agh.two.mud.server.Service;
 import pl.edu.agh.two.mud.server.ServiceRegistry;
+import pl.edu.agh.two.mud.server.command.LogOutUICommand;
 import pl.edu.agh.two.mud.server.command.MoveUICommand;
 import pl.edu.agh.two.mud.server.command.SendMessageToUserCommand;
+import pl.edu.agh.two.mud.server.command.exception.ClientAwareException;
 import pl.edu.agh.two.mud.server.world.model.Board;
 import pl.edu.agh.two.mud.server.world.model.Field;
 import pl.edu.agh.two.mud.server.world.model.SampleBoard;
@@ -64,7 +66,7 @@ public class MoveUICommandExecutorTest {
     public void shouldNotChangeFieldWhenDirectionNotPossible() throws IOException, FatalException {
         // given
         MoveUICommand command = prepareValidMoveNorthCommand();
-        Player player = new Player();
+        Player player = mock(Player.class);
         when(serviceRegistry.getPlayer(service)).thenReturn(player);
         board.addPlayer(player);
 
@@ -79,7 +81,7 @@ public class MoveUICommandExecutorTest {
     public void shouldChangeField() throws IOException, FatalException {
         // given
         MoveUICommand command = prepareValidMoveEastCommand();
-        Player player = new Player();
+        Player player = mock(Player.class);
         when(serviceRegistry.getPlayer(service)).thenReturn(player);
         board.addPlayer(player);
 
@@ -91,7 +93,7 @@ public class MoveUICommandExecutorTest {
 
         Field newPlayersPosition = board.getPlayersPosition(player);
         assertThat(newPlayersPosition).isNotEqualTo(board.getStartingField());
-        verify(service).writeObject(newPlayersPosition.getFormattedFieldSummary());
+        verify(dispatcher).dispatch(new SendMessageToUserCommand(newPlayersPosition.getFormattedFieldSummary(), MessageType.INFO));
     }
 
     private MoveUICommand prepareValidMoveEastCommand() {
