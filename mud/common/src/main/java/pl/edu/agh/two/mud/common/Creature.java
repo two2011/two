@@ -13,8 +13,8 @@ public class Creature implements ICreature, Serializable {
 	protected int level = 1;
 	protected int healthPoints = 10;
 	protected int maxHealthPoints = 10;
-	protected IPlayer enemy;
-
+	protected ICreature enemy;
+	
 	@Override
 	public String getName() {
 		return name;
@@ -86,7 +86,7 @@ public class Creature implements ICreature, Serializable {
 	}
 
 	@Override
-	public IPlayer getEnemy() {
+	public ICreature getEnemy() {
 		return enemy;
 	}
 

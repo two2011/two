@@ -14,7 +14,7 @@ public class Server {
 		ApplicationContext.initialize();
 
 		ServerSocket serverSocket = null;
-		int port = 3306;
+		int port = 6666;
 
 		try {
 			serverSocket = new ServerSocket(port);

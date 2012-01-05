@@ -78,5 +78,10 @@ public class SendMessageToUserCommand extends Command {
 		hash = 31 * hash + (type == null ? 0 : type.hashCode());
 		return hash;
 	}
+	
+	@Override
+	public String toString() {
+		return String.format("SendMessageToUserCommand(%s, %s, %s)", player, message, type);
+	}
 
 }
