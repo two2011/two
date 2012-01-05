@@ -1,5 +1,6 @@
 package pl.edu.agh.two.mud.common.world.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.Set;
 import pl.edu.agh.two.mud.common.IPlayer;
 import pl.edu.agh.two.mud.common.world.exception.NoPlayerWithSuchNameException;
 
-public class Board {
+public class Board implements Serializable{
 
 	private String name;
 	private String description;

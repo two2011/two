@@ -4,10 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import pl.edu.agh.two.mud.common.IPlayer;
 import pl.edu.agh.two.mud.common.world.exception.NoPlayerWithSuchNameException;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Field {
+public class Field implements Serializable{
 
     @Autowired
     private Board board;
