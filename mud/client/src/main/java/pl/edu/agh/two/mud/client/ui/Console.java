@@ -1,6 +1,7 @@
 package pl.edu.agh.two.mud.client.ui;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -96,6 +97,7 @@ public class Console extends JPanel {
 		output.setBorder(null);
 		output.setAutoscrolls(true);
 		output.addFocusListener(panelFocusListener);
+		output.setFont(new Font("Courier New", Font.PLAIN, 12));
 
 		JScrollPane slider = new JScrollPane(output);
 		add(slider, "cell 0 0,grow");
