@@ -1,8 +1,12 @@
 package pl.edu.agh.two.mud.server.command.executor;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Random;
 
 import javax.mail.MessagingException;
+
+import org.apache.log4j.Logger;
 
 import pl.edu.agh.two.mud.common.Player;
 import pl.edu.agh.two.mud.common.command.dispatcher.Dispatcher;
@@ -15,8 +19,7 @@ import pl.edu.agh.two.mud.server.command.SendMessageToUserCommand;
 import pl.edu.agh.two.mud.server.command.exception.ClientAwareException;
 import pl.edu.agh.two.mud.server.mail.Mailer;
 
-public class RegisterUICommandExecutor implements
-		CommandExecutor<RegisterUICommand> {
+public class RegisterUICommandExecutor implements CommandExecutor<RegisterUICommand> {
 
 	private static final String MESSAGE_ON_WRONG_ADDRESS = "Bledny adres e-mail";
 
@@ -24,6 +27,7 @@ public class RegisterUICommandExecutor implements
 
 	private static final String MESSAGE_ON_SUCCESS = "Konto zostalo utworzone. Dane dostepowe zostaly wyslane na adres: ";
 
+	private static final Logger log = Logger.getLogger(RegisterUICommandExecutor.class);
 	private Board board;
 
 	private Mailer mailer;
@@ -39,13 +43,11 @@ public class RegisterUICommandExecutor implements
 			try {
 				Player player = new Player();
 				String password = generatePassword();
-				mailer.sendRegistrationMail(command.getEmail(),
-						command.getLogin(), password);
+				mailer.sendRegistrationMail(command.getEmail(), command.getLogin(), password);
 				player.setName(command.getLogin());
 				player.setPassword(password);
 				board.addPlayer(player);
-				dispatcher.dispatch(new SendMessageToUserCommand(
-						MESSAGE_ON_SUCCESS + command.getEmail(),
+				dispatcher.dispatch(new SendMessageToUserCommand(MESSAGE_ON_SUCCESS + command.getEmail(),
 						MessageType.INFO));
 			} catch (MessagingException e1) {
 				throw new ClientAwareException(e1, MESSAGE_ON_WRONG_ADDRESS);
@@ -58,7 +60,22 @@ public class RegisterUICommandExecutor implements
 		Long password = new Random(System.nanoTime()).nextLong();
 		password += 100000;
 		password = Math.abs(password);
-		return password.toString();
+
+		String pass = password.toString();
+		try {
+			byte[] array = MessageDigest.getInstance("MD5").digest(password.toString().getBytes());
+			;
+			StringBuffer sb = new StringBuffer();
+			for (int i = 0; i < array.length; ++i) {
+				sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1, 3));
+			}
+			pass = sb.toString().substring(0, 7);
+
+		} catch (NoSuchAlgorithmException e) {
+			log.fatal("No algorithm", e);
+		}
+
+		return pass;
 	}
 
 	public void setBoard(Board board) {
