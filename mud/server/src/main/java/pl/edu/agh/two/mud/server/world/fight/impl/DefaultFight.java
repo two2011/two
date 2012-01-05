@@ -59,8 +59,18 @@ public class DefaultFight implements Fight {
 
 		// Establish damage points
 		int maxDmg = Math.round(creatureWhoHits.getPower() + 1 / 2);
-		int damage = random.nextInt(maxDmg + 1) * (int) (creatureWhoHits.getStrength() / enemyCreature
-				.getStrength());
+		int damage = random.nextInt(maxDmg + 1);
+		double factor = creatureWhoHits.getStrength() / (double)enemyCreature.getStrength();
+		damage *= factor;
+		
+		int aOne = creatureWhoHits.getAgililty();
+		int aTwo = enemyCreature.getAgililty();
+		int aDiff = aTwo - aOne;
+		int aRandom = random.nextInt(100);
+		
+		if (aRandom <= aDiff) {
+			damage = 0;
+		}
 
 		if (damage > 0) {
 			enemyCreature.subtractHealthPoints(damage);

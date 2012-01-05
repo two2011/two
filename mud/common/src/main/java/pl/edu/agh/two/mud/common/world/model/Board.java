@@ -28,19 +28,21 @@ public class Board implements Serializable {
 		isoPlayer.setName("iso");
 		isoPlayer.setPassword("iso");
 		isoPlayer.setLevel(6);
-		isoPlayer.setAgililty(5);
+		isoPlayer.setAgililty(2);
 		isoPlayer.setStrength(10);
 		isoPlayer.setPower(10);
 		isoPlayer.setHealthPoints(70);
+		isoPlayer.setMaxHealthPoints(70);
 
 		IPlayer ktosPlayer = new Player();
 		ktosPlayer.setName("ktos");
 		ktosPlayer.setPassword("ktos");
 		ktosPlayer.setLevel(4);
-		ktosPlayer.setAgililty(4);
-		ktosPlayer.setPower(7);
+		ktosPlayer.setAgililty(20);
+		ktosPlayer.setPower(5);
 		ktosPlayer.setStrength(5);
 		ktosPlayer.setHealthPoints(100);
+		ktosPlayer.setMaxHealthPoints(100);
 
 		addPlayer(isoPlayer);
 		addPlayer(ktosPlayer);
