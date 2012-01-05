@@ -53,7 +53,7 @@ public class SampleBoard extends Board {
 				0,
 				3,
 				"Skrzyzowanie",
-				"Docierasz do skrzy¿owania. Od œcie¿ki na wschód odchodzi dukt na poudnie. W oddali na wschodzie majaczy swietlna bariera.");
+				"Docierasz do skrzyzowania. Od sciezki na wschód odchodzi dukt na poudnie. W oddali na wschodzie majaczy swietlna bariera.");
 		fields[0][4] = new Field(0, 4, "Koniec swiata",
 				"Przed Toba bariera swiatla. Znajdujesz sie na wschodnim koncu swiata.");
 
