@@ -15,7 +15,7 @@ public class SampleBoard extends Board {
 
 	private static final int MAX_BASE_HP = 4;
 
-	private Thread respawnThread;
+	private transient Thread respawnThread;
 
 	private ICreature createRandomCreature() {
 		Random r = new Random();
@@ -119,6 +119,7 @@ public class SampleBoard extends Board {
 			@Override
 			public void run() {
 				Set<Field> fieldsToRespawn = new HashSet<Field>();
+				fieldsToRespawn.add(fields[0][1]);
 				fieldsToRespawn.add(fields[2][4]);
 				fieldsToRespawn.add(fields[3][0]);
 				fieldsToRespawn.add(fields[3][1]);
@@ -132,7 +133,7 @@ public class SampleBoard extends Board {
 						}
 					}
 					try {
-						Thread.sleep(100000);
+						Thread.sleep(1000);
 					} catch (InterruptedException e) {
 
 					}
