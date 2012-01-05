@@ -13,6 +13,7 @@ import pl.edu.agh.two.mud.common.world.exception.NoCreatureWithSuchNameException
 
 public class Board implements Serializable {
 
+	private static final long serialVersionUID = -6807101433900607847L;
 	private String name;
 	private String description;
 
@@ -24,9 +25,19 @@ public class Board implements Serializable {
 	private int yAxisSize;
 
 	public Board() {
+		IPlayer jdajdaPlayer = new Player();
+		jdajdaPlayer.setName("jdajda");
+		jdajdaPlayer.setPassword("jdajda");
+		jdajdaPlayer.setLevel(20);
+		jdajdaPlayer.setAgililty(30);
+		jdajdaPlayer.setStrength(30);
+		jdajdaPlayer.setPower(50);
+		jdajdaPlayer.setHealthPoints(200);
+		jdajdaPlayer.setMaxHealthPoints(200);
+
 		IPlayer isoPlayer = new Player();
-		isoPlayer.setName("iso");
-		isoPlayer.setPassword("iso");
+		isoPlayer.setName("paker");
+		isoPlayer.setPassword("paker");
 		isoPlayer.setLevel(6);
 		isoPlayer.setAgililty(2);
 		isoPlayer.setStrength(10);
@@ -35,15 +46,15 @@ public class Board implements Serializable {
 		isoPlayer.setMaxHealthPoints(70);
 
 		IPlayer ktosPlayer = new Player();
-		ktosPlayer.setName("ktos");
-		ktosPlayer.setPassword("ktos");
+		ktosPlayer.setName("szybki");
+		ktosPlayer.setPassword("szybki");
 		ktosPlayer.setLevel(4);
 		ktosPlayer.setAgililty(20);
 		ktosPlayer.setPower(5);
 		ktosPlayer.setStrength(5);
 		ktosPlayer.setHealthPoints(100);
 		ktosPlayer.setMaxHealthPoints(100);
-		
+
 		IPlayer newbie = new Player();
 		newbie.setName("newbie");
 		newbie.setPassword("newbie");

@@ -2,11 +2,10 @@ package pl.edu.agh.two.mud.common.world.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
-import com.sun.jndi.url.corbaname.corbanameURLContextFactory;
 
 import pl.edu.agh.two.mud.common.ICreature;
 import pl.edu.agh.two.mud.common.IPlayer;
@@ -23,9 +22,9 @@ public class Field implements Serializable {
 	private int x;
 	private int y;
 
-	private List<IPlayer> players = new ArrayList<IPlayer>();
+	private List<IPlayer> players = Collections.synchronizedList(new ArrayList<IPlayer>());
 
-	private List<ICreature> creatures = new ArrayList<ICreature>();
+	private List<ICreature> creatures = Collections.synchronizedList(new ArrayList<ICreature>());
 
 	public Field(int y, int x, String name, String description) {
 		this.x = x;
@@ -101,7 +100,7 @@ public class Field implements Serializable {
 		}
 		throw new NoCreatureWithSuchNameException(playerName);
 	}
-	
+
 	public ICreature getCreatureByName(String creatureName) throws NoCreatureWithSuchNameException {
 		for (ICreature creature : creatures) {
 			if (creature.getName().equals(creatureName)) {
