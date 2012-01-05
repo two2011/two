@@ -6,7 +6,7 @@ import pl.edu.agh.two.mud.common.command.exception.CommandExecutingException;
 import pl.edu.agh.two.mud.common.command.executor.CommandExecutor;
 import pl.edu.agh.two.mud.common.command.type.Text;
 import pl.edu.agh.two.mud.common.message.MessageType;
-import pl.edu.agh.two.mud.common.world.exception.NoPlayerWithSuchNameException;
+import pl.edu.agh.two.mud.common.world.exception.NoCreatureWithSuchNameException;
 import pl.edu.agh.two.mud.common.world.model.Board;
 import pl.edu.agh.two.mud.common.world.model.Field;
 import pl.edu.agh.two.mud.server.IServiceRegistry;
@@ -41,7 +41,7 @@ public class WhisperUICommandExecutor implements CommandExecutor<WhisperUIComman
 			} else {
 				throw new ClientAwareException("Nieznany blad.");
 			}
-		} catch (NoPlayerWithSuchNameException e) {
+		} catch (NoCreatureWithSuchNameException e) {
 			throw new ClientAwareException(e, "Nie ma takiego gracza na tym polu.");
 		}
 	}

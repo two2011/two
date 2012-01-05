@@ -32,7 +32,7 @@ public interface ICreature {
 
 	public ICreature getEnemy();
 
-	public void setEnemy(IPlayer enemy);
+	public void setEnemy(ICreature enemy);
 
 	int getMaxHealthPoints();
 

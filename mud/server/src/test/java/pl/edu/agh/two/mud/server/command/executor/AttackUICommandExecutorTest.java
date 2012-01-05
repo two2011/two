@@ -12,7 +12,7 @@ import pl.edu.agh.two.mud.common.IPlayer;
 import pl.edu.agh.two.mud.common.command.dispatcher.Dispatcher;
 import pl.edu.agh.two.mud.common.command.exception.CommandExecutingException;
 import pl.edu.agh.two.mud.common.message.MessageType;
-import pl.edu.agh.two.mud.common.world.exception.NoPlayerWithSuchNameException;
+import pl.edu.agh.two.mud.common.world.exception.NoCreatureWithSuchNameException;
 import pl.edu.agh.two.mud.common.world.model.Board;
 import pl.edu.agh.two.mud.common.world.model.Field;
 import pl.edu.agh.two.mud.server.Service;
@@ -59,14 +59,14 @@ public class AttackUICommandExecutorTest {
 	public void shouldStartFight() {
 		try {
 			when(command.getPlayer()).thenReturn(ENEMY_NAME);
-			when(field.getPlayerByName(ENEMY_NAME)).thenReturn(enemy);
+			when(field.getCreatureByName(ENEMY_NAME)).thenReturn(enemy);
 			when(enemy.isInFight()).thenReturn(false);
 			
 			executor.execute(command);
 			verify(enemy).setEnemy(currentPlayer);
 			verify(currentPlayer).setEnemy(enemy);
 			verify(fight).startFight(currentPlayer, enemy);
-		} catch (NoPlayerWithSuchNameException e) {
+		} catch (NoCreatureWithSuchNameException e) {
 			fail("Exception unexpected");
 		} catch (CommandExecutingException e) {
 			fail("Exception unexpected");
@@ -77,11 +77,11 @@ public class AttackUICommandExecutorTest {
 	public void shouldNotStartFightIfEnemyIsNull() {
 		try {
 			when(command.getPlayer()).thenReturn(ENEMY_NAME);
-			when(field.getPlayerByName(ENEMY_NAME)).thenReturn(null);
+			when(field.getCreatureByName(ENEMY_NAME)).thenReturn(null);
 			
 			executor.execute(command);
 			verify(dispatcher).dispatch(new SendMessageToUserCommand(String.format("Przeciwnik %s nie znajduje sie na Twoim polu", ENEMY_NAME), MessageType.INFO));
-		} catch (NoPlayerWithSuchNameException e) {
+		} catch (NoCreatureWithSuchNameException e) {
 			fail("Exception unexpected");
 		} catch (CommandExecutingException e) {
 			fail("Exception unexpected");
@@ -92,11 +92,11 @@ public class AttackUICommandExecutorTest {
 	public void shouldNotStartFightWithHimself() {
 		try {
 			when(command.getPlayer()).thenReturn(ENEMY_NAME);
-			when(field.getPlayerByName(ENEMY_NAME)).thenReturn(currentPlayer);
+			when(field.getCreatureByName(ENEMY_NAME)).thenReturn(currentPlayer);
 			
 			executor.execute(command);
 			verify(dispatcher).dispatch(new SendMessageToUserCommand("Nie mozesz atakowac sam siebie", MessageType.INFO));
-		} catch (NoPlayerWithSuchNameException e) {
+		} catch (NoCreatureWithSuchNameException e) {
 			fail("Exception unexpected");
 		} catch (CommandExecutingException e) {
 			fail("Exception unexpected");
@@ -107,12 +107,12 @@ public class AttackUICommandExecutorTest {
 	public void shouldNotStartFightIfEnemyIsFighting() {
 		try {
 			when(command.getPlayer()).thenReturn(ENEMY_NAME);
-			when(field.getPlayerByName(ENEMY_NAME)).thenReturn(enemy);
+			when(field.getCreatureByName(ENEMY_NAME)).thenReturn(enemy);
 			when(enemy.isInFight()).thenReturn(true);
 			
 			executor.execute(command);
 			verify(dispatcher).dispatch(new SendMessageToUserCommand(String.format("Przeciwnik %s aktualnie walczy", ENEMY_NAME), MessageType.INFO));
-		} catch (NoPlayerWithSuchNameException e) {
+		} catch (NoCreatureWithSuchNameException e) {
 			fail("Exception unexpected");
 		} catch (CommandExecutingException e) {
 			fail("Exception unexpected");

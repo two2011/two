@@ -9,7 +9,7 @@ import pl.edu.agh.two.mud.common.IPlayer;
 import pl.edu.agh.two.mud.common.command.dispatcher.Dispatcher;
 import pl.edu.agh.two.mud.common.command.exception.FatalException;
 import pl.edu.agh.two.mud.common.command.executor.CommandExecutor;
-import pl.edu.agh.two.mud.common.world.exception.NoPlayerWithSuchNameException;
+import pl.edu.agh.two.mud.common.world.exception.NoCreatureWithSuchNameException;
 import pl.edu.agh.two.mud.common.world.model.Board;
 import pl.edu.agh.two.mud.server.IServiceRegistry;
 import pl.edu.agh.two.mud.server.Service;
@@ -55,14 +55,13 @@ public class LogInUICommandExecutor implements CommandExecutor<LogInUICommand> {
 					dispatcher.dispatch(new SendAvailableCommandsCommand(
 							player, AvailableCommands.getInstance()
 									.getGameCommands()));
-					service.writeObject(board);
 				} catch (IOException e) {
 					throw new FatalException(e);
 				}
 			} else {
 				throw new ClientAwareException("Zle haslo!");
 			}
-		} catch (NoPlayerWithSuchNameException e) {
+		} catch (NoCreatureWithSuchNameException e) {
 			dispatcher.dispatch(new SendMessageToUserCommand(
 					"Nie ma takiego gracza!", ERROR));
 		}

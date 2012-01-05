@@ -15,7 +15,7 @@ import pl.edu.agh.two.mud.common.command.dispatcher.Dispatcher;
 import pl.edu.agh.two.mud.common.command.exception.CommandExecutingException;
 import pl.edu.agh.two.mud.common.command.type.Text;
 import pl.edu.agh.two.mud.common.message.MessageType;
-import pl.edu.agh.two.mud.common.world.exception.NoPlayerWithSuchNameException;
+import pl.edu.agh.two.mud.common.world.exception.NoCreatureWithSuchNameException;
 import pl.edu.agh.two.mud.common.world.model.Board;
 import pl.edu.agh.two.mud.common.world.model.Field;
 import pl.edu.agh.two.mud.server.IServiceRegistry;
@@ -93,8 +93,8 @@ public class WhisperUICommandExecutorTest {
 
 		when(board.getPlayersPosition(currentPlayer)).thenReturn(field);
 		try {
-			when(field.getPlayerByName(TARGET_USER)).thenThrow(new NoPlayerWithSuchNameException(TARGET_USER));
-		} catch (NoPlayerWithSuchNameException e) {
+			when(field.getPlayerByName(TARGET_USER)).thenThrow(new NoCreatureWithSuchNameException(TARGET_USER));
+		} catch (NoCreatureWithSuchNameException e) {
 			e.printStackTrace();
 		}
 
@@ -116,7 +116,7 @@ public class WhisperUICommandExecutorTest {
 		when(board.getPlayersPosition(currentPlayer)).thenReturn(field);
 		try {
 			when(field.getPlayerByName(TARGET_USER)).thenReturn(targetPlayer);
-		} catch (NoPlayerWithSuchNameException e) {
+		} catch (NoCreatureWithSuchNameException e) {
 			e.printStackTrace();
 		}
 

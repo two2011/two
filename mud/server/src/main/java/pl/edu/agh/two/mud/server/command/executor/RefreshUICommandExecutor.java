@@ -1,5 +1,9 @@
 package pl.edu.agh.two.mud.server.command.executor;
 
+import java.io.IOException;
+
+import org.apache.log4j.Logger;
+
 import pl.edu.agh.two.mud.common.IPlayer;
 import pl.edu.agh.two.mud.common.command.dispatcher.Dispatcher;
 import pl.edu.agh.two.mud.common.command.exception.CommandExecutingException;
@@ -24,6 +28,11 @@ public class RefreshUICommandExecutor implements CommandExecutor<RefreshUIComman
 
 		dispatcher.dispatch(new SendMessageToUserCommand(board.getPlayersPosition(player).getFormattedFieldSummary(),
 				MessageType.INFO));
+		try {
+			service.writeObject(board);
+		} catch (IOException e) {
+			Logger.getLogger(getClass()).fatal("Error", e);
+		}		
 	}
 
 	public void setServiceRegistry(IServiceRegistry serviceRegistry) {

@@ -8,9 +8,10 @@ import java.util.Map;
 import java.util.Set;
 
 import pl.edu.agh.two.mud.common.IPlayer;
-import pl.edu.agh.two.mud.common.world.exception.NoPlayerWithSuchNameException;
+import pl.edu.agh.two.mud.common.Player;
+import pl.edu.agh.two.mud.common.world.exception.NoCreatureWithSuchNameException;
 
-public class Board implements Serializable{
+public class Board implements Serializable {
 
 	private String name;
 	private String description;
@@ -21,6 +22,36 @@ public class Board implements Serializable{
 	private Field startingField;
 	private int xAxisSize;
 	private int yAxisSize;
+
+	public Board() {
+		IPlayer isoPlayer = new Player();
+		isoPlayer.setName("iso");
+		isoPlayer.setPassword("iso");
+		isoPlayer.setLevel(6);
+		isoPlayer.setAgililty(2);
+		isoPlayer.setStrength(10);
+		isoPlayer.setPower(10);
+		isoPlayer.setHealthPoints(70);
+		isoPlayer.setMaxHealthPoints(70);
+
+		IPlayer ktosPlayer = new Player();
+		ktosPlayer.setName("ktos");
+		ktosPlayer.setPassword("ktos");
+		ktosPlayer.setLevel(4);
+		ktosPlayer.setAgililty(20);
+		ktosPlayer.setPower(5);
+		ktosPlayer.setStrength(5);
+		ktosPlayer.setHealthPoints(100);
+		ktosPlayer.setMaxHealthPoints(100);
+		
+		IPlayer newbie = new Player();
+		newbie.setName("newbie");
+		newbie.setPassword("newbie");
+
+		addPlayer(isoPlayer);
+		addPlayer(ktosPlayer);
+		addPlayer(newbie);
+	}
 
 	public String getName() {
 		return name;
@@ -96,13 +127,13 @@ public class Board implements Serializable{
 		return playersOnFields.keySet();
 	}
 
-	public IPlayer getPlayerByName(String playerName) throws NoPlayerWithSuchNameException {
+	public IPlayer getPlayerByName(String playerName) throws NoCreatureWithSuchNameException {
 		for (IPlayer player : playersOnFields.keySet()) {
 			if (player.getName().equals(playerName)) {
 				return player;
 			}
 		}
-		throw new NoPlayerWithSuchNameException(playerName);
+		throw new NoCreatureWithSuchNameException(playerName);
 	}
 
 	public Field getPlayersPosition(IPlayer player) {

@@ -6,7 +6,7 @@ import pl.edu.agh.two.mud.common.Player;
 import pl.edu.agh.two.mud.common.command.dispatcher.Dispatcher;
 import pl.edu.agh.two.mud.common.command.exception.FatalException;
 import pl.edu.agh.two.mud.common.command.provider.CommandProvider;
-import pl.edu.agh.two.mud.common.world.exception.NoPlayerWithSuchNameException;
+import pl.edu.agh.two.mud.common.world.exception.NoCreatureWithSuchNameException;
 import pl.edu.agh.two.mud.common.world.model.Board;
 import pl.edu.agh.two.mud.common.world.model.SampleBoard;
 import pl.edu.agh.two.mud.server.Service;
@@ -43,7 +43,7 @@ public class LogInUICommandExecutorTest {
 
     @Test
     public void shouldSuccessfullyExecuteLogInCommand()
-            throws NoPlayerWithSuchNameException, FatalException,
+            throws NoCreatureWithSuchNameException, FatalException,
             ClientAwareException {
         // given
         Player player = createPlayer("krzyho", "correctPassword");
@@ -72,7 +72,7 @@ public class LogInUICommandExecutorTest {
 
     @Test(expected = ClientAwareException.class)
     public void shouldNotLoginWithWrongPassword()
-            throws NoPlayerWithSuchNameException, IOException, FatalException,
+            throws NoCreatureWithSuchNameException, IOException, FatalException,
             ClientAwareException {
         // given
 

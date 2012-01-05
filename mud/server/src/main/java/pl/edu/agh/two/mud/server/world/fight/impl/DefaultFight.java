@@ -39,8 +39,8 @@ public class DefaultFight implements Fight {
 		int halfAgilityOne = creatureOne.getAgililty() / 2;
 		int halfAgilityTwo = creatureTwo.getAgililty() / 2;
 
-		int initiativeOne = random.nextInt(halfAgilityOne) + halfAgilityOne;
-		int initiativeTwo = random.nextInt(halfAgilityTwo) + halfAgilityTwo;
+		int initiativeOne = random.nextInt(halfAgilityOne + 1) + halfAgilityOne;
+		int initiativeTwo = random.nextInt(halfAgilityTwo + 1) + halfAgilityTwo;
 
 		if (initiativeOne >= initiativeTwo) {
 			switchAttackingCreature(creatureTwo, creatureOne);
@@ -58,8 +58,19 @@ public class DefaultFight implements Fight {
 		IPlayer enemyPlayer = castToPlayer(enemyCreature);
 
 		// Establish damage points
-		int maxDmg = Math.round(creatureWhoHits.getPower() / 2);
-		int damage = random.nextInt(maxDmg) * (int) (creatureWhoHits.getStrength() / enemyCreature.getStrength());
+		int maxDmg = Math.round(creatureWhoHits.getPower() + 1 / 2);
+		int damage = random.nextInt(maxDmg + 1);
+		double factor = creatureWhoHits.getStrength() / (double)enemyCreature.getStrength();
+		damage *= factor;
+		
+		int aOne = creatureWhoHits.getAgililty();
+		int aTwo = enemyCreature.getAgililty();
+		int aDiff = aTwo - aOne;
+		int aRandom = random.nextInt(100);
+		
+		if (aRandom <= aDiff) {
+			damage = 0;
+		}
 
 		if (damage > 0) {
 			enemyCreature.subtractHealthPoints(damage);
@@ -115,7 +126,8 @@ public class DefaultFight implements Fight {
 
 		// Check whether run is possible
 		int runChance = currentCreature.getAgililty() - enemyCreature.getAgililty() + 1;
-		boolean canRun = random.nextInt(Math.abs(runChance)) > runChance / 2;
+		int randomed = random.nextInt(Math.abs(runChance) + 1);
+		boolean canRun = randomed > runChance / 2;
 
 		if (!canRun) {
 			sendMessage(currentCreature, "Nie udalo Ci sie uciec");

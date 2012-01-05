@@ -11,9 +11,7 @@ public class SampleBoard extends Board {
 
 	private static final String[] MONSTERS_NAMES = new String[] { "Szkielet", "Ork", "Duch", "Troll" };
 
-	private static final int MAX_MONSTER_POWER = 1;
-
-	private static final int MAX_MONSTER_LEVEL = 1;
+	private static final int MAX_MONSTER_LEVEL = 3;
 
 	private static final int MAX_BASE_HP = 4;
 
@@ -23,11 +21,12 @@ public class SampleBoard extends Board {
 		Random r = new Random();
 		int nameIndex = r.nextInt(MONSTERS_NAMES.length);
 
-		int strength = r.nextInt(MAX_MONSTER_POWER);
-		int power = 0;
-		int agility = 0;
+		int level = r.nextInt(MAX_MONSTER_LEVEL) + 1;
 
-		int level = r.nextInt(MAX_MONSTER_LEVEL + 1);
+		int strength = r.nextInt(level) + 1;
+		int power = r.nextInt(level) + 1;
+		int agility = r.nextInt(level) + 1;
+
 		int hp = r.nextInt(MAX_BASE_HP + 1) * level;
 
 		ICreature creature = new Creature();
@@ -57,7 +56,7 @@ public class SampleBoard extends Board {
 				0,
 				3,
 				"Skrzyzowanie",
-				"Docierasz do skrzy¿owania. Od œcie¿ki na wschód odchodzi dukt na poudnie. W oddali na wschodzie majaczy swietlna bariera.");
+				"Docierasz do skrzyzowania. Od sciezki na wschod odchodzi dukt na poudnie. W oddali na wschodzie majaczy swietlna bariera.");
 		fields[0][4] = new Field(0, 4, "Koniec swiata",
 				"Przed Toba bariera swiatla. Znajdujesz sie na wschodnim koncu swiata.");
 
@@ -80,6 +79,7 @@ public class SampleBoard extends Board {
 
 		// Creating creatures
 
+		fields[0][1].addCreature(createRandomCreature());
 		fields[2][4].addCreature(createRandomCreature());
 		fields[3][0].addCreature(createRandomCreature());
 		fields[3][1].addCreature(createRandomCreature());
