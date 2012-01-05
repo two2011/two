@@ -1,6 +1,8 @@
 package pl.edu.agh.two.mud.common.world.model;
 
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 import pl.edu.agh.two.mud.common.Creature;
 import pl.edu.agh.two.mud.common.ICreature;
@@ -12,6 +14,8 @@ public class SampleBoard extends Board {
 	private static final int MAX_MONSTER_LEVEL = 3;
 
 	private static final int MAX_BASE_HP = 4;
+
+	private Thread respawnThread;
 
 	private ICreature createRandomCreature() {
 		Random r = new Random();
@@ -41,7 +45,7 @@ public class SampleBoard extends Board {
 	}
 
 	public SampleBoard() {
-		Field[][] fields = new Field[5][5];
+		final Field[][] fields = new Field[5][5];
 
 		// Creating fields
 
@@ -109,5 +113,33 @@ public class SampleBoard extends Board {
 		this.setStartingField(fields[0][0]);
 		this.setxAxisSize(5);
 		this.setyAxisSize(5);
+
+		respawnThread = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				Set<Field> fieldsToRespawn = new HashSet<Field>();
+				fieldsToRespawn.add(fields[2][4]);
+				fieldsToRespawn.add(fields[3][0]);
+				fieldsToRespawn.add(fields[3][1]);
+				fieldsToRespawn.add(fields[4][0]);
+				fieldsToRespawn.add(fields[4][3]);
+				while (true) {
+
+					for (Field field : fieldsToRespawn) {
+						if (field.getCreatures().size() == 0) {
+							field.addCreature(createRandomCreature());
+						}
+					}
+					try {
+						Thread.sleep(100000);
+					} catch (InterruptedException e) {
+
+					}
+				}
+			}
+		});
+
+		respawnThread.start();
 	}
 }
