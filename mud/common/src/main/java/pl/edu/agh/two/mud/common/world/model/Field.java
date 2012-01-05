@@ -71,11 +71,6 @@ public class Field implements Serializable {
 		return players.add(player);
 	}
 
-	public boolean removePlayer(IPlayer player) {
-		removeCreature(player);
-		return players.remove(player);
-	}
-
 	public List<IPlayer> getPlayers() {
 		return players;
 	}
@@ -85,6 +80,9 @@ public class Field implements Serializable {
 	}
 
 	public boolean removeCreature(ICreature creature) {
+		if (creature instanceof IPlayer) {
+			players.remove((IPlayer) creature);
+		}
 		return creatures.remove(creature);
 	}
 

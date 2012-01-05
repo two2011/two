@@ -20,7 +20,7 @@ public class LogOutCommandExecutor implements CommandExecutor<LogOutCommand> {
 		IPlayer currentPlayer = serviceRegistry.getPlayer(service);
 		if (currentPlayer != null) {
 			serviceRegistry.unbindPlayer(currentPlayer);
-			board.getPlayersPosition(currentPlayer).removePlayer(currentPlayer);
+			board.getPlayersPosition(currentPlayer).removeCreature(currentPlayer);
 			board.removePlayer(currentPlayer);
 		}
 	}

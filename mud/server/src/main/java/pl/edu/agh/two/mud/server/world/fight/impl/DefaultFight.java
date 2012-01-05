@@ -13,6 +13,7 @@ import pl.edu.agh.two.mud.common.command.dispatcher.Dispatcher;
 import pl.edu.agh.two.mud.common.message.MessageType;
 import pl.edu.agh.two.mud.common.world.model.Board;
 import pl.edu.agh.two.mud.common.world.model.Direction;
+import pl.edu.agh.two.mud.common.world.model.Field;
 import pl.edu.agh.two.mud.server.IServiceRegistry;
 import pl.edu.agh.two.mud.server.command.MoveUICommand;
 import pl.edu.agh.two.mud.server.command.SendAvailableCommandsCommand;
@@ -27,7 +28,6 @@ public class DefaultFight implements Fight {
 	private Dispatcher dispatcher;
 	private IServiceRegistry serviceRegistry;
 	private Random random;
-	@SuppressWarnings("unused")
 	private Board board;
 
 	@Override
@@ -60,14 +60,14 @@ public class DefaultFight implements Fight {
 		// Establish damage points
 		int maxDmg = Math.round(creatureWhoHits.getPower() + 1 / 2);
 		int damage = random.nextInt(maxDmg + 1);
-		double factor = creatureWhoHits.getStrength() / (double)enemyCreature.getStrength();
+		double factor = creatureWhoHits.getStrength() / (double) enemyCreature.getStrength();
 		damage *= factor;
-		
+
 		int aOne = creatureWhoHits.getAgililty();
 		int aTwo = enemyCreature.getAgililty();
 		int aDiff = aTwo - aOne;
 		int aRandom = random.nextInt(100);
-		
+
 		if (aRandom <= aDiff) {
 			damage = 0;
 		}
@@ -95,10 +95,17 @@ public class DefaultFight implements Fight {
 				sendMessage(creatureWhoHits, String.format("Wygrales! Zdobyles %d pkt doswiadczenia.", expToAdd));
 				sendMessage(enemyCreature, "Zginales!");
 
-				endFight(creatureWhoHits, enemyCreature);
+				// Removing creatures HACK
+				IPlayer player = null;
+				if (playerWhoHits != null) {
+					player = playerWhoHits;
+				} else {
+					player = enemyPlayer;
+				}
+				Field field = board.getPlayersPosition(player);
+				field.removeCreature(enemyCreature);
 
-				// TODO handle death !
-				// board.removePlayer(player);
+				endFight(creatureWhoHits, enemyCreature);
 			}
 
 			// Send update data to enemy

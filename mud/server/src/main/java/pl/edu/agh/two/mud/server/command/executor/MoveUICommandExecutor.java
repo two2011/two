@@ -47,7 +47,7 @@ public class MoveUICommandExecutor implements CommandExecutor<MoveUICommand> {
                         break;
 
                 }
-                from.removePlayer(player);
+                from.removeCreature(player);
                 to.addPlayer(player);
                 board.setPlayersPosition(player, to);
                 dispatcher.dispatch(new SendMessageToUserCommand(to.getFormattedFieldSummary(), MessageType.INFO));
