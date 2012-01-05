@@ -6,7 +6,7 @@ import pl.edu.agh.two.mud.common.Player;
 import pl.edu.agh.two.mud.common.command.dispatcher.Dispatcher;
 import pl.edu.agh.two.mud.common.command.exception.FatalException;
 import pl.edu.agh.two.mud.common.command.provider.CommandProvider;
-import pl.edu.agh.two.mud.common.world.exception.NoPlayerWithSuchNameException;
+import pl.edu.agh.two.mud.common.world.exception.NoCreatureWithSuchNameException;
 import pl.edu.agh.two.mud.common.world.model.Board;
 import pl.edu.agh.two.mud.common.world.model.SampleBoard;
 import pl.edu.agh.two.mud.server.Service;
@@ -46,7 +46,7 @@ public class LogOutUICommandExecutorTest {
 
     @Test
     public void shouldSuccessfullyExecuteLogOutCommand()
-            throws NoPlayerWithSuchNameException, FatalException {
+            throws NoCreatureWithSuchNameException, FatalException {
         // given
         LogOutUICommand command = mock(LogOutUICommand.class);
 

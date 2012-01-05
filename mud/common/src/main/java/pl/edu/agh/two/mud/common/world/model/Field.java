@@ -6,9 +6,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.sun.jndi.url.corbaname.corbanameURLContextFactory;
+
 import pl.edu.agh.two.mud.common.ICreature;
 import pl.edu.agh.two.mud.common.IPlayer;
-import pl.edu.agh.two.mud.common.world.exception.NoPlayerWithSuchNameException;
+import pl.edu.agh.two.mud.common.world.exception.NoCreatureWithSuchNameException;
 
 public class Field implements Serializable {
 
@@ -66,10 +68,12 @@ public class Field implements Serializable {
 	}
 
 	public boolean addPlayer(IPlayer player) {
+		addCreature(player);
 		return players.add(player);
 	}
 
 	public boolean removePlayer(IPlayer player) {
+		removeCreature(player);
 		return players.remove(player);
 	}
 
@@ -89,13 +93,22 @@ public class Field implements Serializable {
 		return creatures;
 	}
 
-	public IPlayer getPlayerByName(String playerName) throws NoPlayerWithSuchNameException {
+	public IPlayer getPlayerByName(String playerName) throws NoCreatureWithSuchNameException {
 		for (IPlayer player : players) {
 			if (player.getName().equals(playerName)) {
 				return player;
 			}
 		}
-		throw new NoPlayerWithSuchNameException(playerName);
+		throw new NoCreatureWithSuchNameException(playerName);
+	}
+	
+	public ICreature getCreatureByName(String creatureName) throws NoCreatureWithSuchNameException {
+		for (ICreature creature : creatures) {
+			if (creature.getName().equals(creatureName)) {
+				return creature;
+			}
+		}
+		throw new NoCreatureWithSuchNameException(creatureName);
 	}
 
 	public String getFormattedFieldSummary() {
@@ -110,6 +123,9 @@ public class Field implements Serializable {
 		if (getCreatures().size() > 0) {
 			result += "\nPotwory na polu: ";
 			for (ICreature creature : getCreatures()) {
+				if (creature instanceof IPlayer) {
+					continue;
+				}
 				result += creature.getName() + ", ";
 			}
 

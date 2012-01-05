@@ -1,11 +1,12 @@
 package pl.edu.agh.two.mud.server.command.executor;
 
 import static pl.edu.agh.two.mud.common.message.MessageType.INFO;
+import pl.edu.agh.two.mud.common.ICreature;
 import pl.edu.agh.two.mud.common.IPlayer;
 import pl.edu.agh.two.mud.common.command.dispatcher.Dispatcher;
 import pl.edu.agh.two.mud.common.command.exception.CommandExecutingException;
 import pl.edu.agh.two.mud.common.command.executor.CommandExecutor;
-import pl.edu.agh.two.mud.common.world.exception.NoPlayerWithSuchNameException;
+import pl.edu.agh.two.mud.common.world.exception.NoCreatureWithSuchNameException;
 import pl.edu.agh.two.mud.common.world.model.Board;
 import pl.edu.agh.two.mud.common.world.model.Field;
 import pl.edu.agh.two.mud.server.IServiceRegistry;
@@ -31,7 +32,7 @@ public class AttackUICommandExecutor implements CommandExecutor<AttackUICommand>
 			Field field = board.getPlayersPosition(currentPlayer);
 			if (field != null) {
 
-				IPlayer enemy = field.getPlayerByName(command.getPlayer());
+				ICreature enemy = field.getCreatureByName(command.getPlayer());
 				if (enemy == null) {
 					dispatcher.dispatch(new SendMessageToUserCommand(String.format(
 							"Przeciwnik %s nie znajduje sie na Twoim polu", command.getPlayer()), INFO));
@@ -50,7 +51,7 @@ public class AttackUICommandExecutor implements CommandExecutor<AttackUICommand>
 			} else {
 				dispatcher.dispatch(new SendMessageToUserCommand("Nieznany blad.", INFO));
 			}
-		} catch (NoPlayerWithSuchNameException e) {
+		} catch (NoCreatureWithSuchNameException e) {
 			dispatcher.dispatch(new SendMessageToUserCommand("Nie ma takiego gracza na tym polu.", INFO));
 		}
 

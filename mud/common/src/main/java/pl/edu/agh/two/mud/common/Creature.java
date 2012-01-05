@@ -91,7 +91,7 @@ public class Creature implements ICreature, Serializable {
 	}
 
 	@Override
-	public void setEnemy(IPlayer enemy) {
+	public void setEnemy(ICreature enemy) {
 		this.enemy = enemy;
 	}
 

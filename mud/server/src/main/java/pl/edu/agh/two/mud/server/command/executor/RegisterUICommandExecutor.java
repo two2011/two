@@ -12,7 +12,7 @@ import pl.edu.agh.two.mud.common.Player;
 import pl.edu.agh.two.mud.common.command.dispatcher.Dispatcher;
 import pl.edu.agh.two.mud.common.command.executor.CommandExecutor;
 import pl.edu.agh.two.mud.common.message.MessageType;
-import pl.edu.agh.two.mud.common.world.exception.NoPlayerWithSuchNameException;
+import pl.edu.agh.two.mud.common.world.exception.NoCreatureWithSuchNameException;
 import pl.edu.agh.two.mud.common.world.model.Board;
 import pl.edu.agh.two.mud.server.command.RegisterUICommand;
 import pl.edu.agh.two.mud.server.command.SendMessageToUserCommand;
@@ -39,7 +39,7 @@ public class RegisterUICommandExecutor implements CommandExecutor<RegisterUIComm
 		try {
 			board.getPlayerByName(command.getLogin());
 			throw new ClientAwareException(MESSAGE_ON_EXISTING_LOGIN);
-		} catch (NoPlayerWithSuchNameException e) {
+		} catch (NoCreatureWithSuchNameException e) {
 			try {
 				Player player = new Player();
 				String password = generatePassword();

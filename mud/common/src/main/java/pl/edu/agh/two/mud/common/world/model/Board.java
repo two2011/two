@@ -9,7 +9,7 @@ import java.util.Set;
 
 import pl.edu.agh.two.mud.common.IPlayer;
 import pl.edu.agh.two.mud.common.Player;
-import pl.edu.agh.two.mud.common.world.exception.NoPlayerWithSuchNameException;
+import pl.edu.agh.two.mud.common.world.exception.NoCreatureWithSuchNameException;
 
 public class Board implements Serializable {
 
@@ -43,9 +43,14 @@ public class Board implements Serializable {
 		ktosPlayer.setStrength(5);
 		ktosPlayer.setHealthPoints(100);
 		ktosPlayer.setMaxHealthPoints(100);
+		
+		IPlayer newbie = new Player();
+		newbie.setName("newbie");
+		newbie.setPassword("newbie");
 
 		addPlayer(isoPlayer);
 		addPlayer(ktosPlayer);
+		addPlayer(newbie);
 	}
 
 	public String getName() {
@@ -122,13 +127,13 @@ public class Board implements Serializable {
 		return playersOnFields.keySet();
 	}
 
-	public IPlayer getPlayerByName(String playerName) throws NoPlayerWithSuchNameException {
+	public IPlayer getPlayerByName(String playerName) throws NoCreatureWithSuchNameException {
 		for (IPlayer player : playersOnFields.keySet()) {
 			if (player.getName().equals(playerName)) {
 				return player;
 			}
 		}
-		throw new NoPlayerWithSuchNameException(playerName);
+		throw new NoCreatureWithSuchNameException(playerName);
 	}
 
 	public Field getPlayersPosition(IPlayer player) {
