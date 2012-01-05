@@ -39,8 +39,8 @@ public class DefaultFight implements Fight {
 		int halfAgilityOne = creatureOne.getAgililty() / 2;
 		int halfAgilityTwo = creatureTwo.getAgililty() / 2;
 
-		int initiativeOne = random.nextInt(halfAgilityOne) + halfAgilityOne;
-		int initiativeTwo = random.nextInt(halfAgilityTwo) + halfAgilityTwo;
+		int initiativeOne = halfAgilityOne > 0 ? random.nextInt(halfAgilityOne) : 0 + halfAgilityOne;
+		int initiativeTwo = halfAgilityTwo > 0 ? random.nextInt(halfAgilityTwo) : 0 + halfAgilityTwo;
 
 		if (initiativeOne >= initiativeTwo) {
 			switchAttackingCreature(creatureTwo, creatureOne);
@@ -59,7 +59,8 @@ public class DefaultFight implements Fight {
 
 		// Establish damage points
 		int maxDmg = Math.round(creatureWhoHits.getPower() / 2);
-		int damage = random.nextInt(maxDmg) * (int) (creatureWhoHits.getStrength() / enemyCreature.getStrength());
+		int damage = maxDmg > 0 ? random.nextInt(maxDmg) : 0 * (int) (creatureWhoHits.getStrength() / enemyCreature
+				.getStrength());
 
 		if (damage > 0) {
 			enemyCreature.subtractHealthPoints(damage);
