@@ -48,7 +48,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	</bean>
 	<bean id="mailer" class="pl.edu.agh.two.mud.server.mail.Mailer" />
 	<bean id="serviceRegistry" class="pl.edu.agh.two.mud.server.ServiceRegistry" />
-	<bean id="board" class="pl.edu.agh.two.mud.server.world.model.SampleBoard"
+	<bean id="board" class="pl.edu.agh.two.mud.common.world.model.SampleBoard"
 		scope="singleton" />
 
 	<bean id="fight" class="pl.edu.agh.two.mud.server.world.fight.impl.PlayersFight"
