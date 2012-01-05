@@ -55,7 +55,7 @@ public class Service extends Thread {
 				dispatcher.dispatch((IParsedCommand) userCommand);
 			}
 		} catch (Exception e) {
-			logger.error(clientAddress + " - " + e.getMessage());
+			logger.error(clientAddress + " - " + e.getMessage(), e);
 		}
 
 		try {
@@ -64,7 +64,7 @@ public class Service extends Thread {
 			clientSocket.close();
 		} catch (IOException e) {
 			logger.error(clientAddress + " - closing client socket error: "
-					+ e.getMessage());
+					+ e.getMessage(), e);
 		}
 	}
 
