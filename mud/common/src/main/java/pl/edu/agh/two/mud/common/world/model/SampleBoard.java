@@ -139,5 +139,7 @@ public class SampleBoard extends Board {
 				}
 			}
 		});
+
+		respawnThread.start();
 	}
 }
