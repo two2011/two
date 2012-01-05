@@ -55,7 +55,6 @@ public class LogInUICommandExecutor implements CommandExecutor<LogInUICommand> {
 					dispatcher.dispatch(new SendAvailableCommandsCommand(
 							player, AvailableCommands.getInstance()
 									.getGameCommands()));
-					service.writeObject(board);
 				} catch (IOException e) {
 					throw new FatalException(e);
 				}
