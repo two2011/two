@@ -19,6 +19,7 @@ import pl.edu.agh.two.mud.common.command.provider.CommandProvider;
 import pl.edu.agh.two.mud.common.message.MessageType;
 import pl.edu.agh.two.mud.common.world.model.Board;
 import pl.edu.agh.two.mud.server.IServiceRegistry;
+import pl.edu.agh.two.mud.server.Service;
 import pl.edu.agh.two.mud.server.command.HitUICommand;
 import pl.edu.agh.two.mud.server.command.LogInUICommand;
 import pl.edu.agh.two.mud.server.command.LogOutUICommand;
@@ -105,8 +106,8 @@ public class DefaultFightTest {
 		IPlayer player2 = preparePlayer(PLAYER2_NAME, 0, 0, 1);
 		setInFight(player1, player2);
 
-		when(random.nextInt(player1.getAgililty() / 2)).thenReturn(1);
-		when(random.nextInt(player2.getAgililty() / 2)).thenReturn(0);
+		when(random.nextInt((player1.getAgililty() / 2) + 1)).thenReturn(1);
+		when(random.nextInt((player2.getAgililty() / 2) + 1)).thenReturn(0);
 
 		fight.startFight(player1, player2);
 
@@ -122,8 +123,8 @@ public class DefaultFightTest {
 		IPlayer player2 = preparePlayer(PLAYER2_NAME, 0, 0, 2);
 		setInFight(player1, player2);
 
-		when(random.nextInt(player1.getAgililty() / 2)).thenReturn(0);
-		when(random.nextInt(player2.getAgililty() / 2)).thenReturn(1);
+		when(random.nextInt((player1.getAgililty() / 2) + 1)).thenReturn(0);
+		when(random.nextInt((player2.getAgililty() / 2) + 1)).thenReturn(1);
 
 		fight.startFight(player1, player2);
 
@@ -138,71 +139,77 @@ public class DefaultFightTest {
 		IPlayer player = preparePlayer(PLAYER1_NAME, 0, 0, 2);
 		ICreature creature = prepareCreature(CREATURE_NAME, 0, 0, 1);
 		setInFight(player, creature);
-		
-		when(random.nextInt(player.getAgililty() / 2)).thenReturn(1);
-		when(random.nextInt(creature.getAgililty() / 2)).thenReturn(0);
-		
+
+		when(random.nextInt((player.getAgililty() / 2) + 1)).thenReturn(1);
+		when(random.nextInt((creature.getAgililty() / 2) + 1)).thenReturn(0);
+
 		fight.startFight(player, creature);
-		
+
 		verifySendingMessage(player, String.format(ATTACKING_MONSTER_STRING, creature.getName()));
 		verifySendingMessage(creature, String.format(ATTACKED_BY_USER_STRING, player.getName()));
-		
+
 		switchCreatures(creature, player);
 	}
-	
+
 	@Test
 	public void PlayerCreatureSecondBeginsFight() {
 		IPlayer player = preparePlayer(PLAYER1_NAME, 1, 1, 1);
 		ICreature creature = prepareCreature(CREATURE_NAME, 1, 1, 2);
 		setInFight(player, creature);
-		
-		when(random.nextInt(player.getAgililty() / 2)).thenReturn(0);
-		when(random.nextInt(creature.getAgililty() / 2)).thenReturn(1);
-		
+
+		when(random.nextInt((player.getAgililty() / 2) + 1)).thenReturn(0);
+		when(random.nextInt((creature.getAgililty() / 2) + 1)).thenReturn(1);
+
+		Service service = mock(Service.class);
+		when(serviceRegistry.getService(player)).thenReturn(service);
+
 		fight.startFight(player, creature);
-		
+
 		verifySendingMessage(player, String.format(ATTACKING_MONSTER_STRING, creature.getName()));
 		verifySendingMessage(creature, String.format(ATTACKED_BY_USER_STRING, player.getName()));
-		
+
 		switchCreatures(player, creature);
 		// TODO test hitting ?
 	}
-	
+
 	@Test
 	public void CreaturePlayerFirstBeginsFight() {
 		IPlayer player = preparePlayer(PLAYER1_NAME, 1, 1, 1);
 		ICreature creature = prepareCreature(CREATURE_NAME, 1, 1, 2);
 		setInFight(player, creature);
-		
-		when(random.nextInt(player.getAgililty() / 2)).thenReturn(0);
-		when(random.nextInt(creature.getAgililty() / 2)).thenReturn(1);
+
+		when(random.nextInt((player.getAgililty() / 2) + 1)).thenReturn(0);
+		when(random.nextInt((creature.getAgililty() / 2) + 1)).thenReturn(1);
+
+		Service service = mock(Service.class);
+		when(serviceRegistry.getService(player)).thenReturn(service);
 		
 		fight.startFight(creature, player);
-		
+
 		verifySendingMessage(player, String.format(ATTACKED_BY_MONSTER_STRING, creature.getName()));
 		verifySendingMessage(creature, String.format(ATTACKING_USER_STRING, player.getName()));
-		
+
 		switchCreatures(player, creature);
 	}
-	
+
 	@Test
 	public void CreaturePlayerSecondBeginsFight() {
 		IPlayer player = preparePlayer(PLAYER1_NAME, 1, 1, 2);
 		ICreature creature = prepareCreature(CREATURE_NAME, 1, 1, 1);
 		setInFight(player, creature);
-		
-		when(random.nextInt(player.getAgililty() / 2)).thenReturn(1);
-		when(random.nextInt(creature.getAgililty() / 2)).thenReturn(0);
-		
+
+		when(random.nextInt((player.getAgililty() / 2) + 1)).thenReturn(1);
+		when(random.nextInt((creature.getAgililty() / 2) + 1)).thenReturn(0);
+
 		fight.startFight(creature, player);
-		
+
 		verifySendingMessage(player, String.format(ATTACKED_BY_MONSTER_STRING, creature.getName()));
 		verifySendingMessage(creature, String.format(ATTACKING_USER_STRING, player.getName()));
-		
+
 		switchCreatures(creature, player);
 		// TODO test hitting ?
 	}
-	
+
 	private ICreature prepareCreature(String name, int strength, int power, int agility) {
 		ICreature creature = mock(ICreature.class);
 		setAttributes(creature, name, strength, power, agility);
