@@ -8,9 +8,10 @@ import java.util.Map;
 import java.util.Set;
 
 import pl.edu.agh.two.mud.common.IPlayer;
+import pl.edu.agh.two.mud.common.Player;
 import pl.edu.agh.two.mud.common.world.exception.NoPlayerWithSuchNameException;
 
-public class Board implements Serializable{
+public class Board implements Serializable {
 
 	private String name;
 	private String description;
@@ -21,6 +22,29 @@ public class Board implements Serializable{
 	private Field startingField;
 	private int xAxisSize;
 	private int yAxisSize;
+
+	public Board() {
+		IPlayer isoPlayer = new Player();
+		isoPlayer.setName("iso");
+		isoPlayer.setPassword("iso");
+		isoPlayer.setLevel(6);
+		isoPlayer.setAgililty(5);
+		isoPlayer.setStrength(10);
+		isoPlayer.setPower(10);
+		isoPlayer.setHealthPoints(70);
+
+		IPlayer ktosPlayer = new Player();
+		ktosPlayer.setName("ktos");
+		ktosPlayer.setPassword("ktos");
+		ktosPlayer.setLevel(4);
+		ktosPlayer.setAgililty(4);
+		ktosPlayer.setPower(7);
+		ktosPlayer.setStrength(5);
+		ktosPlayer.setHealthPoints(100);
+
+		addPlayer(isoPlayer);
+		addPlayer(ktosPlayer);
+	}
 
 	public String getName() {
 		return name;
