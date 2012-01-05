@@ -10,7 +10,7 @@ import pl.edu.agh.two.mud.client.ui.MainWindow;
 public class Client {
 
 	private static final String DEFAULT_HOST = "127.0.0.1";
-	private static final int DEFULT_PORT = 6666;
+	private static final int DEFULT_PORT = 3306;
 
 	private Connection connection;
 
