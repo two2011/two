@@ -24,6 +24,7 @@ public class RefreshUICommandExecutor implements CommandExecutor<RefreshUIComman
 
 		dispatcher.dispatch(new SendMessageToUserCommand(board.getPlayersPosition(player).getFormattedFieldSummary(),
 				MessageType.INFO));
+		service.writeObject(board);		
 	}
 
 	public void setServiceRegistry(IServiceRegistry serviceRegistry) {

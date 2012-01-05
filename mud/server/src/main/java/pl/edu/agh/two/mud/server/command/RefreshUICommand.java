@@ -8,7 +8,7 @@ public class RefreshUICommand extends UICommand {
 
 	@Override
 	public String getDescription() {
-		return "Komenda odswiezania - wypisuje informacje odnosnie pola, na ktorym sie znajdujesz\n"
+		return "Komenda odswiezania - wypisuje informacje odnosnie pola, na ktorym sie znajdujesz oraz rysuje plansze gry\n"
 				+ "\t odswiez[o]";
 	}
 
