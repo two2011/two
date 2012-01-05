@@ -30,7 +30,7 @@ public interface ICreature {
 
 	public boolean isInFight();
 
-	public IPlayer getEnemy();
+	public ICreature getEnemy();
 
 	public void setEnemy(IPlayer enemy);
 

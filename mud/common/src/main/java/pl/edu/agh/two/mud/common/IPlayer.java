@@ -14,9 +14,7 @@ public interface IPlayer extends ICreature {
 
 	public abstract void setExperience(Integer experience);
 
+	public abstract void addExperience(int exp);
+
 	UpdateData createUpdateData();
-
-
-    public abstract void addExperience(int exp);
-
 }
