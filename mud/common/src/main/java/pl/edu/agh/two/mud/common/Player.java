@@ -1,10 +1,10 @@
 package pl.edu.agh.two.mud.common;
 
-import java.io.*;
+import java.io.Serializable;
 
 public class Player extends Creature implements IPlayer, Serializable {
 
-    private static final int NEXT_LEVEL_STEP = 1000;
+	private static final int NEXT_LEVEL_STEP = 1000;
 
 	private static final long serialVersionUID = 6035858257763542932L;
 
@@ -46,26 +46,26 @@ public class Player extends Creature implements IPlayer, Serializable {
 
 	@Override
 	public UpdateData createUpdateData() {
-        return new UpdateData(strength, power, agililty, gold, experience, level, healthPoints,
-                maxHealthPoints);
+		return new UpdateData(getName(), strength, power, agililty, gold,
+				experience, level, healthPoints, maxHealthPoints);
 	}
 
-    @Override
-    public void addExperience(int exp) {
-        int oldExp = experience;
-        this.experience += exp;
-        if ((experience / NEXT_LEVEL_STEP) > (oldExp / NEXT_LEVEL_STEP)) {
-            advance();
-        }
-    }
+	@Override
+	public void addExperience(int exp) {
+		int oldExp = experience;
+		this.experience += exp;
+		if ((experience / NEXT_LEVEL_STEP) > (oldExp / NEXT_LEVEL_STEP)) {
+			advance();
+		}
+	}
 
-    private void advance() {
-        this.level += 1;
-        this.maxHealthPoints += 10;
-        this.strength += 1;
-        this.agililty += 1;
-        this.power += 1;
-        this.healthPoints = this.maxHealthPoints;
-    }
+	private void advance() {
+		this.level += 1;
+		this.maxHealthPoints += 10;
+		this.strength += 1;
+		this.agililty += 1;
+		this.power += 1;
+		this.healthPoints = this.maxHealthPoints;
+	}
 
 }

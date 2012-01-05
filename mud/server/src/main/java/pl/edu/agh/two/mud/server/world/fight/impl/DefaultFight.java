@@ -76,16 +76,9 @@ public class DefaultFight implements Fight {
 			} else {
 				// If dead
 
-				int expToAdd = enemyCreature.getLevel() * 100;
+				int expToAdd = enemyCreature.getLevel() * 1000;
 				if (playerWhoHits != null) {
 					playerWhoHits.addExperience(expToAdd);
-
-					try {
-						serviceRegistry.getService(playerWhoHits).writeObject(playerWhoHits.createUpdateData());
-					} catch (IOException e) {
-						Logger.getLogger(getClass()).fatal("Error during communication", e);
-						return;
-					}
 				}
 
 				sendMessage(creatureWhoHits, String.format("Wygrales! Zdobyles %d pkt doswiadczenia.", expToAdd));
@@ -178,6 +171,16 @@ public class DefaultFight implements Fight {
 
 		if (creature.isAlive()) {
 			sendAvailableCommands(creature, AvailableCommands.getInstance().getGameCommands());
+
+			if (creature instanceof IPlayer) {
+				IPlayer player = (IPlayer) creature;
+				try {
+					serviceRegistry.getService(player).writeObject(player.createUpdateData());
+				} catch (IOException e) {
+					Logger.getLogger(getClass()).fatal("Error during communication", e);
+					return;
+				}
+			}
 		} else {
 			sendAvailableCommands(creature, AvailableCommands.getInstance().getDeadPlayerCommands());
 		}

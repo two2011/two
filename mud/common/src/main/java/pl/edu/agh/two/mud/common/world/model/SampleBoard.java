@@ -1,20 +1,63 @@
 package pl.edu.agh.two.mud.common.world.model;
 
 public class SampleBoard extends Board {
-    public SampleBoard() {
-        Field[][] fields = new Field[1][3];
+	public SampleBoard() {
+		Field[][] fields = new Field[5][5];
 
-        fields[0][0] = new Field(0, 0, "Pole startowe", "Budzisz sie, a za plecami masz portal");
-        fields[0][1] = new Field(0, 1, "Sciezka na wschod", "Znajdujesz sie na sciezce biegnacej na wschod");
-        fields[0][2] = new Field(0, 2, "Koniec swiata", "Znajdujesz sie na wschodnim koncu swiata");
+		// first row
 
-        fields[0][0].setBoard(this);
-        fields[0][1].setBoard(this);
-        fields[0][2].setBoard(this);
+		fields[0][0] = new Field(0, 0, "Pole startowe", "Budzisz sie, a za plecami masz portal.");
+		fields[0][1] = new Field(0, 1, "Sciezka na wschod", "Znajdujesz sie na sciezce biegnacej na wschod.");
+		fields[0][2] = new Field(0, 2, "Sciezka na wschod", "Przed Toba i za Toba jak okiem siegnac widac tylko droge.");
+		fields[0][3] = new Field(
+				0,
+				3,
+				"Skrzyzowanie",
+				"Docierasz do skrzy¿owania. Od œcie¿ki na wschód odchodzi dukt na poudnie. W oddali na wschodzie majaczy swietlna bariera.");
+		fields[0][4] = new Field(0, 4, "Koniec swiata",
+				"Przed Toba bariera swiatla. Znajdujesz sie na wschodnim koncu swiata.");
 
-        this.setFields(fields);
-        this.setStartingField(fields[0][0]);
-        this.setxAxisSize(3);
-        this.setyAxisSize(1);
-    }
+		fields[1][3] = new Field(1, 3, "Sciezka na poludnie", "Znajdujesz sie na sciezce biegnacej na poludnie.");
+
+		fields[2][0] = new Field(2, 0, "Wejscie do lochow", "Przed Toba wejscie do mrocznych lochow");
+		fields[2][1] = new Field(2, 1, "Brukowana droga na zachod", "Podazasz po brukowanej drodze w strone lochow");
+		fields[2][2] = new Field(2, 2, "Przydrozna karczma",
+				"Ten okazaly budenk przyciaga wielu milosnikow mocnych trunkow");
+		fields[2][3] = new Field(2, 3, "Rozdroza", "Sciezki rozchodza sie w wszystkie strony swiata");
+		fields[2][4] = new Field(2, 4, "Koniec swiata",
+				"Przed Toba bariera swiatla. Znajdujesz sie na wschodnim koncu swiata.");
+
+		fields[3][0] = new Field(3, 0, "Mroczne lochy", "Mroczne lochy sa siedliskiem straszliwych stworow.");
+		fields[3][1] = new Field(3, 1, "Sala tortur w lochah", "Czuc zgnilizna, wszedzie wisza truchla");
+		fields[3][3] = new Field(3, 3, "Sciezka na poludnie", "Waski dukt biegnie kreto w kierunku poludniowym.");
+
+		fields[4][0] = new Field(4, 0, "Dolny poziom lochow", "Tu czai sie zlo. Wiedz, ze cos sie dzieje");
+		fields[4][3] = new Field(4, 3, "Koniec swiata", "Docierasz do poludniowego konca swiata");
+
+		fields[0][0].setBoard(this);
+		fields[0][1].setBoard(this);
+		fields[0][2].setBoard(this);
+		fields[0][3].setBoard(this);
+		fields[0][4].setBoard(this);
+
+		fields[1][3].setBoard(this);
+
+		fields[2][0].setBoard(this);
+		fields[2][1].setBoard(this);
+		fields[2][2].setBoard(this);
+		fields[2][3].setBoard(this);
+		fields[2][4].setBoard(this);
+
+		fields[3][0].setBoard(this);
+		fields[3][1].setBoard(this);
+		fields[3][3].setBoard(this);
+
+		fields[4][0].setBoard(this);
+		fields[4][3].setBoard(this);
+
+		this.setFields(fields);
+		this.setStartingField(fields[0][0]);
+		this.setxAxisSize(5);
+		this.setyAxisSize(5);
+	}
 }

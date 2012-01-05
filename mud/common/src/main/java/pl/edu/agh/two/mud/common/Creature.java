@@ -1,6 +1,10 @@
 package pl.edu.agh.two.mud.common;
 
-public class Creature implements ICreature {
+import java.io.Serializable;
+
+public class Creature implements ICreature, Serializable {
+
+	private static final long serialVersionUID = -5308707912456275749L;
 
 	private String name;
 	protected int strength = 1;
@@ -9,8 +13,13 @@ public class Creature implements ICreature {
 	protected int level = 1;
 	protected int healthPoints = 10;
 	protected int maxHealthPoints = 10;
+<<<<<<< HEAD
 	protected ICreature enemy;
 	
+=======
+	protected IPlayer enemy;
+
+>>>>>>> 2b75df0bf1bfdf09b7681c6daa69c79a6f26c688
 	@Override
 	public String getName() {
 		return name;
@@ -20,7 +29,7 @@ public class Creature implements ICreature {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	@Override
 	public Integer getStrength() {
 		return strength;
