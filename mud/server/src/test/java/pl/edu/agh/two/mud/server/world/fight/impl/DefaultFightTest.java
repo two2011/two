@@ -1,7 +1,7 @@
 package pl.edu.agh.two.mud.server.world.fight.impl;
 
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -18,6 +18,7 @@ import pl.edu.agh.two.mud.common.command.dispatcher.Dispatcher;
 import pl.edu.agh.two.mud.common.command.provider.CommandProvider;
 import pl.edu.agh.two.mud.common.message.MessageType;
 import pl.edu.agh.two.mud.common.world.model.Board;
+import pl.edu.agh.two.mud.common.world.model.Field;
 import pl.edu.agh.two.mud.server.IServiceRegistry;
 import pl.edu.agh.two.mud.server.Service;
 import pl.edu.agh.two.mud.server.command.HitUICommand;
@@ -162,6 +163,8 @@ public class DefaultFightTest {
 
 		Service service = mock(Service.class);
 		when(serviceRegistry.getService(player)).thenReturn(service);
+		Field field = mock(Field.class);
+		when(board.getPlayersPosition(any(IPlayer.class))).thenReturn(field);
 
 		fight.startFight(player, creature);
 
@@ -183,6 +186,8 @@ public class DefaultFightTest {
 
 		Service service = mock(Service.class);
 		when(serviceRegistry.getService(player)).thenReturn(service);
+		Field field = mock(Field.class);
+		when(board.getPlayersPosition(any(IPlayer.class))).thenReturn(field);
 		
 		fight.startFight(creature, player);
 
