@@ -1,10 +1,50 @@
 package pl.edu.agh.two.mud.common.world.model;
 
+import java.util.Random;
+
+import pl.edu.agh.two.mud.common.Creature;
+import pl.edu.agh.two.mud.common.ICreature;
+
 public class SampleBoard extends Board {
+
+	private static final String[] MONSTERS_NAMES = new String[] { "Szkielet", "Ork", "Duch", "Troll" };
+
+	private static final int MAX_MONSTER_POWER = 1;
+
+	private static final int MAX_MONSTER_LEVEL = 1;
+
+	private static final int MAX_BASE_HP = 4;
+
+	private ICreature createRandomCreature() {
+		Random r = new Random();
+		int nameIndex = r.nextInt(MONSTERS_NAMES.length);
+
+		int strength = r.nextInt(MAX_MONSTER_POWER);
+		int power = 0;
+		int agility = 0;
+
+		int level = r.nextInt(MAX_MONSTER_LEVEL + 1);
+		int hp = r.nextInt(MAX_BASE_HP + 1) * level;
+
+		ICreature creature = new Creature();
+		creature.setName(MONSTERS_NAMES[nameIndex]);
+		creature.setStrength(strength);
+		creature.setPower(power);
+		creature.setAgililty(agility);
+
+		creature.setLevel(level);
+
+		creature.setMaxHealthPoints(hp);
+		creature.setHealthPoints(hp);
+
+		return creature;
+
+	}
+
 	public SampleBoard() {
 		Field[][] fields = new Field[5][5];
 
-		// first row
+		// Creating fields
 
 		fields[0][0] = new Field(0, 0, "Pole startowe", "Budzisz sie, a za plecami masz portal.");
 		fields[0][1] = new Field(0, 1, "Sciezka na wschod", "Znajdujesz sie na sciezce biegnacej na wschod.");
@@ -33,6 +73,16 @@ public class SampleBoard extends Board {
 
 		fields[4][0] = new Field(4, 0, "Dolny poziom lochow", "Tu czai sie zlo. Wiedz, ze cos sie dzieje");
 		fields[4][3] = new Field(4, 3, "Koniec swiata", "Docierasz do poludniowego konca swiata");
+
+		// Creating creatures
+
+		fields[2][4].addCreature(createRandomCreature());
+		fields[3][0].addCreature(createRandomCreature());
+		fields[3][1].addCreature(createRandomCreature());
+		fields[4][0].addCreature(createRandomCreature());
+		fields[4][3].addCreature(createRandomCreature());
+
+		// Setting board
 
 		fields[0][0].setBoard(this);
 		fields[0][1].setBoard(this);
